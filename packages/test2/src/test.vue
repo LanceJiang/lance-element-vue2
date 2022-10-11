@@ -1,14 +1,11 @@
 <template>
-  <div class="adber-test" @click="handleClick">
-    {{ num }} {{testInput}}
-    <ElInput v-model="testInput"></ElInput>
-  </div>
+  <ElInput style="color: #f00;" v-model="testInput"></ElInput>
 </template>
 
 <script>
 import { Input } from 'element-ui'
 export default {
-  name: 'AdberTest',
+  name: 'AdberTest2',
   components: {
     ElInput: Input
   },

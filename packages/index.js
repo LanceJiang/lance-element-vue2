@@ -1,9 +1,9 @@
-import XrTest from './test'
-import XrTest2 from './test2'
+import AdberTest from './test'
+import AdberTest2 from './test2'
 // 存储组件列表
 const components = [
-  XrTest,
-  XrTest2
+  AdberTest,
+  AdberTest2
 ]
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 const install = function (Vue) {
