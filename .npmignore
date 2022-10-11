@@ -20,4 +20,12 @@ yarn-error.log*
 *.sln
 *.sw?
 dist
-lib
+# lib 保留
+
+# 以下是除gitignore以外新增的
+examples/
+public/
+vue.config.js
+babel.config.js
+*.map
+*.html

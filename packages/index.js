@@ -1,3 +1,4 @@
+import packageJson from '../package.json'
 import AdberTest from './test'
 import AdberTest2 from './test2'
 // 存储组件列表
@@ -12,16 +13,15 @@ const install = function (Vue) {
   install.installed = true
   // 遍历注册全局组件
   components.map(component => Vue.component(component.name, component))
-  // 下面这个写法也可以
-  // components.map(component => Vue.use(component))
 }
 
 // 判断是否是直接引入文件
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
-
+// console.warn(packageJson, 'packageJson  packageJson.version', packageJson.version)
 export default {
+  version: packageJson.version,
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
   install,
   // 以下是具体的组件列表

@@ -3,11 +3,9 @@
 </template>
 
 <script>
-import { Input } from 'element-ui'
 export default {
   name: 'AdberTest2',
   components: {
-    ElInput: Input
   },
   data () {
     return {
