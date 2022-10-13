@@ -17,6 +17,7 @@ module.exports = {
     // vue默认@指向src目录，这里要修正为examples，另外新增一个~指向packages
     config.resolve.alias
       .set('@', path.resolve('examples'))
+      .set('adber-ui', path.resolve('src')) // 直接查询获取ui库公共资源方式  @adber-ui --> adber-ui/lib
       .set('~', path.resolve('packages'))
 
     // packages和examples目录需要加入编译
@@ -30,5 +31,11 @@ module.exports = {
         // 修改它的选项...
         return options
       })
+  },
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'scss',
+      patterns: [path.resolve(__dirname, 'src/css/variables.scss')]
+    }
   }
 }

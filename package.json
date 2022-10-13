@@ -8,6 +8,12 @@
     "vue",
     "components"
   ],
+  "files": [
+    "lib",
+    "src",
+    "packages",
+    "types"
+  ],
   "private": false,
   "license": "MIT",
   "scripts": {
@@ -15,34 +21,44 @@
     "start": "npm run serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib --name adber-ui --dest lib packages/index.js"
+    "lib:packages": "vue-cli-service build --target lib --name adber-ui --dest lib packages/index.js",
+    "lib:utils": "cross-env BABEL_ENV=utils babel src --out-dir lib --ignore src/index.js",
+    "lib": "npm run lib:packages && npm run lib:utils",
+    "lib:utils_xx_todo": "vue-cli-service build --target lib --dest lib src/*/*"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "peerDependencies": {
     "element-ui": "^2.15.8",
     "vue": "^2.6.6",
+    "vue-cli-plugin-style-resources-loader": "^0.1.4",
     "vue-i18n": "^8.18.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "element-ui": "^2.15.8",
-    "vue": "^2.6.6",
-    "vue-i18n": "^8.18.2",
-    "vue-router": "^3.0.1",
-    "vuex": "^3.0.1",
-    "@vue/cli-plugin-babel": "^3.5.0",
-    "@vue/cli-plugin-eslint": "^3.5.0",
-    "@vue/cli-service": "^3.5.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.4.0",
     "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/eslint-config-typescript": "^11.0.2",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",
-    "eslint": "^5.8.0",
+    "core-js": "^3.25.5",
+    "cross-env": "^3.1.3",
+    "element-ui": "^2.15.8",
+    "eslint": "^6.7.2",
     "eslint-plugin-vue": "^5.0.0",
     "sass": "^1.17.2",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "style-resources-loader": "^1.3.3",
+    "typescript": "~3.9.3",
+    "vue": "^2.6.6",
+    "vue-cli-plugin-style-resources-loader": "^0.1.4",
+    "vue-i18n": "^8.18.2",
+    "vue-router": "^3.0.1",
+    "vue-template-compiler": "^2.5.21",
+    "vuex": "^3.0.1"
   },
   "repository": {
     "type": "git",
