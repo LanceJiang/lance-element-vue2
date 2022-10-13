@@ -1,0 +1,21 @@
+/* adber 涉及element-ui的全局样式类改造&&新增修饰 */
+@import "variables.scss";
+
+.#{$prefix}icon-button {
+  //font-size: 16px;
+  //font-size: 14px;
+  border-radius: 6px;
+  font-weight: 400;
+  height: 32px;
+  width: 32px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: #7c8794;
+  background: transparent;
+
+  &:hover {
+    background: #eaedf0;
+  }
+}

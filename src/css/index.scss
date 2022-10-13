@@ -1,7 +1,8 @@
 //@import '//at.alicdn.com/t/c/font_3588867_9p0rrohcupv.css';
 @import './reset.scss';
-// adb公用的iconfont class 类 为: adb-iconfont
-.adb-iconfont {
+@import './adber-element-ui.scss';
+// adber 公用的iconfont class 类 为: ad-iconfont
+.ad-iconfont {
   //font-size: 16px;
   font-size: inherit;
 }

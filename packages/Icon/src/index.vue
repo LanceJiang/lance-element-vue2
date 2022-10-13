@@ -10,7 +10,7 @@ export default {
   props: {
     prefix: {
       type: String,
-      default: 'adb-'
+      default: 'ad-'
     },
     icon: {
       type: String,

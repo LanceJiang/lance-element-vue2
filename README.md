@@ -16,5 +16,5 @@ Vue.use(AdberUI)
 ```
 在项目中使用
 ```
-<adber-test></adber-test>
+<ad-component></ad-component>
 ```

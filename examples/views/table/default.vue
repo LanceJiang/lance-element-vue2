@@ -1,11 +1,11 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
     <!--  单色样式类  -->
-    <span class="adb-iconfont adb-Review"></span>
+    <span class="ad-iconfont ad-Review"></span>
     <!--  svg  -->
-    <AdbIcon icon="shopify-s"></AdbIcon>
-    <AdbIcon icon="frozen" @click="getRequestParams"></AdbIcon>
-    <AdbNoData>no data</AdbNoData>
+    <AdIcon icon="shopify-s"></AdIcon>
+    <AdIcon icon="frozen" @click="getRequestParams"></AdIcon>
+<!--    <AdNoData isFull message="<div style='background: #f00;'>test: lang: {$i18n.locale}</div>"> <template v-slot:extraContent>no data</template> </AdNoData>-->
     <div>test: lang: {{$i18n.locale}}</div>
     <div>test: local文字: {{$t('route.location')}}</div>
     <div>test: src/locale 文字: {{$t('adb.btn.add')}}</div>
@@ -17,8 +17,7 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <AdbTable
-      v-if="false"
+    <AdTable
       :searchParams.sync="searchParams"
       :list="localList"
       :total="total"
@@ -65,7 +64,7 @@
           </b-icon-button>
         </el-tooltip>
       </template>
-    </AdbTable>
+    </AdTable>
   </div>
 </template>
 

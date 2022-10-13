@@ -1,10 +1,12 @@
 <script lang="jsx">
 // import { PNoData } from '@adber-ui/common'
+import NoData from '~/NoData'
+import Icon from '~/Icon'
 // import { Component, Prop, Vue } from 'vue-property-decorator'
 // import i18n from '@/locales' // todo
 
-import TableColumnsPopover from './TableColumnsPopover'
-const PNoData = 'nodata-todo'
+// import TableColumnsPopover from './TableColumnsPopover'
+// todo...
 const i18n = {
   t(test) {
     return 'test+' + test
@@ -103,6 +105,9 @@ const slotHeader = function (titleHelp = {}, props) {
 }
 */
 // p-no-data.vue todo...
+const TableColumnsPopover = { render() {
+  return <div>test TableColumnsPopover</div>
+} }
 const slotDefault = ({ row, column }) => {
   // if (Object.keys(column).length) console.error(row, column, '     row, column, slotDefault')
   const val = row[column.property]
@@ -173,9 +178,9 @@ const render = function (h) {
             <div class="toolRight">
               {/* 刷新 */}
               <el-tooltip placement="top" content={i18n.t('common.refresh')}>
-                <b-button type="default" class="icon-button" onClick={this.refreshHandler}>
-                  <b-svg icon-class="wms-revert" />
-                </b-button>
+                <el-button type="default" class="icon-button" onClick={this.refreshHandler}>
+                  <Icon icon="revert" />
+                </el-button>
               </el-tooltip>
               {/* columns过滤 PFilterColumn */}
               <TableColumnsPopover
@@ -234,7 +239,7 @@ const render = function (h) {
               )
             })}
             <template slot="empty">
-              <PNoData />
+              <NoData />
             </template>
           </el-table>
         </div>
@@ -256,7 +261,8 @@ const render = function (h) {
 export default {
   name: 'Table',
   components: {
-    PNoData,
+    NoData,
+    Icon,
     // PFilterColumn,
     TableColumnsPopover
   },

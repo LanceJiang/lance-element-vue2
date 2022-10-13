@@ -3,15 +3,12 @@ import Vue from 'vue'
 
 import deepmerge from 'deepmerge'
 import Format from './format'
-console.error(Vue, 'vue  ')
+
 const format = Format(Vue)
 let lang = defaultLang
 let merged = false
 let i18nHandler = function() {
-  console.warn(Vue.config.lang, 'Vue.config.lang', Vue)
-  debugger
   const vuei18n = Object.getPrototypeOf(this || Vue).$t
-  debugger
   if (typeof vuei18n === 'function' && !!Vue.locale) {
     if (!merged) {
       merged = true

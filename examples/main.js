@@ -19,11 +19,13 @@ import 'adber-ui-demo/lib/adber-ui.css' */
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 Vue.use(ElementUI, {
-  // Locale,
+  Locale: i18n,
   size: 'small'
 })
 // 注册组件库
-Vue.use(AdberUI)
+Vue.use(AdberUI, {
+  i18n
+})
 // AdberUI.install(Vue)
 
 Vue.config.productionTip = false

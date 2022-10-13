@@ -1,7 +1,9 @@
 <template>
-  <div class="no-data">
+  <div :class="['no-data', isFull ? 'no-data--full' : '']" class="no-data">
     <Icon icon="no_data" class="no-data__img"/>
-    <span class="text">{{ title || t('adb.noData') }}</span>
+    <div class="message" v-html="message || t('adb.noData')"/>
+    <!-- 额外处理 -->
+    <slot name="extraContent"/>
   </div>
 </template>
 
@@ -12,9 +14,13 @@ export default {
   name: 'NoData',
   mixins: [Locale],
   props: {
-    title: {
+    message: {
       type: String,
       default: ''
+    },
+    isFull: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -22,28 +28,30 @@ export default {
   },
   created() {
     window.test = this
-    console.error(this, 'this.t  nodata')
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .no-data {
-  width: 100%;
-  height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  &--full {
+    width: 100%;
+    height: 100%;
+  }
+
   padding: 20px 0;
 
-  .no-data__img {
+  &__img {
     font-size: 80px;
     pointer-events: none;
   }
 
-  .text {
-    color: $adb-text-color-text;
+  .message {
+    color: $ad-text-color-text;
     line-height: initial;
   }
 }
