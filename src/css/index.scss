@@ -1,6 +1,11 @@
 //@import '//at.alicdn.com/t/c/font_3588867_9p0rrohcupv.css';
 @import './reset.scss';
 @import './adber-element-ui.scss';
+
+body {
+  font-family: $ad-family;
+  font-size: 14px;
+}
 // adber 公用的iconfont class 类 为: ad-iconfont
 .ad-iconfont {
   //font-size: 16px;

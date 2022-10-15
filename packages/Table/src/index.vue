@@ -2,16 +2,11 @@
 // import { PNoData } from '@adber-ui/common'
 import NoData from '~/NoData'
 import Icon from '~/Icon'
-// import { Component, Prop, Vue } from 'vue-property-decorator'
-// import i18n from '@/locales' // todo
+import Locale from 'adber-ui/mixins/locale'
+import { t } from 'adber-ui/locale'
 
-// import TableColumnsPopover from './TableColumnsPopover'
-// todo...
-const i18n = {
-  t(test) {
-    return 'test+' + test
-  }
-}
+import TableColumnsPopover from './TableColumnsPopover'
+
 export const tableProps = {
   // 数据列表
   list: {
@@ -44,18 +39,17 @@ export const tableProps = {
       sortParams: {} // 排序额外参数
     })
   },
-  // 选中的参数
-  tableColumnsProp: {
+  // 选中column的配置参数
+  checkedOptions: {
     type: Array,
     default: () => []
   },
   customColumnsConfig: {
     type: Object,
     default: () => ({
-      // defaultSelectColumn: [], // [prop]
-      // options: [], // [{label, value, selected}]
-      columnsOptions: [],
-      defaultCheckedOptions: [] // Array 没有存储数据时 系统给予的默认配置
+      // defaultCheckedOptions: [], // [{t_label, prop, selected}]// Array 没有存储数据时 系统给予的默认配置
+      // checkedOptions: [], // [{t_label, prop, selected}]
+      columns: []
     })
   },
   total: {
@@ -78,7 +72,7 @@ const slotHeader = function (titleHelp = {}, props) {
   // console.error(props, 'props.column...', titleHelp)
   // const { titleHelp, label } = props.column
   // const { label } = props.column
-  const label = i18n.t(props.column.label)
+  const label = t(props.column.label)
   // 1.针对 column 配置有 titleHelp 对象的 进行默认提示处理
   const { message, icon } = titleHelp || {}
   let TitleHelp = ''
@@ -104,10 +98,6 @@ const slotHeader = function (titleHelp = {}, props) {
   )
 }
 */
-// p-no-data.vue todo...
-const TableColumnsPopover = { render() {
-  return <div>test TableColumnsPopover</div>
-} }
 const slotDefault = ({ row, column }) => {
   // if (Object.keys(column).length) console.error(row, column, '     row, column, slotDefault')
   const val = row[column.property]
@@ -154,9 +144,8 @@ const columnSlots = (column, _this) => {
   return local_slots
 }
 const render = function (h) {
-  const { computedOptions, list, total, searchParams, tableColumnsProp, customColumnsConfig } = this
-  // console.error(tableColumnsProp, 'tableColumnsProp')
-  // console.error(computedOptions, 'computedOptions', $t)
+  const { computedOptions, list, total, searchParams, checkedOptions, customColumnsConfig, t } = this
+  // console.error(checkedOptions, 'checkedOptions')
   // todo 测试...
   const headerCellStyle = { color: '#5C6570', background: '#F6FAFF' }
   // const listeners = {
@@ -177,15 +166,15 @@ const render = function (h) {
             <div class="toolLeft">{this.$slots.toolLeft}</div>
             <div class="toolRight">
               {/* 刷新 */}
-              <el-tooltip placement="top" content={i18n.t('common.refresh')}>
+              <el-tooltip placement="top" content={t('adb.refresh')}>
                 <el-button type="default" class="icon-button" onClick={this.refreshHandler}>
                   <Icon icon="revert" />
                 </el-button>
               </el-tooltip>
               {/* columns过滤 PFilterColumn */}
               <TableColumnsPopover
-                value={tableColumnsProp}
-                onInput={this.tableColumnsPropChange}
+                value={checkedOptions}
+                onInput={this.checkedOptionsChange}
                 props={customColumnsConfig}
                 type=""
                 is-save={false}
@@ -225,7 +214,7 @@ const render = function (h) {
                 adb_slots,
                 ...opts
               } = column
-              const label_ = t_label ? i18n.t(t_label) : label
+              const label_ = t_label ? t(t_label) : label
               return (
                 <el-table-column
                   key={index}
@@ -260,6 +249,7 @@ const render = function (h) {
 }
 export default {
   name: 'Table',
+  mixins: [Locale],
   components: {
     NoData,
     Icon,
@@ -365,9 +355,9 @@ export default {
     handleSelectionChange(row) {
       this.$emit('selection-change', row)
     },
-    tableColumnsPropChange(props) {
-      // console.error('tableColumnsPropChange props', props)
-      this.$emit('update:tableColumnsProp', props)
+    checkedOptionsChange(props) {
+      // console.error('checkedOptionsChange props', props)
+      this.$emit('update:checkedOptions', props)
     },
     // 可用于父级 通过 ref 获取该实例 手动切换
     toggleRowSelectionByIndex(index, bool = true) {
@@ -406,20 +396,17 @@ export default {
   },
   created() {
     window.TableComponent = this
+  },
+  updated() {
+    // 仅用于测试 success todo
+    console.error(t('adb.noData'), 'adb.noData  adb 内部公用项目')
+    console.error(t('route.location'), 'route.location   外部项目')
   }
 }
-// @Component({
-//   name: 'TableComponent',
-//   components: { PNoData },
-// })
-// export default class TableComponent extends Vue {
-//   @Prop({ default: '' }) path?: string
-//
-//   private render = tableRender
-// }
 </script>
 
 <style lang="scss" scoped>
+@import '../../css/mixins.scss';
 .tableWrap {
   position: relative;
   flex: 1;
@@ -477,10 +464,7 @@ export default {
           align-items: center;
           // 仅带icon 的button 按钮样式
           .icon-button {
-            width: 36px;
-            height: 36px;
-            padding: 10px 6px;
-            border-radius: 6px;
+            @extend %icon-button;
           }
 
           &::v-deep {

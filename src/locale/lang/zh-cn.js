@@ -7,20 +7,24 @@ export default {
     },
     btn: {
       add: '添加',
-      restore: '还原',
+      restore: '默认',
       confirm: '确认',
-      saveChanges: '保存修改',
+      save: '保存',
       cancel: '取消'
     },
     selectAll: '选择全部',
-    tableColumnFilterLabel: '选择需要在列表展示的列',
     noData: '无数据',
+    refresh: '刷新',
+    copy: '复制',
+    column: '视图',
+    columnsPop: {
+      title: '选择需要在列表展示的列',
+      selected: '已选',
+      options: '选项'
+    },
     table: {
       action: '操作'
     },
-    refresh: '刷新',
-    column: '视图',
-    copy: '复制',
     validate: {
       validateEmptyTips: '{name}不能为空',
       validateEnterTips: '请填写{name}',

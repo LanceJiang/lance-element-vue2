@@ -3,8 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import i18n from './locales'
-// import 'adber-ui/css/reset.scss'
-import 'adber-ui/css/index.scss'
 
 // 导入组件库
 import AdberUI from './../packages'
@@ -17,10 +15,14 @@ import 'adber-ui/lib/adber-ui.css' */
 /* import AdberUI from 'adber-ui-demo'
 import 'adber-ui-demo/lib/adber-ui.css' */
 import 'element-ui/lib/theme-chalk/index.css'
+
+// import 'adber-ui/css/reset.scss'
+import 'adber-ui/css/index.scss'
+
 import ElementUI from 'element-ui'
 Vue.use(ElementUI, {
-  Locale: i18n,
-  size: 'small'
+  locale: i18n,
+  size: 'medium'
 })
 // 注册组件库
 Vue.use(AdberUI, {

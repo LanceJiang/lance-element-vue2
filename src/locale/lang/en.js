@@ -7,20 +7,24 @@ export default {
     },
     btn: {
       add: 'Add',
-      restore: 'Restore',
+      restore: 'Default',
       confirm: 'Confirm',
-      saveChanges: 'Save Changes',
+      save: 'Save',
       cancel: 'Cancel'
     },
     selectAll: 'Select All',
-    tableColumnFilterLabel: 'Select option to display on the table',
     noData: 'No Data',
+    refresh: 'Refresh',
+    copy: 'Copy',
+    column: 'Column',
+    columnsPop: {
+      title: 'Select option to display on the table',
+      selected: 'Selected',
+      options: 'Options'
+    },
     table: {
       action: 'Action'
     },
-    refresh: 'Refresh',
-    column: 'Column',
-    copy: 'Copy',
     validate: {
       validateEmptyTips: '{name} is required',
       validateEnterTips: 'Please enter {name}',

@@ -1,176 +1,326 @@
 <template>
-  <div class="select-item" ref="filterColumn">
-    <el-popover popper-class="my-select-popover" placement="bottom-end" v-model="visible">
-      <el-tooltip slot="reference" placement="top" :content="$t('common.column')">
-        <b-button type="default" class="reference-button">
-          <b-svg icon-class="wms-column" /> </b-button
-      ></el-tooltip>
-      <div v-loading="loading">
-        <span>{{ $t('common.tableColumnFilterLabel') }}</span>
-        <el-scrollbar>
-          <ul class="el-scrollbar__view el-select-dropdown__list">
-            <li class="el-select-dropdown__item">
-              <el-checkbox @change="onCheckAllChange" v-model="selectAll">
-                {{ $t('common.selectAll') }}
-              </el-checkbox>
-            </li>
-            <el-checkbox-group :value="value" @input="onChange">
-              <el-checkbox
-                class="el-select-dropdown__item"
-                v-for="item in columnsOptions"
-                :key="item.value"
-                :label="item.value"
-              >
-                {{ $t(item.t_label) }}
-              </el-checkbox>
-            </el-checkbox-group>
-          </ul>
-        </el-scrollbar>
-        <div class="edit-container">
-          <b-button type="text" @click="handleRestore">
-            {{ $t('common.btn.restore') }}
-          </b-button>
-          <b-button v-if="isSave" type="default" @click="saveFilterOption">
-            {{ $t('common.btn.saveToView') }}
-          </b-button>
-        </div>
+  <el-popover popper-class="ad-column-popover" placement="bottom-end" v-model="visible">
+    <el-tooltip slot="reference" placement="top" :content="t('adb.column')">
+      <el-button type="default" class="icon-button">
+        <Icon icon="column"/>
+      </el-button>
+    </el-tooltip>
+    <div class="columns-contents" v-loading="loading">
+      <div class="title">{{ t('adb.columnsPop.title') }}</div>
+      <div class="label">{{ t('adb.columnsPop.selected') }}</div>
+      <el-checkbox class="el-select-dropdown__item title" @change="onCheckAllChange" :indeterminate="indeterminate" v-model="checkAll">
+        {{ t('adb.selectAll') }}
+      </el-checkbox>
+      <div class="divider"/>
+      <el-scrollbar>
+        <ul class="el-scrollbar__view el-select-dropdown__list">
+          <!-- 暂时没有嵌套的需求 若有 后续再做调整优化 -->
+            <DraggableNest
+              class="draggableWrap"
+              v-model="checkedOptions"
+              :move="onMove"
+              :removeHandler="deleteCheckedOptions"
+            />
+            <NoData v-show="!checkedOptions.length" />
+        </ul>
+      </el-scrollbar>
+      <div class="divider"/>
+      <div class="label">{{ t('adb.columnsPop.options') }}</div>
+      <el-scrollbar>
+        <ul class="el-scrollbar__view el-select-dropdown__list">
+          <el-checkbox-group :value="checkedList" @input="onChange">
+            <el-checkbox
+              class="el-select-dropdown__item"
+              v-for="item in columns"
+              :key="item.prop"
+              :label="item.prop"
+              :disabled="!!item.fixed"
+            >
+              {{ t(item.t_label || item.label) }}
+            </el-checkbox>
+          </el-checkbox-group>
+        </ul>
+      </el-scrollbar>
+      <div class="footer">
+        <el-button size="small" @click="handleReset">
+          {{ t('adb.btn.restore') }}
+        </el-button>
+        <el-button v-if="true" type="primary" size="small" @click="handleSubmit">
+          {{ t('adb.btn.save') }}
+        </el-button>
       </div>
-    </el-popover>
-  </div>
+    </div>
+  </el-popover>
 </template>
-<!--<script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+<script>
+import Icon from '~/Icon'
+import NoData from '~/NoData'
+import DraggableNest from '~/DraggableNest'
+import Locale from 'adber-ui/mixins/locale'
 
-import * as API from '@/api'
-
-type Option = { label: string; t_label: string; value: string; selected: boolean }
-
-@Component({ name: 'TableColumnsPopover' })
-export default class PFilterColumn extends Vue {
-  @Prop({ type: Array, required: true }) private columnsOptions!: Option[]
-
-  @Prop() private value?: string[]
-
-  // 默认的展示表头
-  @Prop({ type: Array }) defaultCheckedOptions?: string[]
-
-  @Prop({ default: '', required: true }) type!: string
-
-  @Prop({ default: true }) private isSave?: boolean
-
-  // 选择全部
-  private selectAll = false
-
-  private visible = false
-
-  private loading = false
-
-  @Watch('value', { immediate: true })
-  handleWatchVal(val: any) {
-    this.selectAll = !(val.length < this.columnsOptions.length)
-  }
-
-  private onCheckAllChange(checked: boolean) {
-    const arr = checked ? this.columnsOptions.map((v) => v.value) : []
-    this.$emit('input', arr)
-  }
-
-  private onChange(arr: any) {
-    this.selectAll = !(this.value.length < this.columnsOptions.length)
-    this.$emit('input', arr)
-  }
-
-  // 保存过滤的信息
-  async saveFilterOption() {
-    const { value, type } = this
-    const filterOptions = {
-      filterColumn: JSON.stringify(value),
+// const API = {}
+export default {
+  name: 'TableColumnsPopover',
+  mixins: [Locale],
+  components: {
+    Icon,
+    NoData,
+    DraggableNest
+  },
+  props: {
+    columns: {
+      // required: true, // 即 tableColumns的 配置
+      type: Array,
+      default: () => []
+    },
+    /* // 选中的 columns
+    /!**
+     * 由于 当时找carp 确认的时候，
+     * 可能一个页面多个tabs 有多个table 会同时请求 那接口请求将直接放置外部父级组件
+     *
+     * 则： 页面初始化 获取相关配置的请求， 然后等接口获取成功 做赋值，
+     *     若 不成功 使用默认的 defaultCheckedOptions 或者 columns 进行转换一
+     *!/
+    checkedOptions */
+    value: {
+      type: Array,
+      default: () => []
+      /* type Options = { t_label: string; label: string; prop: string; fixed: boolean|string }[]
+ */
+    },
+    // 默认的展示列配置
+    defaultCheckedOptions: {
+      // 同value 配置
+      type: Array,
+      default: null
+    },
+    // todo delete maybe
+    type: {
+      type: String,
+      default: ''
     }
-    this.loading = true
-    try {
-      await API.BaseApi.saveTableFilter({
-        type,
-        filterJson: filterOptions,
+  },
+  data() {
+    return {
+      // 选择全部
+      checkAll: false,
+      indeterminate: false,
+      visible: false,
+      loading: false,
+      checkedList: [],
+      checkedOptions: []
+    }
+  },
+  computed: {
+  },
+  watch: {
+    value: {
+      immediate: true, // columns
+      handler(checkedOptions) {
+        // 本地留存
+        this.checkedOptions = JSON.parse(JSON.stringify(checkedOptions))
+        this.getCheckedOptions(checkedOptions)
+        this.getCheckedSelectAll()
+      }
+    }
+  },
+  created() {
+    window.Popover = this
+  },
+  methods: {
+    onMove({ relatedContext, draggedContext }) {
+      const relatedElement = relatedContext.element
+      const draggedElement = draggedContext.element
+      // fixed 表示 固定的项
+      return (
+        (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+      )
+    },
+    deleteCheckedOptions(item, idx, local_list) {
+      // console.error(item, idx, local_list, 'prop, idx, local_list deleteCheckedOptions ')
+      if (!item.fixed) {
+        local_list.splice(idx, 1)
+        this.getCheckedOptions(local_list)
+        this.getCheckedSelectAll()
+      }
+    },
+    onCheckAllChange(checked) {
+      this[checked ? 'onCheckAllSelect' : 'onCheckAllClear']()
+    },
+    onCheckAllSelect() {
+      const columns = this.columns
+      // 标记fixed的项目 表示始终保留
+      const checkedOptions = JSON.parse(JSON.stringify(columns.filter(v => v.fixed)))
+      // 将原来不存在的配置项按照默认的排序进行添加
+      columns.map(v => {
+        if (checkedOptions.every(_v => _v.prop !== v.prop)) {
+          checkedOptions.push(v)
+        }
       })
-      this.$message.success('message.saveSuccess')
-    } catch (error) {
-      console.log(error)
-    } finally {
-      this.loading = false
+      this.getCheckedOptions(checkedOptions)
+      // 总控制器状态更新
+      this.indeterminate = false
+      this.checkAll = true
+    },
+    onCheckAllClear() {
+      const columns = this.columns
+      // 标记fixed的项目 表示始终保留
+      const checkedOptions = JSON.parse(JSON.stringify(columns.filter(v => v.fixed)))
+      this.checkedList = checkedOptions.map(v => v.prop)
+      this.checkedOptions = checkedOptions
+      this.getCheckedSelectAll()
+    },
+
+    onChange(list) {
+      // this.$emit('input', arr)
+      const columns = this.columns
+      const checkedOptions = this.checkedOptions
+      // 删除 已被取消的项目
+      for (let i = 0; i < checkedOptions.length; i++) {
+        const option = checkedOptions[i]
+        const _index = list.findIndex(value => option.prop === value)
+        // 如果当前项目在 新的 checkedOptions 找不到 进行删除
+        if (_index === -1) {
+          checkedOptions.splice(i, 1)
+          i--
+        } else {
+          // 找的到相同的 就把该项目删除 减少下次遍历的次数
+          list.splice(_index, 1)
+        }
+      }
+      checkedOptions.push(...list.map(value => columns.find(v => v.prop === value)))
+      this.getCheckedOptions(checkedOptions)
+      this.getCheckedSelectAll()
+    },
+    getCheckedOptions(options = this.checkedOptions) {
+      // const topFixed = []
+      // const bottomFixed = []
+      const fixed = []
+      const checkedOptions = JSON.parse(JSON.stringify(options))
+      for (let i = 0; i < checkedOptions.length; i++) {
+        const v = checkedOptions[i]
+        if (v.fixed) {
+          // left: 置顶, right: 置底
+          // (v.fixed === 'left' ? topFixed : fixed).push(v)
+          fixed.push(v)
+          checkedOptions.splice(i, 1)
+          i--
+        }
+      }
+      const res = checkedOptions.concat(fixed)
+      // console.log(res.map(v => v.prop), 'checkedList ............. checkedOptions', checkedOptions)
+      this.checkedList = res.map(v => v.prop)
+      this.checkedOptions = res
+      return res
+    },
+    getCheckedSelectAll() {
+      const columns = this.columns
+      const checkedOptions = this.checkedOptions
+      const listLen = checkedOptions.length
+      // 总控制器状态更新
+      this.indeterminate = !!listLen && listLen < columns.length
+      this.checkAll = listLen === columns.length
+    },
+    // 提交最新的列配置
+    async handleSubmit() {
+      // todo 提交接口处理
+      this.$emit('input', this.checkedOptions)
       this.visible = false
+      /* const { checkedOptions, type } = this
+      const filterOptions = {
+        filterColumn: JSON.stringify(checkedOptions)
+      }
+      this.loading = true
+      try {
+        await API.BaseApi.saveTableFilter({
+          type,
+          filterJson: filterOptions
+        })
+        this.$message.success('message.saveSuccess')
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loading = false
+        this.visible = false
+      } */
+      // this.$emit('input', this.columnProps)
+    },
+
+    // 重置列默认
+    handleReset() {
+      const columns = this.columns
+      const defaultCheckedOptions = this.defaultCheckedOptions
+      let checkedOptions = JSON.parse(JSON.stringify(columns))
+      if (Array.isArray(defaultCheckedOptions)) {
+        checkedOptions = JSON.parse(JSON.stringify(defaultCheckedOptions))
+      }
+      this.getCheckedOptions(checkedOptions)
+      this.getCheckedSelectAll()
     }
   }
-
-  // 重置表头显示
-  handleRestore() {
-    const defaultCheckedOptions = Array.isArray(this.defaultCheckedOptions)
-      ? this.defaultCheckedOptions
-      : this.columnsOptions.map((v) => v.value)
-    this.$emit('input', defaultCheckedOptions)
-  }
 }
-</script>-->
+
+</script>
 <style lang="scss" scoped>
-.reference-button {
-  width: 36px;
-  height: 36px;
-  padding: 10px 6px;
-  border-radius: 6px;
+@import '../../css/mixins.scss';
+
+.icon-button {
+  @extend %icon-button;
 }
 
-::v-deep .el-select-dropdown__item {
-  display: flex;
-  align-items: center;
-}
-
-::v-deep .el-checkbox {
-  display: flex;
-  align-items: center;
-}
-
-::v-deep .el-scrollbar__wrap {
-  margin-bottom: -10px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  max-height: 40vh;
-}
-
-.select-item {
-  position: relative;
-
-  > .el-button {
-    font-size: 14px;
-    width: 48px;
+::v-deep {
+  .el-select-dropdown__item {
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 36px;
+    width: 100%;
+    padding: 0 12px;
+  }
+  // 分割线
+  .divider {
+    margin: 0 12px;
+    border-bottom:1px solid #EAEDF0;
+  }
+  .el-scrollbar__wrap {
+    margin-bottom: 0 !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 24vh;
+  }
+  .el-select-dropdown__list {
+    padding: 0;
   }
 }
-
-.edit-container {
+.columns-contents {
+  //min-width: 250px;
+  .title {
+    padding: 0 12px;
+    line-height: 22px;
+    color: #7C8794;
+  }
+  .label {
+    padding: 0 12px;
+    height: 36px;
+    line-height: 36px;
+    color: #BDC3C9;
+  }
+  //.draggableWrap {
+  //  //display: flex;
+  //  //flex-direction: column;
+  //  ////min-height: max-content;
+  //  //min-height: 20vh;
+  //}
+}
+.footer {
   display: flex;
   justify-content: space-between;
-  padding: 5px 16px;
+  padding: 12px;
 }
 </style>
 
 <style lang="scss">
-.my-select-popover {
+.ad-column-popover.el-popper {
   min-width: 250px;
-  z-index: 2023;
-  position: absolute;
-  top: 43px;
-  left: -130px;
-
-  > span {
-    color: #7c8794;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    display: inline-block;
-    padding-left: 16px;
-    padding-top: 16px;
-  }
+  line-height: 1;
+  padding: 12px 0 0;
 }
 </style>

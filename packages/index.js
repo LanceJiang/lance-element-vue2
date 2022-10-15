@@ -48,6 +48,7 @@ const install = function (Vue, opts = {}) {
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
+
 // console.warn(packageJson, 'packageJson  packageJson.version', packageJson.version)
 export default {
   version: packageJson.version,
