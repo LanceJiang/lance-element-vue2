@@ -5,7 +5,7 @@ import Table from './Table'
 import Icon from './Icon'
 import NoData from './NoData'
 // import DraggableNest from './DraggableNest'
-// import locale from 'adber-ui/locale'
+// import locale from '@adber/adber-ui/src/locale'
 
 // 存储组件列表
 const components = [

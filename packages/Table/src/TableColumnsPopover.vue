@@ -56,7 +56,7 @@
 import Icon from '~/Icon'
 import NoData from '~/NoData'
 import DraggableNest from '~/DraggableNest'
-import Locale from 'adber-ui/mixins/locale'
+import Locale from '@adber/adber-ui/src/mixins/locale'
 
 // const API = {}
 export default {

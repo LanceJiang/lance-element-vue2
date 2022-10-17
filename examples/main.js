@@ -8,16 +8,16 @@ import i18n from './locales'
 import AdberUI from './../packages'
 
 // 正式
-/* import AdberUI from 'adber-ui'
-import 'adber-ui/lib/adber-ui.css' */
+/* import AdberUI from '@adber/adber-ui'
+import '@adber/adber-ui/lib/adber-ui.css' */
 
-// demo 测试
+// demo 测试 todo
 /* import AdberUI from 'adber-ui-demo'
 import 'adber-ui-demo/lib/adber-ui.css' */
 import 'element-ui/lib/theme-chalk/index.css'
 
-// import 'adber-ui/css/reset.scss'
-import 'adber-ui/css/index.scss'
+// import '@adber/adber-ui/src/css/reset.scss'
+import '@adber/adber-ui/src/css/index.scss'
 
 import ElementUI from 'element-ui'
 Vue.use(ElementUI, {

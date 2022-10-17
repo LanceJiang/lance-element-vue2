@@ -1,9 +1,8 @@
 <script lang="jsx">
-// import { PNoData } from '@adber-ui/common'
 import NoData from '~/NoData'
 import Icon from '~/Icon'
-import Locale from 'adber-ui/mixins/locale'
-// import { t } from 'adber-ui/locale'
+import Locale from '@adber/adber-ui/src/mixins/locale'
+// import { t } from '@adber/adber-ui/src/locale'
 
 import TableColumnsPopover from './TableColumnsPopover'
 

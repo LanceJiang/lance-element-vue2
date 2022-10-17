@@ -1,3 +1,4 @@
+// import defaultLang from './lang/zh-cn'
 import defaultLang from './lang/en'
 import Vue from 'vue'
 

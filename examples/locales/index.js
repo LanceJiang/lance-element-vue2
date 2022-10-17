@@ -4,10 +4,14 @@ import EnElementLocale from 'element-ui/lib/locale/lang/en'
 import CNElementLocale from 'element-ui/lib/locale/lang/zh-CN'
 
 // import adber-ui locale 公用国际化 引入
-import AdbLocale from 'adber-ui/locale'
-import EnAdbLocale from 'adber-ui/locale/lang/en'
-import CNAdbLocale from 'adber-ui/locale/lang/zh-cn'
+import AdbLocale from '@adber/adber-ui/src/locale'
+import EnAdbLocale from '@adber/adber-ui/src/locale/lang/en'
+import CNAdbLocale from '@adber/adber-ui/src/locale/lang/zh-cn'
 
+// 正式环境使用
+/* import AdbLocale from '@adber/adber-ui/lib/locale'
+import EnAdbLocale from '@adber/adber-ui/lib/locale/lang/en'
+import CNAdbLocale from '@adber/adber-ui/lib/locale/lang/zh-cn' */
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 

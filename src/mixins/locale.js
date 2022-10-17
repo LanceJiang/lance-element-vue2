@@ -1,4 +1,4 @@
-import { t } from 'adber-ui/locale'
+import { t } from '@adber/adber-ui/src/locale'
 // todo test local 多语言
 export default {
   methods: {

@@ -1,5 +1,4 @@
 const hasOwn = (obj, key) => {
-  debugger
   return Object.prototype.hasOwnProperty.call(obj, key)
 }
 const RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g

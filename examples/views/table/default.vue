@@ -1,16 +1,12 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
-<!--    <DraggableNest
-      v-model="checkedOptions"
-      :move="onMove"
-      />
-    -->
 <!--    :setFixed="setFixed"-->
-    <TableColumnsPopover
+<!--    <TableColumnsPopover
       v-model="checkedOptions"
       v-bind="curColumnsConfig"
-    />
+    />-->
     <AdTable
+      class="local_table"
       :searchParams.sync="searchParams"
       :list="localList"
       :total="total"
@@ -21,18 +17,16 @@
     >
       <template #toolLeft>
         <div class="content-header-box">
-          toolLeft
+<!--          toolLeft-->
           <el-input
             class="search-wrapper"
             v-model="formParams.pattern"
             size="medium"
-            :placeholder="$t('outboundOrder.filter.pattern.placeholder')"
+            :placeholder="$t('outboun¸dOrder.filter.pattern.placeholder')"
             clearable
             @keyup.enter.native="updateParams"
           >
-            <el-button slot="suffix" class="button-icon" type="text" @click="updateParams">
-              <i class="el-icon-search" />
-            </el-button>
+            <i slot="suffix" class="el-input__icon el-icon-search" @click="updateParams"/>
           </el-input>
 <!--          <adb-filter-button-group
             v-model="formParams"
@@ -66,16 +60,14 @@
 
 <script>
 import { getOrders, getOrdersCount, getTableConfig } from './queryApi'
-import TableColumnsPopover from '~/Table/src/TableColumnsPopover'
-// import DraggableNest from '~/DraggableNest'
+// import TableColumnsPopover from '~/Table/src/TableColumnsPopover'
 
 import { columns, checkedOptions, defaultCheckedOptions } from './default_config'
 
 export default {
   name: 'default',
   components: {
-    TableColumnsPopover
-    // DraggableNest
+    // TableColumnsPopover
   },
   data() {
     return {
@@ -211,6 +203,14 @@ export default {
 
   .search-wrapper {
     margin-right: 12px;
+    .el-input__icon {
+      cursor: pointer;
+      //color: #616A76;
+      color: #606266;
+      &:hover {
+        color: #409EFF;
+      }
+    }
   }
 
   .filters-wrapper {
@@ -226,6 +226,10 @@ export default {
   }
 }
 .pageWrap {
-
+  padding-top: 12px;
+}
+// 其他样式
+.local_table {
+  padding: 0 12px;
 }
 </style>

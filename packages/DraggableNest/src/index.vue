@@ -1,7 +1,7 @@
 <script lang="jsx">
 import Draggable from 'vuedraggable'
 import Icon from '~/Icon'
-import Locale from 'adber-ui/mixins/locale'
+import Locale from '@adber/adber-ui/src/mixins/locale'
 
 export default {
   name: 'DraggableNest',

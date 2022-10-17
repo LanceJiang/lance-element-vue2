@@ -9,7 +9,7 @@
 
 <script>
 import Icon from '~/Icon'
-import Locale from 'adber-ui/mixins/locale'
+import Locale from '@adber/adber-ui/src/mixins/locale'
 export default {
   name: 'NoData',
   mixins: [Locale],
