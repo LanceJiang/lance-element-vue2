@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="page-wrapper">
     <div class="page-select">
+      选择页面：
       <el-select :value="routeName" placeholder="请选择页面" @change="switchRoute">
         <el-option-group
           v-for="group in $router.options.routes"
@@ -72,10 +73,30 @@ html,body {
   //font-family: $ad-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  //text-align: center;
   height: 100%;
   //color: #2c3e50;
 }
+// 详情划分标题
+.common_title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  //line-height: 22px;
+  padding: 12px 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.85);
+  &:before {
+    content: '';
+    width: 3px;
+    height: 16px;
+    margin-right: 6px;
+    background: $ad-link-color-blue;
+  }
+}
 .page-select {
+  text-align: center;
+  padding: 6px 0;
+  background: #f14e02;
 }
 </style>

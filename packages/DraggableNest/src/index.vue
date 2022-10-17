@@ -41,11 +41,11 @@ export default {
     removeHandler: {
       type: Function,
       default: (item, index, inputs) => {
-        // console.error(item, index, inputs, 'removeHandler')
-        if (!item.fixed) {
-          inputs.splice(index, 1)
-          this.$emit('input', inputs)
-        }
+        console.error(item, index, inputs, 'removeHandler')
+        // if (!item.fixed) {
+        //   inputs.splice(index, 1)
+        //   this.$emit('input', inputs)
+        // }
       }
     },
     move: {
@@ -75,7 +75,7 @@ export default {
           >
             <div
               class={['itemWrap', `${(v.fixed) ? 'disabled' : ''}`]}
-              onClick={() => level !== 0 && this.removeHandler(v, index, this.realValue)}
+              // onClick={() => this.removeHandler(v, index, this.realValue)}
             >
               <el-checkbox class={level !== 0 ? 'checkbox-hide' : ''} disabled={!!v.fixed || level !== 0} value={true} onInput={this.removeHandler.bind(null, v, index, this.realValue)} />
               <span class="label_txt" title={_label}>{ _label }</span>
@@ -88,7 +88,7 @@ export default {
             {
               (v.children || []).length ? <DraggableNest
                 move={move}
-                removeHandler={this.removeHandler}
+                // removeHandler={this.removeHandler}
                 level={level + 1}
                 list={v.children}
               /> : ''

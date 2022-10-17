@@ -1,9 +1,11 @@
 /* adber 涉及element-ui的全局样式类改造&&新增修饰 */
 @import "variables.scss";
 
+// 纯icon button 样式
 .#{$prefix}icon-button {
   //font-size: 16px;
-  //font-size: 14px;
+  font-size: 14px;
+  padding: 0;
   border-radius: 6px;
   font-weight: 400;
   height: 32px;
@@ -18,4 +20,8 @@
   &:hover {
     background: #eaedf0;
   }
+}
+
+// todo
+.#{$prefix}test-class {
 }

@@ -45,7 +45,7 @@
         <el-button size="small" @click="handleReset">
           {{ t('adb.btn.restore') }}
         </el-button>
-        <el-button v-if="true" type="primary" size="small" @click="handleSubmit">
+        <el-button type="primary" size="small" @click="visible = false">
           {{ t('adb.btn.save') }}
         </el-button>
       </div>
@@ -85,6 +85,7 @@ export default {
     value: {
       type: Array,
       default: () => []
+      // todo dynamic: 标记column是否根据本地的column进行label替换【Boolean】
       /* type Options = { t_label: string; label: string; prop: string; fixed: boolean|string }[]
  */
     },
@@ -121,6 +122,13 @@ export default {
         this.checkedOptions = JSON.parse(JSON.stringify(checkedOptions))
         this.getCheckedOptions(checkedOptions)
         this.getCheckedSelectAll()
+      }
+    },
+    visible(bool) {
+      console.error('visible change', bool)
+      if (!bool) {
+        console.error('visible change false  提交配置保存')
+        this.handleSubmit()
       }
     }
   },

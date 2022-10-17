@@ -4,6 +4,7 @@ import Test from './test'
 import Table from './Table'
 import Icon from './Icon'
 import NoData from './NoData'
+// import DraggableNest from './DraggableNest'
 // import locale from 'adber-ui/locale'
 
 // 存储组件列表
@@ -12,6 +13,7 @@ const components = [
   Table,
   Icon,
   NoData
+  // DraggableNest
 ]
 
 // 加载adber-svg icon

@@ -3,7 +3,7 @@
 import NoData from '~/NoData'
 import Icon from '~/Icon'
 import Locale from 'adber-ui/mixins/locale'
-import { t } from 'adber-ui/locale'
+// import { t } from 'adber-ui/locale'
 
 import TableColumnsPopover from './TableColumnsPopover'
 
@@ -44,7 +44,7 @@ export const tableProps = {
     type: Array,
     default: () => []
   },
-  customColumnsConfig: {
+  columnsConfig: {
     type: Object,
     default: () => ({
       // defaultCheckedOptions: [], // [{t_label, prop, selected}]// Array 没有存储数据时 系统给予的默认配置
@@ -144,7 +144,7 @@ const columnSlots = (column, _this) => {
   return local_slots
 }
 const render = function (h) {
-  const { computedOptions, list, total, searchParams, checkedOptions, customColumnsConfig, t } = this
+  const { computedOptions, list, total, searchParams, checkedOptions, columnsConfig, t } = this
   // console.error(checkedOptions, 'checkedOptions')
   // todo 测试...
   const headerCellStyle = { color: '#5C6570', background: '#F6FAFF' }
@@ -175,9 +175,7 @@ const render = function (h) {
               <TableColumnsPopover
                 value={checkedOptions}
                 onInput={this.checkedOptionsChange}
-                props={customColumnsConfig}
-                type=""
-                is-save={false}
+                props={columnsConfig}
               />
             </div>
           </div>
@@ -396,12 +394,12 @@ export default {
   },
   created() {
     window.TableComponent = this
-  },
-  updated() {
-    // 仅用于测试 success todo
-    console.error(t('adb.noData'), 'adb.noData  adb 内部公用项目')
-    console.error(t('route.location'), 'route.location   外部项目')
   }
+  // updated() {
+  //   // 仅用于测试 success todo
+  //   console.error(t('adb.noData'), 'adb.noData  adb 内部公用项目')
+  //   console.error(t('route.location'), 'route.location   外部项目')
+  // }
 }
 </script>
 
@@ -493,27 +491,6 @@ export default {
   //font-size: 1.6rem;
   font-size: 13px;
   transform: translate(0, 0);
-
-  .money-column {
-    text-align: right;
-
-    //&.credit-color {
-    //  color: $shipber-green-normal;
-    //}
-
-    &.debit-color {
-      color: #f4a508;
-    }
-
-    .none-money {
-      color: #bdc3c9;
-    }
-
-    .money-icon {
-      color: #bdc3c9;
-      margin-left: 4px;
-    }
-  }
 
   &.el-table {
     &.el-table--border {
