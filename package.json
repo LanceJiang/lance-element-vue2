@@ -27,10 +27,14 @@
     "lib:utils_xx_todo": "vue-cli-service build --target lib --dest lib src/*/*"
   },
   "dependencies": {
+    "pdfjs-dist": "2.2.228",
     "vuedraggable": "^2.24.3"
   },
   "peerDependencies": {
     "element-ui": "^2.15.8",
+    "html2canvas": "^1.4.1",
+    "jsbarcode": "^3.11.5",
+    "jspdf": "^2.5.1",
     "vue": "^2.6.6",
     "vue-cli-plugin-style-resources-loader": "^0.1.4",
     "vuedraggable": "^2.24.3",
@@ -54,6 +58,9 @@
     "element-ui": "^2.15.8",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^5.0.0",
+    "html2canvas": "^1.4.1",
+    "jsbarcode": "^3.11.5",
+    "jspdf": "^2.5.1",
     "sass": "^1.17.2",
     "sass-loader": "^7.1.0",
     "style-resources-loader": "^1.3.3",

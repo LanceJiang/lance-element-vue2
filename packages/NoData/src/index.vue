@@ -27,7 +27,6 @@ export default {
     Icon
   },
   created() {
-    window.test = this
   }
 }
 </script>

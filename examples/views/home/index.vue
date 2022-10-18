@@ -35,6 +35,30 @@
         <template v-slot:extraContent>no data</template>
       </AdNoData>
     </div>
+
+    <div class="common_title">PdfPreview pdf 预览</div>
+    <div class="content">
+      <AdPdfPreview
+        class="local_pdfPreviewWrap"
+        ref="Label"
+        v-for="url of pdfList"
+        :key="url"
+        :scale="1.5"
+        :url="url"
+      >
+        <template v-slot:extraContent>no data</template>
+      </AdPdfPreview>
+    </div>
+
+<!--  以下是默认不应用全局的组件  -->
+<!--    <div class="common_title">条形码</div>
+    <div class="content">
+      <AdBarCode
+        class="item bar-code text-overflow-hidden"
+        value="12345688"
+        :options="codeOpts"
+      />
+    </div>-->
 <!--    <div class="common_title">AdDraggableNest</div>
     <div class="content">
       <AdDraggableNest
@@ -81,7 +105,16 @@ export default {
           prop: 'action',
           fixed: 'right'
         }
-      ]
+      ],
+      codeOpts: {
+        // format: "pharmacode",
+        // lineColor: '#0aa',
+        width: 2,
+        height: 48,
+        displayValue: false
+      },
+      // pdf 预览链接
+      pdfList: ['https://shipber-label-stage.s3.us-west-2.amazonaws.com/Labels/fedex/fedex_ground/278911092933/merge.pdf?AWSAccessKeyId=AKIAVKD5XIH4LVPFTARC&Expires=1673859442&Signature=B14%2BMUQepwqrf7UbqTGK0oTgH9Y%3D']
     }
   },
   methods: {
@@ -112,5 +145,25 @@ export default {
 .pageWrap {
   padding: 10px 12px;
   overflow: auto;
+}
+.bar-code {
+  //background: #ff0000;
+  width: 100%;
+  //width: calc(100% - 30px);
+  height: 48px;
+}
+</style>
+<style lang="scss">
+.local_pdfPreviewWrap {
+  background: #bd9393;
+  padding: 10px 0;
+  > canvas {
+    display: block;
+    margin: 0 auto;
+    width: 188px;
+    & + canvas {
+      margin-top: 10px;
+    }
+  }
 }
 </style>

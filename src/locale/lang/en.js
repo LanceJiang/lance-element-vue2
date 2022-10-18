@@ -10,7 +10,8 @@ export default {
       restore: 'Default',
       confirm: 'Confirm',
       save: 'Save',
-      cancel: 'Cancel'
+      cancel: 'Cancel',
+      reset: 'Reset'
     },
     selectAll: 'Select All',
     noData: 'No Data',

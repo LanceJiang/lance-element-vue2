@@ -43,6 +43,12 @@
           @commit="updateParams"
         />
       </template>
+<!--      自定义slot title-->
+      <template #slotName_title>
+        <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">
+          <span>slotName_title</span>
+        </el-tooltip>
+      </template>
       <!-- 操作 -->
       <template #action="{ row }">
         <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">

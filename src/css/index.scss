@@ -11,10 +11,19 @@ body {
   //font-size: 16px;
   font-size: inherit;
 }
-
+// 页面样式 flex column 外壳
 .flex-column-page-wrap {
   flex: 1;
   display: flex;
   height: 100%;
   flex-direction: column;
+}
+// 单行超出隐藏
+.text-overflow-hidden {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }

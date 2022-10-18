@@ -2,18 +2,29 @@ import { prefix } from '~/config'
 import packageJson from '../package.json'
 import Test from './test'
 import Table from './Table'
+import FormConfig from './FormConfig'
+import FormConfigDialog from './FormConfigDialog'
 import Icon from './Icon'
 import NoData from './NoData'
+// pdf 预览
+import PdfPreview from './PdfPreview'
+
 // import DraggableNest from './DraggableNest'
+// import BarCode from './BarCode'
+
 // import locale from '@adber/adber-ui/src/locale'
 
 // 存储组件列表
 const components = [
   Test,
   Table,
+  FormConfig,
+  FormConfigDialog,
   Icon,
-  NoData
-  // DraggableNest
+  NoData,
+  PdfPreview
+  // DraggableNest,
+  // BarCode
 ]
 
 // 加载adber-svg icon

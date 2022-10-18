@@ -10,7 +10,8 @@ export default {
       restore: '默认',
       confirm: '确认',
       save: '保存',
-      cancel: '取消'
+      cancel: '取消',
+      reset: '重置'
     },
     selectAll: '选择全部',
     noData: '无数据',
