@@ -9,7 +9,7 @@ import { AdTable } from './table'
 // import './dayjs';
 
 export interface InstallationOptions {
-  // locale: any;
+  locale: any;
   i18n: any;
   // size: string;
 }

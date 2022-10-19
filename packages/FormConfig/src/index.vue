@@ -1,6 +1,6 @@
 <script lang="jsx">
 // import i18n from '@/locales'
-import { t } from '@adber/adber-ui/src/locale'
+import { t } from 'adber-ui-demo/src/locale'
 
 export default {
   name: 'FormConfig',

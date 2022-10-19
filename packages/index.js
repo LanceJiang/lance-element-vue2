@@ -1,4 +1,4 @@
-import { prefix } from '~/config'
+import { prefix } from 'adber-ui-demo/packages/config'
 import packageJson from '../package.json'
 import Test from './test'
 import Table from './Table'
@@ -7,12 +7,12 @@ import FormConfigDialog from './FormConfigDialog'
 import Icon from './Icon'
 import NoData from './NoData'
 // pdf 预览
-import PdfPreview from './PdfPreview'
+// import PdfPreview from './PdfPreview'
 
 // import DraggableNest from './DraggableNest'
 // import BarCode from './BarCode'
 
-// import locale from '@adber/adber-ui/src/locale'
+import locale from 'adber-ui-demo/src/locale'
 
 // 存储组件列表
 const components = [
@@ -21,8 +21,8 @@ const components = [
   FormConfig,
   FormConfigDialog,
   Icon,
-  NoData,
-  PdfPreview
+  NoData
+  // PdfPreview // todo 暂不做公用组件打包（pdfjsWorker.js 引入有问题 后续再说）暂时建议 src 引入 或者以该组件作为参考
   // DraggableNest,
   // BarCode
 ]
@@ -48,11 +48,9 @@ const components = [
 })()
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 const install = function (Vue, opts = {}) {
-  // 判断是否安装
-  if (install.installed) return
-  install.installed = true
-  // locale.use(opts.locale)
-  // locale.i18n(opts.i18n)
+  // console.error(install, 'AdberUi install opts', opts)
+  locale.use(opts.locale)
+  locale.i18n(opts.i18n)
   // 遍历注册全局组件
   components.map(component => Vue.component(`${prefix}${component.name}`, component))
 }
@@ -65,8 +63,8 @@ if (typeof window !== 'undefined' && window.Vue) {
 // console.warn(packageJson, 'packageJson  packageJson.version', packageJson.version)
 export default {
   version: packageJson.version,
-  // locale: locale.use,
-  // i18n: locale.i18n,
+  locale: locale.use,
+  i18n: locale.i18n,
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
   install,
   // 以下是具体的组件列表

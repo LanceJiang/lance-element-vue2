@@ -30,8 +30,8 @@
     <div class="content">
       <AdNoData
         isFull
-        message="<div style='background: #f00;'>test: lang: {$i18n.locale}</div>"
       >
+<!--        message="<div style='background: #f00;'>test: lang: {$i18n.locale}</div>"-->
         <template v-slot:extraContent>no data</template>
       </AdNoData>
     </div>

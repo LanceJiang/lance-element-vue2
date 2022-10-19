@@ -1,6 +1,7 @@
 {
-  "name": "adber-ui-demo",
-  "version": "0.0.2",
+  "name_next": "adber-ui-demo -> @adber/adber-ui",
+  "name": "adber-ui-demo_2",
+  "version": "0.0.4",
   "description": "基于vue-cli3的基于elementUI二次封装库",
   "main": "lib/adber-ui.umd.min.js",
   "keywords": [
@@ -14,8 +15,12 @@
     "packages",
     "types"
   ],
+  "typings": "types/index.d.ts",
   "private": false,
   "license": "MIT",
+  "bugs": {
+    "url_todo": "https://github.com/test/issues"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "start": "npm run serve",
@@ -24,6 +29,7 @@
     "lib:packages": "vue-cli-service build --target lib --name adber-ui --dest lib packages/index.js",
     "lib:utils": "cross-env BABEL_ENV=utils babel src --out-dir lib --ignore src/index.js",
     "lib": "npm run lib:packages && npm run lib:utils",
+    "lib2publish": "npm run lib && npm run publish",
     "lib:utils_xx_todo": "vue-cli-service build --target lib --dest lib src/*/*"
   },
   "dependencies": {
@@ -48,6 +54,7 @@
     "@vue/cli-service": "~4.4.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
+    "adber-ui-demo": "0.0.4",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",

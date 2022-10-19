@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import Icon from '~/Icon'
-import Locale from '@adber/adber-ui/src/mixins/locale'
+import Icon from 'adber-ui-demo/packages/Icon'
+import Locale from 'adber-ui-demo/src/mixins/locale'
 export default {
   name: 'NoData',
   mixins: [Locale],

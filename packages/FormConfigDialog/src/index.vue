@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import FormConfig from '@adber/adber-ui/packages/FormConfig'
+import FormConfig from 'adber-ui-demo/packages/FormConfig'
 
 export default {
   // name: 'DialogForm',

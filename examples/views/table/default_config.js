@@ -1,7 +1,11 @@
 const tPrefix = 'outboundOrder.table.'
 
+let test = false
 const slot_user = (h, scope) => {
-  console.log(scope, '自定义 函数渲染')
+  if (!test) {
+    console.log(scope, '自定义 函数渲染 todo')
+    test = true
+  }
   return <div style={'background: #f0f;'}>slot_user 函数渲染 slot:default </div>
 }
 
@@ -43,7 +47,7 @@ export const columns = [
   },
   ...testColumns,
   {
-    t_label: `common.table.action`,
+    t_label: `adb.table.action`,
     // label: '测试的 action label 非 t_label',
     prop: 'action',
     slots: {
