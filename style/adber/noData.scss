@@ -1,0 +1,24 @@
+@import "../variables.scss";
+// NoData 样式
+.#{$prefix}no-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &--full {
+    width: 100%;
+    height: 100%;
+  }
+
+  padding: 20px 0;
+
+  &__img {
+    font-size: 80px;
+    pointer-events: none;
+  }
+
+  .message {
+    color: $ad-text-color;
+    line-height: initial;
+  }
+}

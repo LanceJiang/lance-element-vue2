@@ -1,5 +1,4 @@
 <script lang="jsx">
-// import i18n from '@/locales'
 import { t } from 'adber-ui-demo/src/locale'
 
 export default {
@@ -247,7 +246,7 @@ export default {
     return (
       <el-form
         ref="baseForm"
-        class="formConfig_wrap"
+        class="ad-form-config"
         props={{ ...form_config, size, model: params }}
       >
         <el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`}>
@@ -508,35 +507,3 @@ export default {
         ]
     } */
 </script>
-<style lang="scss">
-// 修复因 全局reset-element-ui 的 less BUG
-.formConfig_wrap {
-  .el-form-item.is-required:not(.is-no-asterisk)
-  .el-form-item__label-wrap
-  > .el-form-item__label:before,
-  .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
-    content: '*' !important;
-    color: #f56c6c;
-    margin-right: 4px;
-  }
-}
-</style>
-<style scoped lang="scss">
-.formConfig_wrap {
-  .form_wrap {
-    max-height: 70vh;
-    overflow-y: auto;
-  }
-  /* 隐藏formItem label */
-  .hideLabel {
-    &::v-deep(.el-form-item__label) {
-      display: none;
-    }
-  }
-  .footer {
-    padding-top: 10px;
-    border-top: 1px solid #dcdfe6;
-    text-align: right;
-  }
-}
-</style>

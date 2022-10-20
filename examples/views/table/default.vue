@@ -53,11 +53,11 @@
       <template #action="{ row }">
         <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">
           <el-button class="ad-icon-button" @click="handleView(row)">
-            <AdIcon icon="Show"></AdIcon>
+            <AdIcon icon="view"></AdIcon>
           </el-button>
         </el-tooltip>
         <el-button class="ad-icon-button">
-          <AdIcon icon="column"></AdIcon>
+          <AdIcon icon="hide_column"></AdIcon>
         </el-button>
       </template>
     </AdTable>

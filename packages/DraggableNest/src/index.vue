@@ -1,4 +1,5 @@
 <script lang="jsx">
+// 建议 vuedraggable 进行 共打包 处理 todo...
 import Draggable from 'vuedraggable'
 import Icon from 'adber-ui-demo/packages/Icon'
 import Locale from 'adber-ui-demo/src/mixins/locale'
@@ -56,7 +57,7 @@ export default {
   render() {
     const { level, t, emitter, move } = this
     return <Draggable
-      class='list-group'
+      class='ad-draggable-nest'
       props={this.dragOptions}
       animation={280}
       ghost-class='ghost'
@@ -70,7 +71,7 @@ export default {
         {this.realValue.map((v, index) => {
           const _label = t(v.t_label || v.label)
           return <div
-            class="list-group-item"
+            class="ad-draggable-nest-item"
             key={v.prop}
           >
             <div
@@ -128,96 +129,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-.flip-list {
-  transition: all 0.3s ease-in-out;
-}
-.flip-list-move {
-  transition: transform 0.3s;
-}
-//.no-move {
-//  transition: transform 0s;
-//}
-// 拖动时候的样式
-.ghost {
-  //opacity: 0.5;
-  //background: rgba(87, 129, 244, .2);
-  //box-shadow: 1px 1px 5px 2px rgb(0 0 0 / 15%);
-  //cursor: move;
-  //box-shadow: #007bfc 0 0 6px -2px inset;
-  //background: #f00;
-  box-shadow: 1px 1px 5px 2px rgba(0,0,0,.15);
-  cursor: move;
-  transition: .18s ease;
-}
-.chosen {
-  box-shadow: 1px 1px 5px 2px rgba(0,0,0,.15);
-}
-.list-group {
-  //padding-right: 16px;
-  flex: 1;
-  width: 100%;
-  overflow-y: auto;
-  .list-group-item {
-    padding-left: 12px;
-    .itemWrap {
-      display: flex;
-      align-items: center;
-      line-height: 34px;
-      padding-right: 4px;
-      color: #333;
-      font-size: 14px;
-      cursor: pointer;
-      //transition: .18s ease;
-      width: 100%;
-      // 不能拖动 不能删除
-      &.disabled {
-        color: rgba(0, 0, 0, 0.25);
-        cursor: not-allowed;
-        &.ghost {
-          background: unset;
-        }
-        & > .dragEl {
-          cursor: not-allowed;
-        }
-        opacity: unset;
-        box-shadow: none;
-        .disabled_fixed {
-          width: 28px;
-          margin-left: auto;
-          cursor: pointer;
-          color: #007bfc;
-        }
-      }
-      .dragEl {
-        font-size: 16px;
-        cursor: move;
-        margin-right: 8px;
-      }
-      .label_txt{
-        display: inline-block;
-        padding-left: 10px;
-        flex: 1;
-        //width: 80%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      & > .delEl {
-        display: none;
-        margin-left: auto;
-      }
-      &:not(.disabled):hover {
-        color: #007bfc;
-        & > .delEl {
-          display: inline-block;
-        }
-      }
-    }
-    .checkbox-hide {
-      visibility: hidden;
-    }
-  }
-}
-</style>

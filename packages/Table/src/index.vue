@@ -158,7 +158,7 @@ const render = function (h) {
     'current-change': this.handleIndexChange
   }
   return (
-    <div class="tableWrap">
+    <div class="ad-table-warp">
       <div class="tableBody">
         {computedOptions.showTools && (
           <div class="toolBarWrap">
@@ -166,8 +166,8 @@ const render = function (h) {
             <div class="toolRight">
               {/* 刷新 */}
               <el-tooltip placement="top" content={t('adb.refresh')}>
-                <el-button type="default" class="icon-button" onClick={this.refreshHandler}>
-                  <Icon icon="revert" />
+                <el-button type="default" class="ad-icon-button" onClick={this.refreshHandler}>
+                  <Icon icon="refresh" />
                 </el-button>
               </el-tooltip>
               {/* columns过滤 PFilterColumn */}
@@ -183,7 +183,7 @@ const render = function (h) {
         <div class="tableParentEl">
           <el-table
             ref="ELTable"
-            class="local-table"
+            class="ad-table"
             size="mini"
             tooltip-effect="dark"
             headerCellStyle={headerCellStyle}
@@ -401,159 +401,3 @@ export default {
   // }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../../css/mixins.scss';
-.tableWrap {
-  position: relative;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  min-height: 0;
-
-  ::v-deep(.slot_title-wrap) {
-    display: inline-flex;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
-
-    .label {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* .iconfont {
-      margin-left: .2em;
-      font-size: 14px;
-      cursor: pointer;
-      color: #888;
-      font-weight: normal;
-    } */
-  }
-
-  .tableBody {
-    flex: 1;
-    min-height: 200px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-
-    @at-root {
-      .toolBarWrap {
-        margin-bottom: 16px;
-        height: auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        //align-items: flex-start;
-        ::v-deep(.toolLeft) {
-          flex: 1;
-        }
-
-        .toolRight {
-          //align-self: flex-end;
-          // 兼容当搜索组件放置在 toolLeft 的时候
-          //min-height: 32px;
-          display: flex;
-          align-items: center;
-          // 仅带icon 的button 按钮样式
-          .icon-button {
-            @extend %icon-button;
-          }
-
-          &::v-deep {
-            .el-button {
-              margin-left: 12px;
-            }
-          }
-        }
-      }
-    }
-
-    .tableParentEl {
-      flex: 1;
-      overflow-y: hidden;
-    }
-  }
-}
-
-.el-pagination {
-  display: flex;
-  padding: 16px 12px;
-  justify-content: flex-end;
-}
-
-.local-table {
-  //font-size: 1.6rem;
-  font-size: 13px;
-  transform: translate(0, 0);
-
-  &.el-table {
-    &.el-table--border {
-      ::v-deep td:not(:last-child) {
-        border-right-color: transparent;
-      }
-    }
-
-    &.el-table__body-wrapper {
-      ::v-deep .el-table--border.is-scrolling-left ~ .el-table__fixed:not(:last-child) {
-        border-right-color: transparent;
-      }
-    }
-
-    ::v-deep th {
-      height: 41px;
-    }
-
-    ::v-deep th > .cell {
-      //font-size: 13px;
-      font-weight: 500;
-      color: #5c6570;
-      line-height: 17px;
-      padding-left: 12px;
-      padding-right: 12px;
-    }
-  }
-
-  &.el-table--striped {
-    ::v-deep .el-table__body {
-      tr.el-table__row--striped td {
-        background: #f6f8fa;
-      }
-    }
-  }
-
-  ::v-deep .el-table__body {
-    td {
-      color: #5c6570;
-      font-size: 12px;
-    }
-
-    tr.hover-row.current-row > td,
-    tr.hover-row.el-table__row--striped.current-row > td,
-    tr.hover-row.el-table__row--striped > td,
-    tr.hover-row > td {
-      background-color: #e8f2fe;
-    }
-  }
-
-  &.el-table--enable-row-hover {
-    ::v-deep .el-table__body tr:hover > td {
-      background-color: #e8f2fe;
-    }
-  }
-
-  ::v-deep .el-table__body tr.hover-row > td {
-    background: #f6f8fa;
-  }
-
-  .no-data__tip {
-    color: #bdc3c9;
-    font-size: 18px;
-    line-height: 21px;
-  }
-}
-</style>

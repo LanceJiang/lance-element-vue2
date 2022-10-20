@@ -14,6 +14,17 @@
 
     <div class="common_title">iconfont && AdIcon</div>
     <div class="content">
+      {{testNumber}}
+      <AdTest suffix-icon="el-icon-date" v-model="testNumber"></AdTest>
+      <AdTest suffix-icon="el-icon-date" type="textarea" v-model="testNumber"></AdTest>
+      <AdInputNumber v-model="testNumber" :min="0" prefix="#" suffix="￥"></AdInputNumber>
+      <AdInputNumber v-model="testNumber" :min="0">
+        <template slot="prefix">prefix</template>
+        <template slot="suffix"><span style="background: #f00">suffix</span></template>
+      </AdInputNumber>
+    </div>
+    <div class="common_title">iconfont && AdIcon</div>
+    <div class="content">
       <!--  单色样式类  -->
       <span class="ad-iconfont ad-Review"></span>
       <!--  svg  -->
@@ -21,7 +32,7 @@
       <!--Table 操作 用： Icon按钮-->
       <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">
         <el-button class="ad-icon-button" @click="test('row')">
-          <AdIcon icon="Show"></AdIcon>
+          <AdIcon icon="show"></AdIcon>
         </el-button>
       </el-tooltip>
     </div>
@@ -113,6 +124,7 @@ export default {
         height: 48,
         displayValue: false
       },
+      testNumber: 1,
       // pdf 预览链接
       pdfList: ['https://shipber-label-stage.s3.us-west-2.amazonaws.com/Labels/fedex/fedex_ground/278911092933/merge.pdf?AWSAccessKeyId=AKIAVKD5XIH4LVPFTARC&Expires=1673859442&Signature=B14%2BMUQepwqrf7UbqTGK0oTgH9Y%3D']
     }

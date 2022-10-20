@@ -5,7 +5,7 @@
     @update:visible="changeVisible"
     :closeOnClickModal="false"
     :width="width"
-    customClass="formDialogWrap"
+    customClass="ad-form-config-dialog"
     @close="changeVisible"
   >
     <FormConfig
@@ -23,7 +23,6 @@
 import FormConfig from 'adber-ui-demo/packages/FormConfig'
 
 export default {
-  // name: 'DialogForm',
   name: 'FormConfigDialog',
   components: {
     FormConfig
@@ -81,12 +80,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.formDialogWrap {
-  .el-dialog__body {
-    height: auto;
-    padding-bottom: 10px;
-  }
-}
-</style>

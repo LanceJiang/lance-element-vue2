@@ -1,8 +1,8 @@
 <template>
   <el-popover popper-class="ad-column-popover" placement="bottom-end" v-model="visible">
     <el-tooltip slot="reference" placement="top" :content="t('adb.column')">
-      <el-button type="default" class="icon-button">
-        <Icon icon="column"/>
+      <el-button type="default" class="ad-icon-button">
+        <Icon icon="hide_column"/>
       </el-button>
     </el-tooltip>
     <div class="columns-contents" v-loading="loading">
@@ -269,66 +269,3 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
-@import '../../css/mixins.scss';
-
-.icon-button {
-  @extend %icon-button;
-}
-
-::v-deep {
-  .el-select-dropdown__item {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 0 12px;
-  }
-  // 分割线
-  .divider {
-    margin: 0 12px;
-    border-bottom:1px solid #EAEDF0;
-  }
-  .el-scrollbar__wrap {
-    margin-bottom: 0 !important;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 24vh;
-  }
-  .el-select-dropdown__list {
-    padding: 0;
-  }
-}
-.columns-contents {
-  //min-width: 250px;
-  .title {
-    padding: 0 12px;
-    line-height: 22px;
-    color: #7C8794;
-  }
-  .label {
-    padding: 0 12px;
-    height: 36px;
-    line-height: 36px;
-    color: #BDC3C9;
-  }
-  //.draggableWrap {
-  //  //display: flex;
-  //  //flex-direction: column;
-  //  ////min-height: max-content;
-  //  //min-height: 20vh;
-  //}
-}
-.footer {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px;
-}
-</style>
-
-<style lang="scss">
-.ad-column-popover.el-popper {
-  min-width: 250px;
-  line-height: 1;
-  padding: 12px 0 0;
-}
-</style>

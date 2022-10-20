@@ -1,0 +1,38 @@
+@import "../variables.scss";
+// FormConfig 样式
+.#{$prefix}form-config {
+  .form_wrap {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  /* 隐藏formItem label */
+  .hideLabel {
+    .el-form-item__label {
+      display: none;
+    }
+  }
+  .footer {
+    padding-top: 10px;
+    border-top: 1px solid #dcdfe6;
+    text-align: right;
+  }
+}
+/*
+// 修复因 全局reset-element-ui 的 less BUG
+.#{$prefix}form-config {
+  .el-form-item.is-required:not(.is-no-asterisk)
+  .el-form-item__label-wrap
+  > .el-form-item__label:before,
+  .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
+    content: '*' !important;
+    color: #f56c6c;
+    margin-right: 4px;
+  }
+}*/
+// FormConfigDialog 样式
+.#{$prefix}form-config-dialog {
+  .el-dialog__body {
+    height: auto;
+    padding-bottom: 10px;
+  }
+}

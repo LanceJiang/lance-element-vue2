@@ -1,29 +1,32 @@
 import { prefix } from 'adber-ui-demo/packages/config'
 import packageJson from '../package.json'
-import Test from './test'
+// import Test from './test'
 import Table from './Table'
+import DraggableNest from './DraggableNest'
 import FormConfig from './FormConfig'
 import FormConfigDialog from './FormConfigDialog'
 import Icon from './Icon'
+import InputNumber from './InputNumber' // todo...
 import NoData from './NoData'
 // pdf 预览
 // import PdfPreview from './PdfPreview'
 
-// import DraggableNest from './DraggableNest'
+// 以下组件放置 extra_load 配置交给 引用项目按需使用
+
 // import BarCode from './BarCode'
 
-import locale from 'adber-ui-demo/src/locale'
-
+import locale from '../src/locale'
 // 存储组件列表
 const components = [
-  Test,
+  // Test,
   Table,
+  DraggableNest,
   FormConfig,
   FormConfigDialog,
   Icon,
+  InputNumber,
   NoData
   // PdfPreview // todo 暂不做公用组件打包（pdfjsWorker.js 引入有问题 后续再说）暂时建议 src 引入 或者以该组件作为参考
-  // DraggableNest,
   // BarCode
 ]
 
@@ -34,7 +37,8 @@ const components = [
 
   if (!iconDom) {
     /** update 最新 iconfont(.css && .js) */
-    const origin_prefix = '//at.alicdn.com/t/c/font_3588867_eb8rgczzz9'
+    // const origin_prefix = '//at.alicdn.com/t/c/font_3588867_eb8rgczzz9'
+    const origin_prefix = '//at.alicdn.com/t/c/font_3588867_vc0kcgcgrhe'
     const link = d.createElement('link')
     link.rel = 'stylesheet'
     link.type = 'text/css'

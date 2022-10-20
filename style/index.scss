@@ -1,6 +1,9 @@
-//@import '//at.alicdn.com/t/c/font_3588867_9p0rrohcupv.css';
+// 默认元素样式重置
 @import './reset.scss';
+// 涉及element-ui的全局样式类改造&&新增修饰
 @import './adber-element-ui.scss';
+// 涉及adber-ui的全局组件样式
+@import './adber-ui.scss';
 
 body {
   font-family: $ad-family;

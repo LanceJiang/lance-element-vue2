@@ -1,10 +1,11 @@
 {
   "name_next": "adber-ui-demo -> @adber/adber-ui",
-  "name": "adber-ui-demo_2",
-  "version": "0.0.4",
+  "name": "adber-ui-demo",
+  "version": "0.0.7",
   "description": "基于vue-cli3的基于elementUI二次封装库",
   "main": "lib/adber-ui.umd.min.js",
   "keywords": [
+    "element-ui",
     "adber-ui",
     "vue",
     "components"
@@ -13,7 +14,8 @@
     "lib",
     "src",
     "packages",
-    "types"
+    "types",
+    "style"
   ],
   "typings": "types/index.d.ts",
   "private": false,
@@ -38,9 +40,6 @@
   },
   "peerDependencies": {
     "element-ui": "^2.15.8",
-    "html2canvas": "^1.4.1",
-    "jsbarcode": "^3.11.5",
-    "jspdf": "^2.5.1",
     "vue": "^2.6.6",
     "vue-cli-plugin-style-resources-loader": "^0.1.4",
     "vuedraggable": "^2.24.3",
@@ -54,7 +53,6 @@
     "@vue/cli-service": "~4.4.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
-    "adber-ui-demo": "0.0.4",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",
@@ -65,6 +63,10 @@
     "element-ui": "^2.15.8",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^5.0.0",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-sass": "^4.0.2",
     "html2canvas": "^1.4.1",
     "jsbarcode": "^3.11.5",
     "jspdf": "^2.5.1",
