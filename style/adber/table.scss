@@ -1,4 +1,5 @@
 @import "../variables.scss";
+@import "../mixins.scss";
 
 // table TableColumnsPopover 样式
 .#{$prefix}column-popover {
@@ -107,9 +108,9 @@
         display: flex;
         align-items: center;
         // 仅带icon 的button 按钮样式
-        /*.ad-icon-button {
+        .icon-button {
           @extend %icon-button;
-        }*/
+        }
 
         .el-button {
           margin-left: 12px;

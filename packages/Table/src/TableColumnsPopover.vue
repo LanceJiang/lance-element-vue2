@@ -1,7 +1,7 @@
 <template>
   <el-popover popper-class="ad-column-popover" placement="bottom-end" v-model="visible">
     <el-tooltip slot="reference" placement="top" :content="t('adb.column')">
-      <el-button type="default" class="ad-icon-button">
+      <el-button type="default" class="icon-button">
         <Icon icon="hide_column"/>
       </el-button>
     </el-tooltip>

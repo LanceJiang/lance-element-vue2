@@ -166,7 +166,7 @@ const render = function (h) {
             <div class="toolRight">
               {/* 刷新 */}
               <el-tooltip placement="top" content={t('adb.refresh')}>
-                <el-button type="default" class="ad-icon-button" onClick={this.refreshHandler}>
+                <el-button type="default" class="icon-button" onClick={this.refreshHandler}>
                   <Icon icon="refresh" />
                 </el-button>
               </el-tooltip>
