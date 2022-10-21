@@ -1,0 +1,35 @@
+/* Element Variables */
+// Override Element UI variables
+/*
+//@import "~adber-ui-demo/style/variables.scss";
+$--color-primary: #4097FD;
+//$--color-primary: #f00;
+$--color-success: #03B497;
+$--color-warning: #F4A508;
+$--color-danger: #F47367;
+$--color-info: #67809F;
+
+
+/// color|1|Font Color|2
+$--color-text-primary: #32363B;
+/// color|1|Font Color|2
+$--color-text-regular: #5C6570;
+/// color|1|Font Color|2
+$--color-text-secondary: #7C8794;
+/// color|1|Font Color|2
+$--color-text-placeholder: #BDC3C9;
+
+/// color|1|Border Color|3
+$--border-color-base: #C6CDD5;
+/// color|1|Border Color|3
+$--border-color-light: #D5DBE1;
+/// color|1|Border Color|3
+$--border-color-lighter: #EAEDF0;
+/// color|1|Border Color|3
+$--border-color-extra-light: #F5F7FA;*/
+@import '~adber-ui-demo/style/element-variables.scss';
+// Icon font path, required
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+// Apply overrided variables in Element UI
+@import '~element-ui/packages/theme-chalk/src/index';

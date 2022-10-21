@@ -1,3 +1,57 @@
 /* adber-element-ui: 涉及element-ui的全局样式类改造&&新增修饰 */
 @import "variables.scss";
 // 覆盖默认的 element-ui 样式
+
+.el-form-item__label {
+  color: $ad-color_1;
+}
+
+// dialog覆盖样式
+// <el-dialog customClass="ad-dialog"/>
+.#{$prefix}dialog {
+  &.el-dialog {
+    position: absolute;
+    margin: 0 !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    border-radius: 6px;
+    max-height: 100%; // calc(100% - 48px);
+    //max-width: calc(100% - 48px);
+  }
+
+  .el-dialog__header {
+    display: flex;
+    padding: 16px 24px;
+    align-items: center;
+    justify-content: space-between;
+    background: #E3E9F1;
+    text-align: left;
+
+    .el-dialog__title {
+      //color: $ad-color_1;
+    }
+  }
+  .el-dialog__headerbtn {
+    position: unset;
+  }
+
+  .el-dialog__body {
+    //height: auto;
+    max-height: calc(100vh - 160px);
+    //overflow: auto;
+    padding: 24px;
+    color: $ad-color_1;
+  }
+
+  .el-dialog__footer {
+    padding: 8px 24px 11px 24px;
+    border-top: 1px solid $ad-border-color_3;
+  }
+}
+
+// dialog覆盖样式 <el-dialog class="ad-dialog-wrap"/> 与 .el-dialog__wrapper 同级
+.ad-dialog-wrap {
+  @extend .#{$prefix}dialog;
+}

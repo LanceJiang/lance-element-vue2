@@ -20,7 +20,8 @@
         :visible="dialogVisible"
         @update:visible="changeVisible"
         :closeOnClickModal="false"
-        customClass="formDialogWrap"
+        class="local_dialog ad-dialog-wrap"
+        customClass="ad-dialog ad-form-config-dialog"
         @close="changeVisible(false)"
       >
         <AdFormConfig
@@ -161,8 +162,8 @@ export default {
 }
 .local_formConfig {
   background: #fafafa;
-  padding: 0 24px;
-  padding-top: 10px;
+  padding: 24px;
+  //padding-top: 10px;
   border-radius: 6px 6px 0 0;
   &::v-deep {
     .form_wrap {

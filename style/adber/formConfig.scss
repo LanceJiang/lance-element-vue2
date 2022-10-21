@@ -2,8 +2,8 @@
 // FormConfig 样式
 .#{$prefix}form-config {
   .form_wrap {
-    max-height: 70vh;
-    overflow-y: auto;
+    //max-height: 70vh;
+    //overflow-y: auto;
   }
   /* 隐藏formItem label */
   .hideLabel {
@@ -12,8 +12,11 @@
     }
   }
   .footer {
+    width: calc(100% + 48px);
+    margin-left: -24px;
+    padding-right: 24px;
     padding-top: 10px;
-    border-top: 1px solid #dcdfe6;
+    border-top: 1px solid $ad-border-color_3;
     text-align: right;
   }
 }
@@ -29,10 +32,11 @@
     margin-right: 4px;
   }
 }*/
-// FormConfigDialog 样式
+// FormConfigDialog 样式 (区别于 ad-dialog 样式以外的)
 .#{$prefix}form-config-dialog {
   .el-dialog__body {
-    height: auto;
+    //height: auto;
+    padding-top: 10px;
     padding-bottom: 10px;
   }
 }

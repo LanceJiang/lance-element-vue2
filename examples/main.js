@@ -16,7 +16,10 @@ import '@adber/adber-ui/lib/adber-ui.css' */
 // demo 测试 todo
 /* import AdberUI from 'adber-ui-demo'
 import 'adber-ui-demo/lib/adber-ui.css' */
-import 'element-ui/lib/theme-chalk/index.css'
+// 默认 elemen-ui 样式
+// import 'element-ui/lib/theme-chalk/index.css'
+// import 'adber-ui-demo/style/element-variables.scss' // 公用声明
+import '@/assets/css/element-variables.scss'
 
 // import 'adber-ui-demo/src/css/reset.scss'
 import 'adber-ui-demo/style/index.scss'

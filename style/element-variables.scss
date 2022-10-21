@@ -1,0 +1,36 @@
+@import "./variables.scss";
+
+/* Element Variables */
+// Override Element UI variables
+$--color-primary: $ad-color-primary;
+$--color-success: $ad-color-success;
+$--color-warning: $ad-color-warning;
+$--color-danger: $ad-color-danger;
+$--color-info: $ad-color-info;
+
+
+/// color|1|Font Color|2
+$--color-text-primary: $ad-color_1;
+/// color|1|Font Color|2
+$--color-text-regular: $ad-color_2;
+/// color|1|Font Color|2
+$--color-text-secondary: $ad-color_3;
+/// color|1|Font Color|2
+$--color-text-placeholder: $ad-color_5;
+
+/// color|1|Border Color|3
+$--border-color-base: $ad-border-color_1;
+/// color|1|Border Color|3
+$--border-color-light: $ad-border-color_2;
+/// color|1|Border Color|3
+$--border-color-lighter: $ad-border-color_3;
+/// color|1|Border Color|3
+$--border-color-extra-light: $ad-border-color_4;
+
+$--button-default-font-color: $--color-text-primary;
+/*
+// Icon font path, required
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+// Apply overrided variables in Element UI
+@import '~element-ui/packages/theme-chalk/src/index';*/

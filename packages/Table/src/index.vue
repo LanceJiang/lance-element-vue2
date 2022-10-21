@@ -146,7 +146,6 @@ const render = function (h) {
   const { computedOptions, list, total, searchParams, checkedOptions, columnsConfig, t } = this
   // console.error(checkedOptions, 'checkedOptions')
   // todo 测试...
-  const headerCellStyle = { color: '#5C6570', background: '#F6FAFF' }
   // const listeners = {
   //   // 事件
   //   onSortChange: this.tableSortChange,
@@ -184,10 +183,9 @@ const render = function (h) {
           <el-table
             ref="ELTable"
             class="ad-table"
-            size="mini"
             tooltip-effect="dark"
-            headerCellStyle={headerCellStyle}
             border
+            size={computedOptions.size}
             v-loading={computedOptions.loading}
             props={computedOptions}
             data={list}
@@ -262,6 +260,7 @@ export default {
           // el-table参数
           height: '100%', // 高度
           maxHeight: '100%', // 最大高度
+          size: 'medium', // 尺寸类型 (弹窗建议使用 mini)
           // sortOrders: ['ascending', 'descending'], null
 
           // 分页器参数
@@ -390,10 +389,10 @@ export default {
         // eslint-disable-next-line no-empty
       } catch (e) {}
     }
-  },
-  created() {
-    window.TableComponent = this
   }
+  // created() {
+  //   window.TableComponent = this
+  // },
   // updated() {
   //   // 仅用于测试 success todo
   //   console.error(t('adb.noData'), 'adb.noData  adb 内部公用项目')

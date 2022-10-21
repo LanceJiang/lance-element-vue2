@@ -5,7 +5,7 @@
     @update:visible="changeVisible"
     :closeOnClickModal="false"
     :width="width"
-    customClass="ad-form-config-dialog"
+    customClass="ad-dialog ad-form-config-dialog"
     @close="changeVisible"
   >
     <FormConfig

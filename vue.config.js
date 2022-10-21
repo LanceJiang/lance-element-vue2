@@ -4,6 +4,9 @@ module.exports = {
   devServer: {
     port: 7777
   },
+  css: {
+    sourceMap: true
+  },
   pages: {
     index: {
       entry: 'examples/main.js',

@@ -91,7 +91,7 @@ html,body {
     width: 3px;
     height: 16px;
     margin-right: 6px;
-    background: $ad-link-color-blue;
+    background: $ad-color-primary;
   }
 }
 .page-select {

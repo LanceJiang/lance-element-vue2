@@ -16,24 +16,25 @@
       :columnsConfig="curColumnsConfig"
     >
       <template #toolLeft>
-        <div class="content-header-box">
-<!--          toolLeft-->
-          <el-input
-            class="search-wrapper"
-            v-model="formParams.pattern"
-            size="medium"
-            :placeholder="$t('outboun¸dOrder.filter.pattern.placeholder')"
-            clearable
-            @keyup.enter.native="updateParams"
-          >
-            <i slot="suffix" class="el-input__icon el-icon-search" @click="updateParams"/>
-          </el-input>
-<!--          <adb-filter-button-group
-            v-model="formParams"
-            :filter-options="filterOptions"
-            @commit="updateParams"
-          />-->
-        </div>
+        <!--          toolLeft-->
+<!--        <div class="content-header-box">-->
+        <el-input
+          class="search-wrapper ad-input-search"
+          v-model="formParams.pattern"
+          size="medium"
+          :placeholder="$t('outboun¸dOrder.filter.pattern.placeholder')"
+          clearable
+          @keyup.enter.native="updateParams"
+        >
+          <i slot="suffix" class="el-input__icon el-icon-search" @click="updateParams"/>
+        </el-input>
+        <!--          <adb-filter-button-group
+                    v-model="formParams"
+                    :filter-options="filterOptions"
+                    @commit="updateParams"
+                  />-->
+
+<!--        </div>-->
       </template>
       <template #top>
         我是 top...  todo  adb-filter-tag
@@ -42,6 +43,40 @@
           :filter-options="filterOptions"
           @commit="updateParams"
         />-->
+<!--        按钮集合 -->
+        <div class="button-wrap">
+          <template v-if="true">
+            <el-tooltip
+              placement="top"
+              :content="$t('outboundOrder.btn.CreateBatchTip')"
+            >
+              <el-button
+                type="primary"
+                :class="{ 'is-disabled_test': true }"
+              >
+                {{ $t('outboundOrder.btn.CreateBatch') }}
+              </el-button>
+            </el-tooltip>
+
+            <el-button
+              style="margin-right: 10px"
+            >
+              {{ $t('outboundOrder.btn.BulkPicking') }}
+            </el-button>
+          </template>
+<!--          :disabled="!selectList.length"-->
+          <el-dropdown>
+            <el-button>
+              {{ $t('outboundOrder.btn.Print') }}
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="v of dropdownList" :key="v" :command="v">
+                {{ $t(`outboundOrder.btn.${v}`) }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </template>
 <!--      自定义slot title-->
       <template #slotName_title>
@@ -87,6 +122,7 @@ export default {
       options: {
         loading: false
       },
+      dropdownList: ['PickingList', 'PackingList'],
       // todo...
       // 列配置对象
       curColumnsConfig: {
@@ -201,23 +237,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.content-header-box {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .search-wrapper {
-    margin-right: 12px;
-    .el-input__icon {
-      cursor: pointer;
-      //color: #616A76;
-      color: #606266;
-      &:hover {
-        color: #409EFF;
-      }
+.search-wrapper {
+  /*.el-input__icon {
+    cursor: pointer;
+    //color: #616A76;
+    color: #32363B; // $ad-color_1
+    &:hover {
+      color: #4097fd; // $ad-color-primary
     }
-  }
+  }*/
 
   .filters-wrapper {
     display: flex;
@@ -231,8 +259,18 @@ export default {
     border-radius: 6px;
   }
 }
+.button-wrap {
+  padding-bottom: 16px;
+}
+.content-header-box {
+  width: 100%;
+  display: flex;
+  //justify-content: space-between;
+  align-items: center;
+}
 .pageWrap {
   padding-top: 12px;
+  overflow: auto;
 }
 // 其他样式
 .local_table {

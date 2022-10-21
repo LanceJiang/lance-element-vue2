@@ -11,7 +11,7 @@
 /* --------adber-ui 组件内部样式 End-------- */
 
 
-          /* 引用 adber-ui 根据ui/产品 用于项目的默认样式 Start */
+/* --------引用 adber-ui 根据ui/产品 用于项目的默认样式 Start-------- */
 
 // 纯icon button 样式
 .#{$prefix}icon-button {
@@ -26,16 +26,25 @@
   justify-content: center;
   align-items: center;
   border: none;
-  color: #7c8794;
+  color: $ad-color_3;
   background: transparent;
 
   &:hover {
-    background: #eaedf0;
+    background: $ad-border-color_3;
   }
 }
 
-// todo
-.#{$prefix}test-class {
+// 带搜索icon 的input
+.#{$prefix}input-search {
+  .el-input__icon {
+    cursor: pointer;
+    color: $ad-color_1;
+    &:hover {
+      color: $ad-color-primary;
+    }
+  }
 }
 
-          /* 引用 adber-ui 根据ui/产品 用于项目的默认样式 End */
+.#{$prefix}test {}
+
+/* --------引用 adber-ui 根据ui/产品 用于项目的默认样式 End-------- */

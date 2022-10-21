@@ -1,5 +1,4 @@
 <script lang="jsx">
-// 建议 vuedraggable 进行 共打包 处理 todo...
 import Draggable from 'vuedraggable'
 import Icon from 'adber-ui-demo/packages/Icon'
 import Locale from 'adber-ui-demo/src/mixins/locale'
@@ -55,7 +54,7 @@ export default {
     }
   },
   render() {
-    const { level, t, emitter, move } = this
+    const { level, t, emitter, move, $slots } = this
     return <Draggable
       class='ad-draggable-nest'
       props={this.dragOptions}
@@ -68,7 +67,7 @@ export default {
       move={move}>
       {/* type="transition" name="flip-list" */}
       <transition-group>
-        {this.realValue.map((v, index) => {
+        {$slots.default || this.realValue.map((v, index) => {
           const _label = t(v.t_label || v.label)
           return <div
             class="ad-draggable-nest-item"
