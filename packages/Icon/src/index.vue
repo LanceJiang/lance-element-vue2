@@ -6,7 +6,7 @@
 
 <script lang="ts">
 export default {
-  name: 'Icon',
+  name: 'AdIcon',
   props: {
     prefix: {
       type: String,

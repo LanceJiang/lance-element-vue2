@@ -27,7 +27,7 @@ const props = {
   }
 }
 export default {
-  name: 'BarCode',
+  name: 'AdBarCode',
   props,
   computed: {
     optOpts() {

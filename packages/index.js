@@ -1,4 +1,4 @@
-import { prefix } from 'adber-ui-demo/packages/config'
+// import { prefix } from 'adber-ui-demo/packages/config'
 import packageJson from '../package.json'
 // import Test from './test'
 import Table from './Table'
@@ -56,7 +56,8 @@ const install = function (Vue, opts = {}) {
   locale.use(opts.locale)
   locale.i18n(opts.i18n)
   // 遍历注册全局组件
-  components.map(component => Vue.component(`${prefix}${component.name}`, component))
+  // components.map(component => Vue.component(`${prefix}${component.name}`, component))
+  components.map(component => Vue.component(component.name, component))
 }
 
 // 判断是否是直接引入文件

@@ -11,7 +11,7 @@
 import Icon from 'adber-ui-demo/packages/Icon'
 import Locale from 'adber-ui-demo/src/mixins/locale'
 export default {
-  name: 'NoData',
+  name: 'AdNoData',
   mixins: [Locale],
   props: {
     message: {

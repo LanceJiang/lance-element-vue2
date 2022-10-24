@@ -4,7 +4,7 @@ import Icon from 'adber-ui-demo/packages/Icon'
 import Locale from 'adber-ui-demo/src/mixins/locale'
 
 export default {
-  name: 'DraggableNest',
+  name: 'AdDraggableNest',
   mixins: [Locale],
   components: {
     Draggable,

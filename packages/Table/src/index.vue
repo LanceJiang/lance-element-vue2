@@ -243,7 +243,7 @@ const render = function (h) {
   )
 }
 export default {
-  name: 'Table',
+  name: 'AdTable',
   mixins: [Locale],
   components: {
     NoData,

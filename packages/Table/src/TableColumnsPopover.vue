@@ -60,7 +60,7 @@ import Locale from 'adber-ui-demo/src/mixins/locale'
 
 // const API = {}
 export default {
-  name: 'TableColumnsPopover',
+  name: 'AdTableColumnsPopover',
   mixins: [Locale],
   components: {
     Icon,

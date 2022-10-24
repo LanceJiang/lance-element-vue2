@@ -40,7 +40,7 @@
 </el-input>-->
 <script type="text/jsx">
 export default {
-  name: 'InputNumber',
+  name: 'AdInputNumber',
   model: {
     prop: 'value',
     event: 'change'

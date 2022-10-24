@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { AdberUIComponent, AdberUIComponentSize, AdberUIHorizontalAlignment } from './component'
-
+// 相关ts声明 后续再做 todo...
 import { AdIcon } from './icon'
 import { AdTable } from './table'
 // import { AdFormConfig } from './formConfig'

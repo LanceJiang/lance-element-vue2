@@ -2,7 +2,7 @@
 import { t } from 'adber-ui-demo/src/locale'
 
 export default {
-  name: 'FormConfig',
+  name: 'AdFormConfig',
   components: {},
   props: {
     forms: {

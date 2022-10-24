@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'Test',
+  name: 'AdTest',
   components: {
   },
   data () {

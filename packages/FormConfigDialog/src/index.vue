@@ -23,7 +23,7 @@
 import FormConfig from 'adber-ui-demo/packages/FormConfig'
 
 export default {
-  name: 'FormConfigDialog',
+  name: 'AdFormConfigDialog',
   components: {
     FormConfig
   },
