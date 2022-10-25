@@ -1,43 +1,3 @@
-<!--<template>
-  <div class="el-input el-input-group el-input&#45;&#45;suffix">
-    &lt;!&ndash;&ndash;&gt;<input type="number"
-                  autocomplete="off"
-                  placeholder="0.00"
-                  min="0"
-                  class="el-input__inner">
-    &lt;!&ndash;&ndash;&gt;
-    <span class="el-input__suffix">
-      <span class="el-input__suffix-inner">
-        <span data-v-b2921196="" class="unit"> USD </span>
-      <i class="el-input__icon USB"></i>
-        &lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;</span>
-      &lt;!&ndash;&ndash;&gt;</span>
-    &lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;
-  </div>
-</template>-->
-<!--todo-->
-<!--<el-input
-  v-model="scope.row.behavior.value"
-  placeholder="0.00"
-  suffix-icon="USB"
-  type="number"
-  min="0"
-  class="input-w"
-  :disabled="isValueInputDisabled(scope.row)"
-  @input="onChangeInput(scope.row)"
->
-<template slot="suffix">
-                                <span class="unit">
-                                  {{
-                                    isInFuelSurchargePage
-                                      ? '%'
-                                      : priceUnitMap[
-                                        scope.row.behavior.calculate_method
-                                        ]
-                                  }}
-                                </span>
-</template>
-</el-input>-->
 <script type="text/jsx">
 export default {
   name: 'AdInputNumber',
@@ -53,17 +13,25 @@ export default {
   },
   render () {
     const { prefix, suffix, prop, controlsPosition, ...props } = this.$attrs
+    const { inputNumberSize } = this
     const $slots = this.$slots
     const onEvents = this.$listeners
-    console.error($slots, 'slots', this)
+    console.error(inputNumberSize, 'inputNumberSize')
     // todo
+    /* //  wrap: el-input--prefix el-input--suffix
+    //  addon_prefix: el-input__icon el-input__prefix
+    //  addon_suffix: el-input__icon el-input__suffix */
 
-    const _prefix = prefix ? <span class='el-input__prefix'>{prefix}</span> : ''
-    const _suffix = suffix ? <span class='el-input__suffix'>{suffix}</span> : '' // el-input__suffix-inner
-    return <div class={`ad-ad-input-number el-input el-input-group el-input--prefix el-input--suffix`}>
+    const _prefix = prefix ? <span class='ad-addon ad-input-number__prefix'>{prefix}</span> : ''
+    const _suffix = suffix ? <span class='ad-addon ad-input-number__suffix'>{suffix}</span> : '' // el-input__suffix-inner
+    return <div class={`ad-input-number ad-input-number--${inputNumberSize} el-input el-input-group
+     ${(_prefix || $slots.prefix) ? 'ad-input-number--prefix' : ''}
+     ${(_suffix || $slots.suffix) ? 'ad-input-number--suffix' : ''}
+     `}>
       {$slots.prefix || _prefix}
       <el-input-number
         props={{ ...props }}
+        size={inputNumberSize}
         controlsPosition={controlsPosition || 'right'}
         value={this.localValue}
         on={onEvents}/>
@@ -81,29 +49,10 @@ export default {
         return params[prop]
       }
       return value
+    },
+    inputNumberSize() {
+      return this.$attrs.size || (this.$ELEMENT || {}).size
     }
   }
 }
 </script>
-
-<style scoped lang="scss">
-.ad-input-number {
-  width: 130px;
-  &.rate100 {
-    width: 100%;
-  }
-  //&.@{ad-prefix}-input-group {
-  //  display: table;
-  //  top: 0 !important;
-  //}
-  ///deep/ .@{ad-prefix}-input-number {
-  //  min-width: 50px;
-  //  //width: unset;
-  //  width: 100%;
-  //  border-radius: 2px 0 0 2px;
-  //}
-  ///deep/ .@{ad-prefix}-input-number-focused{
-  //  z-index: 1
-  //}
-}
-</style>

@@ -15,10 +15,29 @@
     <div class="common_title">iconfont && AdIcon</div>
     <div class="content">
       {{testNumber}}
-      <AdInputNumber v-model="testNumber" :min="0" prefix="#" suffix="￥"></AdInputNumber>
-      <AdInputNumber v-model="testNumber" :min="0">
+      <el-input
+        placeholder="请选择日期"
+        suffix-icon="el-icon-date"
+        prefix-icon="el-icon-search"
+        >
+      </el-input>
+      <ElInput v-model="testNumber" prefix="#" suffix="￥">
         <template slot="prefix">prefix</template>
         <template slot="suffix"><span style="background: #f00">suffix</span></template>
+      </ElInput>
+      <div class="common_title">----------</div>
+
+      <ElInputNumber v-model="testNumber" :min="0" ></ElInputNumber>
+      <div class="common_title">----------</div>
+      <AdInputNumber v-model="testNumber" :min="0" prefix="#" controlsPosition="1"></AdInputNumber>
+      <div class="common_title">----------</div>
+      <AdInputNumber v-model="testNumber" :min="0" suffix="￥" controlsPosition="1"></AdInputNumber>
+      <div class="common_title">----------</div>
+      <AdInputNumber size="mini" v-model="testNumber" :min="0" prefix="#" suffix="￥" controlsPosi2tion="1"></AdInputNumber>
+      <div class="common_title">----------</div>
+      <AdInputNumber v-model="testNumber" :min="0" controlsPositio2n="1">
+        <template slot="prefix">prefix</template>
+        <template slot="suffix"><span class="ad-addon ad-input-number__suffix" style="background: #f00">suffix</span></template>
       </AdInputNumber>
     </div>
     <div class="common_title">iconfont && AdIcon</div>

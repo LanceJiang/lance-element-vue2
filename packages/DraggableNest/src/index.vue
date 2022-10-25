@@ -86,7 +86,7 @@ export default {
               }
             </div>
             {
-              (v.children || []).length ? <DraggableNest
+              (v.children || []).length ? <AdDraggableNest
                 move={move}
                 // removeHandler={this.removeHandler}
                 level={level + 1}
