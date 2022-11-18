@@ -6,8 +6,11 @@
 @import "adber/draggableNest.scss";
 @import "adber/formConfig.scss";
 @import "adber/icon.scss";
-@import "adber/noData.scss";
 @import "adber/inputNumber.scss";
+@import "adber/noData.scss";
+@import "adber/popover.scss";
+@import "adber/searchGroup.scss";
+@import "adber/select.scss";
 
 /* --------adber-ui 组件内部样式 End-------- */
 
@@ -37,6 +40,8 @@
 
 // 带搜索icon 的input
 .#{$prefix}input-search {
+  flex: 1;
+  margin-right: 12px;
   .el-input__icon {
     cursor: pointer;
     color: $ad-color_1;

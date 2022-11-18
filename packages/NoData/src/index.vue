@@ -1,6 +1,6 @@
 <template>
   <div :class="['ad-no-data', isFull ? 'ad-no-data--full' : '']">
-    <Icon icon="no_data" class="ad-no-data__img"/>
+    <Icon iconClass="ad-no_data" class="ad-no-data__img"/>
     <div class="message" v-html="message || t('adb.noData')"/>
     <!-- 额外处理 -->
     <slot name="extraContent"/>
@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import Icon from 'adber-ui-demo/packages/Icon'
-import Locale from 'adber-ui-demo/src/mixins/locale'
+import Icon from '@adber/adber-ui/packages/Icon'
+import Locale from '@adber/adber-ui/src/mixins/locale'
 export default {
   name: 'AdNoData',
   mixins: [Locale],

@@ -29,6 +29,9 @@
   overflow-y: auto;
   &-item {
     padding-left: 12px;
+    &:hover {
+      background: #F6F8FA;
+    }
     .itemWrap {
       display: flex;
       align-items: center;

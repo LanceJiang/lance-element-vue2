@@ -1,7 +1,6 @@
 {
-  "name_next": "adber-ui-demo -> @adber/adber-ui",
-  "name": "adber-ui-demo",
-  "version": "0.0.8",
+  "name": "@adber/adber-ui",
+  "version": "0.3.0",
   "description": "基于vue-cli3的基于elementUI二次封装库",
   "main": "lib/adber-ui.umd.min.js",
   "keywords": [
@@ -19,9 +18,9 @@
   ],
   "typings": "types/index.d.ts",
   "private": false,
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
-    "url_todo": "https://github.com/test/issues"
+    "url": "https://github.com/doublechain4790/adber-ui_vue2/issues"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -31,10 +30,10 @@
     "lib:packages": "vue-cli-service build --target lib --name adber-ui --dest lib packages/index.js",
     "lib:utils": "cross-env BABEL_ENV=utils babel src --out-dir lib --ignore src/index.js",
     "lib": "npm run lib:packages && npm run lib:utils",
-    "lib2publish": "npm run lib && npm run publish",
-    "lib:utils_xx_todo": "vue-cli-service build --target lib --dest lib src/*/*"
+    "lib2publish": "npm run lib && npm publish"
   },
   "dependencies": {
+    "jsbarcode": "^3.11.5",
     "pdfjs-dist": "2.2.228",
     "vuedraggable": "^2.24.3"
   },
@@ -45,7 +44,8 @@
     "vuedraggable": "^2.24.3",
     "vue-i18n": "^8.18.2",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "jsbarcode": "^3.11.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -68,7 +68,6 @@
     "gulp-cssmin": "^0.2.0",
     "gulp-sass": "^4.0.2",
     "html2canvas": "^1.4.1",
-    "jsbarcode": "^3.11.5",
     "jspdf": "^2.5.1",
     "sass": "^1.17.2",
     "sass-loader": "^8.0.2",
@@ -83,6 +82,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+git@github.com:LanceJiang/adber-ui.git"
+    "url": "git+https://github.com/doublechain4790/adber-ui_vue2"
   }
 }

@@ -96,3 +96,13 @@ export function asyncHandlerLockWrap(syncFn) {
   }
   /* eslint-enable */
 }
+
+/**
+ * 提取深层数据的值 (防止中间项 不存在导致的报错)
+ * @param obj 【检测对象】
+ * @param keyArr 【需要获取该对象内部数据key数组】
+ * @returns {*}
+ */
+export function getDeepValue (obj, keyArr) {
+  return keyArr.reduce((acc, key) => acc && acc[key], obj)
+}

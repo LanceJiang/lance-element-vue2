@@ -1,10 +1,10 @@
 const tPrefix = 'outboundOrder.table.'
 
-let test = false
+let flag = false
 const slot_user = (h, scope) => {
-  if (!test) {
-    console.log(scope, '自定义 函数渲染 todo')
-    test = true
+  if (!flag) {
+    console.log(scope, '自定义 函数渲染')
+    flag = true
   }
   return <div style={'background: #f0f;'}>slot_user 函数渲染 slot:default </div>
 }
@@ -47,7 +47,7 @@ export const columns = [
   },
   ...testColumns,
   {
-    t_label: `adb.table.action`,
+    t_label: 'adb.table.action',
     // label: '测试的 action label 非 t_label',
     prop: 'action',
     slots: {
@@ -58,7 +58,7 @@ export const columns = [
 ]
 
 // 初始化 checkedOptions (用于 接口还没获取到 之前保存的columns 配置)
-export const checkedOptions = columns.map(v => v)
+export const checkedOptions = columns.map((v) => v)
 
 // 若有特殊的 默认配置 (产品特殊要求 含: column 展示配置  和 展示 顺序)
-export const defaultCheckedOptions = columns.map(v => v).reverse()
+export const defaultCheckedOptions = columns.map((v) => v).reverse()

@@ -13,11 +13,18 @@
     align-items: center;
     width: 100%;
     padding: 0 12px;
+    margin-right: 0;
+    .el-checkbox__label {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 300px;
+    }
   }
   // 分割线
   .divider {
     margin: 0 12px;
-    border-bottom:1px solid #EAEDF0;
+    border-bottom:1px solid $ad-border-color_3;
   }
   .el-scrollbar__wrap {
     margin-bottom: 0 !important;
@@ -94,11 +101,15 @@
       margin-bottom: 16px;
       height: auto;
       display: flex;
-      align-items: center;
+      //align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      //align-items: flex-start;
       .toolLeft {
         flex: 1;
+        // 针对 searchGroup tags 设置的样式
+        .#{$prefix}search-group-tags {
+          margin-bottom: -4px;
+        }
       }
 
       .toolRight {
@@ -147,6 +158,10 @@
           padding-left: 12px;
           padding-right: 12px;
         }
+      }
+      .el-table-column--selection .cell {
+        padding-left: 12px;
+        padding-right: 12px;
       }
 
       &.el-table--striped {

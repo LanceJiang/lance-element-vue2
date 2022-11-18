@@ -1,8 +1,9 @@
 <script lang="jsx">
-import NoData from 'adber-ui-demo/packages/NoData'
-import Icon from 'adber-ui-demo/packages/Icon'
-import Locale from 'adber-ui-demo/src/mixins/locale'
-// import { t } from 'adber-ui-demo/src/locale'
+import NoData from '@adber/adber-ui/packages/NoData'
+import Icon from '@adber/adber-ui/packages/Icon'
+import { t } from '@adber/adber-ui/src/locale'
+/*, debounce */
+import { getDeepValue } from '@adber/adber-ui/src/utils'
 
 import TableColumnsPopover from './TableColumnsPopover'
 
@@ -47,7 +48,6 @@ export const tableProps = {
     type: Object,
     default: () => ({
       // defaultCheckedOptions: [], // [{t_label, prop, selected}]// Array 没有存储数据时 系统给予的默认配置
-      // checkedOptions: [], // [{t_label, prop, selected}]
       columns: []
     })
   },
@@ -143,9 +143,7 @@ const columnSlots = (column, _this) => {
   return local_slots
 }
 const render = function (h) {
-  const { computedOptions, list, total, searchParams, checkedOptions, columnsConfig, t } = this
-  // console.error(checkedOptions, 'checkedOptions')
-  // todo 测试...
+  const { computedOptions, list, total, searchParams, checkedOptions, columnsConfig } = this
   // const listeners = {
   //   // 事件
   //   onSortChange: this.tableSortChange,
@@ -166,10 +164,10 @@ const render = function (h) {
               {/* 刷新 */}
               <el-tooltip placement="top" content={t('adb.refresh')}>
                 <el-button type="default" class="icon-button" onClick={this.refreshHandler}>
-                  <Icon icon="refresh" />
+                  <Icon iconClass="ad-refresh" />
                 </el-button>
               </el-tooltip>
-              {/* columns过滤 PFilterColumn */}
+              {/* columns过滤 */}
               <TableColumnsPopover
                 value={checkedOptions}
                 onInput={this.checkedOptionsChange}
@@ -194,10 +192,6 @@ const render = function (h) {
             on-row-click={this.handleCurrentChange}
             on-selection-change={this.handleSelectionChange}
           >
-            isSelection multipleSelect
-            {computedOptions.multipleSelect && (
-              <el-table-column type="selection" width="40" fixed="left" />
-            )}
             {this.localColumns.map((column, index) => {
               const {
                 label,
@@ -244,7 +238,6 @@ const render = function (h) {
 }
 export default {
   name: 'AdTable',
-  mixins: [Locale],
   components: {
     NoData,
     Icon,
@@ -277,25 +270,70 @@ export default {
           showOverflowTooltip: true, // columnItem 超出内容 省略号 同时添加 tiptool
           updateSort: false, // 列表变更 是否更新 sort 排序的 column
 
+          showIndex: false, // 是否展示序号
+          showFilling: true, // 是否默认填充空白
           showPagination: true, // 是否加载table 分页栏
           showTools: true // 是否展示table tools栏目
         },
         ...this.options
       }
     },
+    realColumns() {
+      return this.columns.map((column) => ({
+        ...column,
+        adb_slots: columnSlots(column, this)
+      }))
+    },
     localColumns() {
-      return this.columns.map((column) => {
-        return {
-          ...column,
-          adb_slots: columnSlots(column, this)
-        }
+      const { multipleSelect, showIndex } = this.computedOptions // showFilling
+      const _columns = []
+      // 序号
+      showIndex && _columns.push({
+        type: 'index',
+        label: 'No.',
+        showOverflowTooltip: true,
+        resizable: true,
+        index: this.generateIndex,
+        width: '50px',
+        fixed: 'left'
       })
+      // 多选
+      multipleSelect && _columns.push({
+        type: 'selection',
+        showOverflowTooltip: false,
+        resizable: false,
+        // align: 'center',
+        width: '40px',
+        fixed: 'left'
+      })
+      const realColumns = this.realColumns.filter(Boolean)
+      // 空白格填充
+      let fillSpaceColumns = [{ minWidth: 0 }]
+      if (realColumns.some(v => !v.fixed)) {
+        fillSpaceColumns = []
+      }
+      return _columns.concat(realColumns, fillSpaceColumns)/* , showFilling ? [{
+        minWidth: 0
+      }] : []) */
     }
   },
   watch: {
     list() {
       this.$nextTick().then(this.handleDefaults)
+    },
+    localColumns(columns) {
+      // console.error('watch  localColumns  doLayout', columns)
+      this.$nextTick(() => {
+        ;(getDeepValue(this, ['$refs', 'ELTable', 'doLayout']) || function() {})()
+        // this.$refs.ELTable.doLayout()
+      })
     }
+    // localColumns: debounce(function (columns) {
+    //   console.error('watch  localColumns  doLayout', columns)
+    //   this.$nextTick(() => {
+    //     this.$refs.ELTable.doLayout()
+    //   })
+    // }, 30)
   },
   methods: {
     handleDefaults() {
@@ -351,9 +389,9 @@ export default {
     handleSelectionChange(row) {
       this.$emit('selection-change', row)
     },
-    checkedOptionsChange(props) {
-      // console.error('checkedOptionsChange props', props)
-      this.$emit('update:checkedOptions', props)
+    checkedOptionsChange(options) {
+      // console.error('checkedOptionsChange checkedOptions', options)
+      this.$emit('update:checkedOptions', options)
     },
     // 可用于父级 通过 ref 获取该实例 手动切换
     toggleRowSelectionByIndex(index, bool = true) {
@@ -388,15 +426,15 @@ export default {
         })
         // eslint-disable-next-line no-empty
       } catch (e) {}
+    },
+    generateIndex(index) {
+      const { page, pageSize } = this.searchParams
+      let _index = ++index
+      if (pageSize) {
+        _index = pageSize * (page - 1) + _index
+      }
+      return _index
     }
   }
-  // created() {
-  //   window.TableComponent = this
-  // },
-  // updated() {
-  //   // 仅用于测试 success todo
-  //   console.error(t('adb.noData'), 'adb.noData  adb 内部公用项目')
-  //   console.error(t('route.location'), 'route.location   外部项目')
-  // }
 }
 </script>

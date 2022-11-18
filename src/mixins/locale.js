@@ -1,5 +1,5 @@
 // import { t } from '@adber/adber-ui/src/locale'
-import { t } from 'adber-ui-demo/src/locale'
+import { t } from '@adber/adber-ui/src/locale'
 export default {
   methods: {
     t(...args) {

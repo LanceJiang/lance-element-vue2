@@ -1,7 +1,7 @@
 <script lang="jsx">
 import Draggable from 'vuedraggable'
-import Icon from 'adber-ui-demo/packages/Icon'
-import Locale from 'adber-ui-demo/src/mixins/locale'
+import Icon from '@adber/adber-ui/packages/Icon'
+import Locale from '@adber/adber-ui/src/mixins/locale'
 
 export default {
   name: 'AdDraggableNest',
@@ -79,7 +79,7 @@ export default {
             >
               <el-checkbox class={level !== 0 ? 'checkbox-hide' : ''} disabled={!!v.fixed || level !== 0} value={true} onInput={this.removeHandler.bind(null, v, index, this.realValue)} />
               <span class="label_txt" title={_label}>{ _label }</span>
-              <Icon class="dragEl" icon="drag"/>
+              <Icon class="dragEl" iconClass="ad-drag"/>
               {
                 /* (level === 0 && v._fixed) ? <span class='disabled_fixed' onClick={this.setFixed.bind(null, v, this.level)}>置{v._fixed === 'left' ? '底' : '顶'}</span>
                   : '' */

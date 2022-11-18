@@ -1,4 +1,5 @@
 <script type="text/jsx">
+import { t } from '@adber/adber-ui/src/locale'
 export default {
   name: 'AdInputNumber',
   model: {
@@ -12,7 +13,7 @@ export default {
     }
   },
   render () {
-    const { prefix, suffix, prop, controlsPosition, ...props } = this.$attrs
+    const { prefix, suffix, prop, controlsPosition, placeholder, ...props } = this.$attrs
     const { inputNumberSize, value } = this
     const $slots = this.$slots
     const onEvents = this.$listeners
@@ -28,6 +29,7 @@ export default {
         props={{ ...props }}
         size={inputNumberSize}
         controlsPosition={controlsPosition || 'right'}
+        placeholder={placeholder || t('adb.el.input.placeholder')}
         // value={this.localValue}
         value={value}
         on={onEvents}/>

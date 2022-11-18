@@ -1,23 +1,18 @@
 @import "../variables.scss";
 // InputNumber 样式
 .#{$prefix}input-number {
-  width: 200px;
+  //position: relative;
+  //font-size: 14px;
+  //font-variant: tabular-nums;
+  //display: table;
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  color: $ad-color_1;
+  width: 150px;
   &.rate100 {
     width: 100%;
   }
-  box-sizing: border-box;
-  //margin: 0;
-  //padding: 0;
-  color: $ad-color_1;
-  //font-size: 14px;
-  //font-variant: tabular-nums;
-  //line-height: 1.5;
-  //list-style: none;
-  //font-feature-settings: "tnum";
-  //position: relative;
-  display: table;
-  //border-collapse: separate;
-  //border-spacing: 0;
   &--prefix {
     .el-input-number {
       .el-input__inner {
@@ -41,18 +36,22 @@
   .el-input-number {
     display: table-cell;
     width: 100%;
+    flex: 1;
     /* float: left; */
     //margin-bottom: 0;
     //text-align: inherit;
-    .el-input__inner {
+    /*.el-input__inner {
       //border-radius: 4px;
       //border: 1px solid $ad-border-color_1;
-    }
+    }*/
   }
   .ad-addon {
     position: relative;
-    //padding: 0 8px;
-    padding: 0 11px;
+    //display: table-cell;
+    display: flex;
+    align-items: center;
+    width: unset;
+    padding: 0 10px;
     color: $ad-color_1;
     //font-weight: 400;
     //font-size: 14px;
@@ -61,11 +60,6 @@
     //background-color: $ad-border-color_3;
     transition: all .3s;
 
-    //display: flex;
-    //align-items: center;
-    //width: unset;
-
-    display: table-cell;
 
     &.ad-input-number__prefix {
       border-top-left-radius: 4px;

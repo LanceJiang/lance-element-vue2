@@ -1,0 +1,397 @@
+@import "../variables.scss";
+
+.#{$prefix}search-group {
+  &-wrap {
+    // 外壳样式
+  }
+  &-tags {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    .el-tag {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      line-height: 24px;
+      border-radius: 4px;
+      border: none;
+      position: relative;
+      padding-right: 8px;
+      background-color: #eff2f6;
+      color: $ad-color_3;
+      margin-bottom: 4px;
+      margin-right: 5px;
+      max-width: 320px;
+      font-weight: 400;
+      font-size: 14px;
+      &__label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
+        color: $ad-color_1;
+      }
+      &__total {
+        color: $ad-color_4;
+      }
+    }
+    .icon-delete {
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    .tags-wrap {
+      //max-width: calc(100% - 95px);
+    }
+    // 保存/清除 默认放置 在 toolLeft 外部 定位位置
+    .tags-action {
+      position: absolute;
+      right: -95px;
+      top: 0;
+      display: inline-flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-left: auto;
+      .line {
+        padding: 0 4px;
+        color: $ad-border-color_2;
+      }
+      .btn {
+        width: 36px;
+        height: 24px;
+        color: $ad-color_2;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.is-disabled:hover {
+          background: none;
+          opacity: 0.3;
+        }
+        &:hover {
+          color: $ad-color-primary;
+          background: $ad-bg-color_1;
+        }
+        &-save {
+        }
+        &-clear {
+        }
+      }
+    }
+  }
+  &-main {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+  }
+}
+// 保存/清除 样式放置 在 toolLeft 内部
+.#{$prefix}search-group--action-inline {
+  .#{$prefix}search-group-tags {
+    .tags-wrap {
+      max-width: calc(100% - 95px);
+    }
+    .tags-action {
+      position: unset;
+    }
+  }
+}
+
+// 公用关联搜索样式
+.#{$prefix}filter-drawer, .#{$prefix}popover--select {
+  // 单选样式
+  .search-radio-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-height: 300px;
+    .el-radio {
+      margin-right: 0;
+      width: 100%;
+      & + .el-radio {
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
+// popover 下拉样式
+.#{$prefix}popover--select {
+  .search-radio-group {
+    .el-radio:first-child {
+      margin-top: 12px;
+    }
+  }
+}
+
+// filter-drawer 样式
+.#{$prefix}filter-drawer {
+  //font-size: 14px;
+  box-shadow: 16px 0 20px 0 rgba(87, 101, 117, 0.25);
+  .el-drawer {
+    outline: none;
+    min-width: 400px;
+    max-width: 500px;
+
+    @media screen and (max-width: 375px) {
+      min-width: 100vw;
+    }
+  }
+  .el-drawer__body {
+    flex: 1;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+  }
+  .ml-8 {
+    margin-left: 8px;
+  }
+  .mr-8 {
+    margin-right: 8px;
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    height: 56px;
+    width: 100%;
+    background: #e3e9f1;
+    border-bottom: 1px solid #c5ccd3;
+    font-size: 16px;
+    & > .title {
+      display: flex;
+      align-items: center;
+      font-weight: 400;
+      color: $ad-color_1;
+    }
+
+    .action {
+      cursor: pointer;
+      color: $ad-color_4;
+    }
+  }
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+
+    .filters-tool {
+      //margin-left: 24px;
+      //padding-right: 24px;
+      margin: 0 24px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid $ad-border-color_3;
+      background-color: white;
+
+      .filters-tool__btn {
+        cursor: pointer;
+        color: $ad-color_3;
+        &:hover {
+          color: $ad-color-primary;
+        }
+        .icon-rotate {
+          color: $ad-color_5;
+          transition: .18s ease;
+        }
+        &.active {
+          .icon-rotate {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+
+    .filters-contents {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      .el-scrollbar__wrap {
+        overflow-x: hidden;
+        margin-bottom: 0 !important;
+      }
+    }
+
+    .filters-collapse {
+      //border-top: none;
+      border: none;
+      .title {
+        width: max-content;
+        //min-width: 100px;
+        //white-space: nowrap;
+        //text-overflow: ellipsis;
+      }
+      .tag-value {
+        font-size: 12px;
+        height: 22px;
+        background: #F4F6F8;
+        border-radius: 4px;
+        line-height: 22px;
+        margin: 0 8px;
+        padding: 0 8px;
+        color: #67809F;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      //.el-collapse-item__header.focusing:focus:not(:hover) {
+      //  color: #303133;
+      //}
+
+      .el-collapse-item {
+        //margin-left: 24px;
+        margin: 0 24px;
+        border-bottom: 1px solid $ad-border-color_3;
+        &:last-child {
+          border-bottom: 0;
+        }
+        .el-collapse-item__header {
+          //padding-right: 24px;
+          border-bottom: none !important;
+          .el-collapse-item__arrow {
+            color: $ad-color_5;
+            margin-right: 0;
+          }
+          //&:hover {
+          //  background: #f3f4f4;
+          //  //border: 1px solid #ffffff;
+          //}
+          &.is-active {
+            //background: #f3f4f4;
+          }
+        }
+
+        .el-collapse-item__content {
+          //margin: 0 12px;
+          padding-bottom: 0;
+
+          .search-wrapper {
+            margin-top: 8px;
+            margin-bottom: 16px;
+          }
+
+          .filters-radio,
+          .filters-checkbox {
+            //max-height: 15rem;
+            max-height: 150px;
+            overflow: auto;
+          }
+        }
+        .el-collapse-item__wrap {
+          //margin-top: 16px;
+          border-bottom: none;
+        }
+      }
+    }
+
+    //.filters-footer {
+    //  //padding-bottom: 12px;
+    //}
+    // 清空
+    .filters-clear {
+      color: $ad-color_3;
+      &:hover {
+        color: $ad-color-primary;
+      }
+    }
+  }
+  &__footer {
+    //position: absolute;
+    //bottom: 0;
+    //left: 0;
+    //right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 56px;
+    padding: 0 24px;
+    border-top: 1px solid $ad-border-color_3;
+    background-color: #fff;
+  }
+}
+
+// SelectedItemsSortDialog 选中的快捷展示筛选弹窗 样式
+.#{$prefix}selected-items-sort-dialog {
+  .tips {
+    word-break: break-word;
+    font-size: 14px;
+    line-height: 17px;
+    color: $ad-color_1;
+    margin-bottom: 16px;
+  }
+  .el-dialog__body {
+    padding: 10px 24px;
+  }
+  .box-wrapper {
+    display: flex;
+
+    .box-left,
+    .box-right {
+      display: flex;
+      flex-direction: column;
+      width: 200px;
+      height: 324px;
+      border: 1px solid #ebeef5;
+      border-radius: 6px;
+      .title {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        padding: 0 16px;
+        line-height: 40px;
+        background: #fafafa;
+        border-bottom: 1px solid $ad-border-color_3;
+        .txt {
+          margin-left: auto;
+          color: $ad-color_5;
+        }
+      }
+    }
+
+    .box-left {
+      margin-right: 16px;
+
+      .checkbox-wrapper {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        .el-checkbox {
+          display: flex;
+          align-items: center;
+          height: 30px;
+          line-height: 30px;
+          padding-left: 16px;
+          margin-right: 0;
+          width: 100%;
+          &:hover {
+            background-color: #F5F7FA;
+          }
+          .el-checkbox__label {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+
+    .box-right {
+      .p-sort-form {
+        height: 100%;
+      }
+    }
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+  }
+}

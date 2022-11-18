@@ -1,14 +1,20 @@
 <script lang="jsx">
-import { t } from 'adber-ui-demo/src/locale'
+import { t } from '@adber/adber-ui/src/locale'
+import InputNumber from '@adber/adber-ui/packages/InputNumber'
+import CustomRender from '@adber/adber-ui/packages/CustomRender'
 
 export default {
   name: 'AdFormConfig',
-  components: {},
+  components: {
+    CustomRender,
+    InputNumber
+  },
   props: {
     forms: {
       type: Array,
       required: true
       // [{
+      //   t_label: String,
       //   label: String,
       //   prop: [String, Array],
       //   itemType: String,
@@ -18,6 +24,7 @@ export default {
       //   labelKey: String,
       //   format: Function, // 提交前的数据修改
       //   rules: Array
+      //   render?: function(h, { form, params }) { JSX || createElement } // itemType === 'render' 专用
       // }]
     },
     formData: {
@@ -43,6 +50,7 @@ export default {
     const {
       showLabel,
       size,
+      gutter,
       span,
       showFooter,
       submitBtnText,
@@ -62,6 +70,7 @@ export default {
         options,
         change,
         itemStyle: form_itemStyle = '',
+        itemClass,
         size: _size,
         placeholder,
         t_placeholder,
@@ -76,12 +85,16 @@ export default {
       }
       switch (itemType) {
         /* 自定义 render */
-        /* case 'render' :
-          return 'todo' */
+        case 'render' :
+          return <CustomRender
+            form={form}
+            params={params}
+          />
         /* 下拉框 */
         case 'select':
           return (
             <el-select
+              class={itemClass}
               props={{ ...formOthers }}
               v-model={params[prop]}
               onChange={() => change && change(params[prop], _options, params)}
@@ -114,6 +127,7 @@ export default {
         case 'radio':
           return (
             <el-radio-group
+              class={itemClass}
               props={{ ...formOthers }}
               v-model={params[prop]}
               disabled={disabled}
@@ -138,6 +152,7 @@ export default {
         case 'cascader':
           return (
             <el-cascader
+              class={itemClass}
               props={{ ...formOthers }}
               v-model={params[prop]}
               onChange={() => change && change(params[prop], _options, params)}
@@ -153,9 +168,9 @@ export default {
         /* 数字 */
         case 'inputNumber':
           return (
-            <el-input-number
-              class="rate100"
-              props={{ ...formOthers }}
+            <InputNumber
+              class={`rate100 ${itemClass}`}
+              attrs={{ ...formOthers }}
               v-model={params[prop]}
               onChange={() => change && change(params[prop], _options, params)}
               style={_itemStyle}
@@ -169,6 +184,7 @@ export default {
         case 'date':
           return (
             <el-date-picker
+              class={itemClass}
               props={{ ...formOthers }}
               v-model={params[prop]}
               onChange={() => change && change(params[prop], _options, params)}
@@ -176,13 +192,14 @@ export default {
               disabled={disabled}
               size={_size ?? size}
               placeholder={_placeholder}
-              value-format={form.valueFormat || 'YYYY-MM-DD'}
+              value-format={form.valueFormat || 'yyyy-MM-dd'}
             />
           )
         /* 日期区间 */
         case 'dateRange':
           return (
             <el-date-picker
+              class={itemClass}
               props={{ ...formOthers }}
               v-model={params[prop]}
               type="daterange"
@@ -192,7 +209,7 @@ export default {
               onChange={() => change && change(params[prop], _options, params)}
               style={_itemStyle}
               disabled={disabled}
-              value-format={form.valueFormat || 'YYYY-MM-DD'}
+              value-format={form.valueFormat || 'yyyy-MM-dd'}
             />
           )
         // </el-date-picker>
@@ -211,7 +228,9 @@ export default {
         default:
           return (
             <el-input
+              class={itemClass}
               props={{ ...formOthers }}
+              maxlength={formOthers.maxlength}
               v-model={params[prop]}
               size={_size ?? size}
               onChange={() => change && change(params[prop], _options, params)}
@@ -226,19 +245,21 @@ export default {
       const { resetForm, cancelHandler, submitHandler } = this
       return (
         <div class="footer">
-          {showResetBtn && (
-            <el-button plain size={size} onClick={resetForm.bind(null, undefined)}>
-              {t(resetBtnText)}
-            </el-button>
-          )}
           {showCancelBtn && (
-            <el-button size={size} onClick={cancelHandler}>
+            <el-button class="cancel-button" size={size} onClick={cancelHandler}>
               {t(cancelBtnText)}
             </el-button>
           )}
-          <el-button type="primary" size={size} loading={submitLoading} onClick={submitHandler}>
-            {t(submitBtnText)}
-          </el-button>
+          <div class="right-actions">
+            {showResetBtn && (
+              <el-button class="reset-button" plain size={size} onClick={resetForm.bind(null, undefined)}>
+                {t(resetBtnText)}
+              </el-button>
+            )}
+            <el-button class="submit-button" type="primary" size={size} loading={submitLoading} onClick={submitHandler}>
+              {t(submitBtnText)}
+            </el-button>
+          </div>
         </div>
       )
     }
@@ -246,10 +267,10 @@ export default {
     return (
       <el-form
         ref="baseForm"
-        class="ad-form-config"
+        class={`ad-form-config ad-form-config--${size}`}
         props={{ ...form_config, size, model: params }}
       >
-        <el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`}>
+        <el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`} gutter={gutter}>
           {forms.map((form, idx) => {
             const { span: _span, t_label, label, ...others } = form
             const _label = t_label ? t(t_label) : label
@@ -296,6 +317,8 @@ export default {
         /** 自定义Config */
         // 默认的formItem内容宽度(eg: input/select/radio...)
         itemWidth: undefined,
+        // 默认的formItem 外壳 col之间的 间隔
+        gutter: 0,
         // 默认的formItem 对应的 col 外壳 span 配置
         span: 24,
         // 默认的formItem 对应的 label 是否展示
@@ -307,7 +330,7 @@ export default {
         // footer下的 提交按钮loading
         submitLoading: false,
         // footer下的 取消按钮 是否显示
-        showCancelBtn: false,
+        showCancelBtn: true,
         // footer下的 取消按钮 text
         cancelBtnText: 'adb.btn.cancel',
         // footer下的 重置按钮 是否显示
@@ -319,11 +342,12 @@ export default {
          * element中的配置
          * 更多请参考 [https://element-plus.gitee.io/zh-CN/component/form.html#%E8%A1%A8%E5%8D%95-api]
          */
-        labelPosition: 'right',
+        labelPosition: 'top',
         // 表单域标签的后缀
-        labelSuffix: ':',
+        // labelSuffix: '',
         // 表单内组件的尺寸
-        size: 'small'
+        // size: 'small'
+        size: (this.$ELEMENT || {}).size || 'medium'
       }
       return {
         ...defaultConfig,

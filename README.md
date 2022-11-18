@@ -9,9 +9,8 @@ npm install adber-ui -S
 ### Usage
 ```
 import Vue from "vue"
-import AdberUI from 'adber-ui-demo'
-import 'adber-ui-demo/lib/adber-ui.css'
-
+import AdberUI from 'adber-ui'
+import '@adber/adber-ui/style/index.scss'
 Vue.use(AdberUI)
 ```
 在项目中使用

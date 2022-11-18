@@ -2,8 +2,10 @@
 // FormConfig 样式
 .#{$prefix}form-config {
   .form_wrap {
+    // 弹窗内有需要自己修改对应的样式控制
     //max-height: 70vh;
     //overflow-y: auto;
+    margin-bottom: 8px;
   }
   /* 隐藏formItem label */
   .hideLabel {
@@ -11,13 +13,31 @@
       display: none;
     }
   }
+  .el-form-item {
+    margin-bottom: 16px;
+  }
   .footer {
+    display: flex;
+    //justify-content: flex-end;
     width: calc(100% + 48px);
     margin-left: -24px;
-    padding-right: 24px;
-    padding-top: 10px;
+    padding: 10px 24px 0 24px;
     border-top: 1px solid $ad-border-color_3;
-    text-align: right;
+    // 取消
+    .cancel-button {
+      //margin-right: auto;
+    }
+    // 重置
+    .reset-button {}
+    // 提交
+    .submit-button {}
+    .right-actions {
+      margin-left: auto;
+    }
+    //// btn-按钮设置
+    //[class^="el-icon-"], [class*=" el-icon-"] {
+    //  font-size: 13px;
+    //}
   }
 }
 /*
@@ -38,5 +58,30 @@
     //height: auto;
     padding-top: 10px;
     padding-bottom: 10px;
+  }
+  .#{$prefix}form-config {
+    &--mini {
+      .form_wrap {
+        // （el-dialog__body 的 maxHeight） - （el-dialog__body 的 padding-top）- （footer 的高度）
+        // mini
+        max-height: calc(100vh - 160px - 49px - 20px);
+      }
+    }
+    &--small {
+      .form_wrap {
+        // （el-dialog__body 的 maxHeight） - （el-dialog__body 的 padding-top）- （footer 的高度）
+        // small
+        max-height: calc(100vh - 160px - 53px - 20px);
+      }
+    }
+    // 默认 medium 尺寸
+    .form_wrap {
+      // 弹窗内有需要自己修改对应的样式控制
+      // （el-dialog__body 的 maxHeight） - （el-dialog__body 的 padding-top）- （footer 的高度）
+      // medium
+      max-height: calc(100vh - 160px - 57px - 20px);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
   }
 }

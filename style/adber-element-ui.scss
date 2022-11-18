@@ -8,17 +8,21 @@
 
 // dialog覆盖样式
 // <el-dialog customClass="ad-dialog"/>
+%el-dialog {
+  position: absolute;
+  margin: 0 !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  border-radius: 6px;
+  //max-height: calc(100% - 48px);
+  max-height: calc(100% - 24px);
+  max-width: calc(100% - 24px);
+}
 .#{$prefix}dialog {
   &.el-dialog {
-    position: absolute;
-    margin: 0 !important;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    overflow: hidden;
-    border-radius: 6px;
-    max-height: 100%; // calc(100% - 48px);
-    //max-width: calc(100% - 48px);
+    @extend %el-dialog;
   }
 
   .el-dialog__header {
@@ -40,7 +44,7 @@
   .el-dialog__body {
     //height: auto;
     max-height: calc(100vh - 160px);
-    //overflow: auto;
+    overflow-y: auto;
     padding: 24px;
     color: $ad-color_1;
   }
@@ -53,5 +57,97 @@
 
 // dialog覆盖样式 <el-dialog class="ad-dialog-wrap"/> 与 .el-dialog__wrapper 同级
 .ad-dialog-wrap {
+  .el-dialog {
+    @extend %el-dialog;
+  }
   @extend .#{$prefix}dialog;
+}
+
+// input-number 样式覆盖（右侧）
+.el-input-number {
+  &.is-controls-right {
+    &.is-disabled {
+      .el-input-number__decrease,
+      .el-input-number__increase {
+        &:hover {
+          color: $ad-color_5;
+        }
+        color: $ad-color_5;
+      }
+    }
+    .el-input-number__decrease,
+    .el-input-number__increase {
+      border: none !important;
+      background-color: transparent;
+      width: 17px;
+      color: $ad-color_4;
+      &:hover {
+        color: $ad-color-primary;
+      }
+      &.is-disabled {
+        color: $ad-color_5;
+        cursor: not-allowed;
+      }
+    }
+    .el-input .el-input__inner {
+      padding: 0 20px 0 8px;
+    }
+    .el-input__inner {
+      text-align: left;
+    }
+  }
+  // 向上箭头样式重置 向下箭头重置样式
+  .el-icon-arrow-up,
+  .el-icon-arrow-down {
+    transform: scale(1.2) !important;
+  }
+  .el-icon-arrow-up::before {
+    content: '\e78f';
+  }
+  .el-icon-arrow-down::before {
+    content: '\e790';
+  }
+}
+
+// 针对 el-button-group 无法兼容popover内嵌 el-button 的处理
+// eg: 内嵌 adPopover(el-popover) reference 为 Button  的 兼容
+.el-button-group {
+  > .#{$prefix}popover-box {
+    //& > .el-popover__reference-wrapper > .el-button {
+    //}
+    & > .el-popover__reference-wrapper > .el-button {
+      border-radius: 6px;
+      padding: 10px;
+    }
+    &:first-child {
+      .el-popover__reference-wrapper > .el-button {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+
+    &:last-child {
+      .el-popover__reference-wrapper > .el-button {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+
+    &:first-child:last-child {
+      .el-popover__reference-wrapper > .el-button {
+        border-radius: 4px;
+      }
+    }
+    &:not(:first-child) {
+      .el-popover__reference-wrapper > .el-button {
+        margin-left: -1px;
+      }
+    }
+    &:not(:first-child):not(:last-child) {
+      .el-popover__reference-wrapper > .el-button {
+        margin-left: -1px;
+        border-radius: 0;
+      }
+    }
+  }
 }

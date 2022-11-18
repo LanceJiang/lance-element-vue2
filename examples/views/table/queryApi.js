@@ -1,10 +1,17 @@
+const orderTotal = 888
 // 列表数据
 export const getOrders = (input) => {
+  // 模拟参数
+  const { page, pageSize } = input
   return new Promise(resolve => {
+    let length = pageSize
+    if (page * pageSize > orderTotal) {
+      length = orderTotal - (page - 1) * pageSize
+    }
     setTimeout(() => {
       // 模拟数据
       const res = {
-        data: Array.from({ length: 20 }).map((_, i) => {
+        data: Array.from({ length }).map((_, i) => {
           return { value: `testVal_${i}` }
         })
       }
@@ -18,7 +25,7 @@ export const getOrdersCount = (input) => {
     setTimeout(() => {
       // 模拟数据
       const res = {
-        total: 888
+        total: orderTotal
       }
       resolve(res.total)
     }, 1000 * Math.random())
@@ -37,13 +44,14 @@ export const getTableConfig = (input) => {
       const res = {
         /* t_label: String, // 多语言关键key
         label?: String, // 若不存在t_label 可使用 label
-        [valueKey]: String, // valueKey 用于 作为唯一值鉴定用
-        checked: Boolean, // 是否选中
-        disabled?: Boolean, // disabled 的不允许删除
+        [valueKey]: String, // valueKey 用于 作为唯一值鉴定用 todo delete
+        checked: Boolean, // 是否选中 todo delete
+        disabled?: Boolean, // disabled 的不允许删除 todo delete
+        fixed?: Boolean || String, // disabled 的不允许删除 (disabled -> fixed)
         children?: Option[] // 同上配置 */
         columns: [{
           prop: 'action',
-          t_label: 'common.table.action',
+          t_label: 'adb.table.action',
           fixed: 'right' // boolean string
         }, {
           prop: 'orderNo',

@@ -1,0 +1,136 @@
+@import "../variables.scss";
+// popover 弹窗 样式
+.#{$prefix}popover-box {
+  .#{$prefix}popover-box__btn {
+    &.active {
+      color: $ad-color-primary;
+    }
+  }
+  &--open {
+    .#{$prefix}popover-box__btn {
+      // 按钮下的 小icon 进行翻转
+      [class^="el-icon-"], [class*=" el-icon-"] {
+        transform: rotateZ(180deg);
+      }
+    }
+  }
+  &--close {
+
+  }
+  // todo...
+  &__btn {
+    &__label {
+      & + .#{$prefix}popover-box__btn__suffix {
+        margin-left: 5px;
+      }
+    }
+
+    &__prefix,
+    &__suffix {
+      color: #c0c4cc;
+      font-size: 14px;
+      transition: transform 0.3s;
+      transform: rotateZ(0);
+      cursor: pointer;
+    }
+    &__prefix {
+      & + .#{$prefix}popover-box__btn__label {
+        margin-left: 5px;
+      }
+    }
+    &__suffix {
+    }
+  }
+}
+
+// 内置的 popover popperClass 选项
+
+// 类似 点击触发选择(含：确定/取消按钮) 类型样式
+.#{$prefix}popover--select {
+  padding: 12px;
+  &_content {
+    // todo...
+    //min-width: 360px;
+    //max-height: 300px;
+    //overflow: auto;
+    // 默认formItem 样式 查看： searchGroup.scss
+  }
+  // 按钮集合
+  &_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0 0 0;
+    min-width: 200px;
+
+    .el-button {
+      padding: 8px 28px;
+      border-radius: 6px;
+    }
+  }
+}
+
+// 更多 list item 展示 (可类似 table类型)
+.ad-popover--list {
+  $width: 16px;
+  padding: 12px 0 12px $width !important;
+  width: max-content;
+  min-width: 70px;
+  // slot:default 外壳class: <div class="ad-popover--list_content" /> 参考: home页面示例
+  &_content {
+    display: flex;
+    flex-direction: column;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  // 直接继承使用
+  .more-item,
+  .more-item_title {
+    padding-right: $width;
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    height: 32px;
+    color: #BDC3C9;
+    .label {
+      & + .value {
+        padding-left: 8px;
+      }
+      color: $ad-color_2;
+      line-height: 30px;
+    }
+    .value {
+      flex: 1;
+      text-align: right;
+      padding-left: 8px;
+      line-height: 30px;
+    }
+  }
+  // 涉及数据列表 list 壳(超出做滚动条)
+  .more-item_content {
+    flex: 1;
+    overflow-y: auto;
+    > .more-item {
+      height: unset;
+      display: flex;
+      align-items: flex-start;
+      min-height: 30px;
+      line-height: 30px;
+      padding: 4px 0;
+      //.item {
+      //  & + .item {
+      //    margin-left: 16px;
+      //  }
+      //}
+    }
+  }
+  .more-item_title {
+    //color: rgba(0, 0, 0, 0.65);
+    color: $ad-color_1;
+  }
+  .labelWrap {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+}

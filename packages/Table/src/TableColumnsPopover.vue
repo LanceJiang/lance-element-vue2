@@ -2,7 +2,7 @@
   <el-popover popper-class="ad-column-popover" placement="bottom-end" v-model="visible">
     <el-tooltip slot="reference" placement="top" :content="t('adb.column')">
       <el-button type="default" class="icon-button">
-        <Icon icon="hide_column"/>
+        <Icon iconClass="ad-hide_column"/>
       </el-button>
     </el-tooltip>
     <div class="columns-contents" v-loading="loading">
@@ -32,6 +32,7 @@
             <el-checkbox
               class="el-select-dropdown__item"
               v-for="item in columns"
+              :title="t(item.t_label || item.label)"
               :key="item.prop"
               :label="item.prop"
               :disabled="!!item.fixed"
@@ -45,7 +46,7 @@
         <el-button size="small" @click="handleReset">
           {{ t('adb.btn.restore') }}
         </el-button>
-        <el-button type="primary" size="small" @click="visible = false">
+        <el-button type="primary" size="small" @click="handleSubmit">
           {{ t('adb.btn.save') }}
         </el-button>
       </div>
@@ -53,10 +54,10 @@
   </el-popover>
 </template>
 <script>
-import Icon from 'adber-ui-demo/packages/Icon'
-import NoData from 'adber-ui-demo/packages/NoData'
-import DraggableNest from 'adber-ui-demo/packages/DraggableNest'
-import Locale from 'adber-ui-demo/src/mixins/locale'
+import Icon from '@adber/adber-ui/packages/Icon'
+import NoData from '@adber/adber-ui/packages/NoData'
+import DraggableNest from '@adber/adber-ui/packages/DraggableNest'
+import Locale from '@adber/adber-ui/src/mixins/locale'
 
 // const API = {}
 export default {
@@ -117,18 +118,17 @@ export default {
   watch: {
     value: {
       immediate: true, // columns
-      handler(checkedOptions) {
-        // 本地留存
-        this.checkedOptions = JSON.parse(JSON.stringify(checkedOptions))
-        this.getCheckedOptions(checkedOptions)
-        this.getCheckedSelectAll()
+      handler(value) {
+        if (this.visible) {
+          this.initCheckedOptions()
+        }
       }
     },
     visible(bool) {
-      console.error('visible change', bool)
-      if (!bool) {
-        console.error('visible change false  提交配置保存')
-        this.handleSubmit()
+      // console.error('visible change', bool)
+      if (bool) {
+        // 展示的时候初始化
+        this.initCheckedOptions()
       }
     }
   },
@@ -136,6 +136,12 @@ export default {
     window.Popover = this
   },
   methods: {
+    initCheckedOptions() {
+      // 本地留存
+      const checkedOptions = this.checkedOptions = JSON.parse(JSON.stringify(this.value || []))
+      this.getCheckedOptions(checkedOptions)
+      this.getCheckedSelectAll()
+    },
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element
       const draggedElement = draggedContext.element
@@ -180,7 +186,6 @@ export default {
     },
 
     onChange(list) {
-      // this.$emit('input', arr)
       const columns = this.columns
       const checkedOptions = this.checkedOptions
       // 删除 已被取消的项目
