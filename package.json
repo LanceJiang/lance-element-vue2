@@ -18,6 +18,7 @@
   ],
   "typings": "types/index.d.ts",
   "private": false,
+  "author": "LanceJiang",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/LanceJiang/adber-ui/issues"
