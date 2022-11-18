@@ -1,4 +1,3 @@
-// import { prefix } from '@adber/adber-ui/packages/config'
 import packageJson from '../package.json'
 // import Test from './test'
 import Table from './Table'

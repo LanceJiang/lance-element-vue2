@@ -1,7 +1,7 @@
 <script lang="jsx">
-import { t } from '@adber/adber-ui/src/locale'
-import InputNumber from '@adber/adber-ui/packages/InputNumber'
-import CustomRender from '@adber/adber-ui/packages/CustomRender'
+import { t } from 'adber-ui/src/locale'
+import InputNumber from 'adber-ui/packages/InputNumber'
+import CustomRender from 'adber-ui/packages/CustomRender'
 
 export default {
   name: 'AdFormConfig',

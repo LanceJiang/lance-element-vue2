@@ -21,7 +21,7 @@ module.exports = {
         ['module-resolver', {
           'root': ['adber-ui'],
           'alias': {
-            '@adber/adber-ui/src': '@adber/adber-ui/lib'
+            'adber-ui/src': 'adber-ui/lib'
           }
         }]
       ]

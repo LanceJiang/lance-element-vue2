@@ -1,4 +1,3 @@
-// import { prefix } from '@adber/adber-ui/packages/config'
 // 自定义渲染
 const Component = {
   name: 'AdCustomRender',

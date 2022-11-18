@@ -18,7 +18,7 @@
           "root": ["adber-ui"],
           "alias": {
             "adber-ui-demo/src": "adber-ui-demo/lib",
-            "@adber/adber-ui/src": "@adber/adber-ui/lib"
+            "adber-ui/src": "adber-ui/lib"
           }
         }]
       ]
