@@ -7,6 +7,7 @@ import FormConfigDialog from './FormConfigDialog'
 import Icon from './Icon'
 import InputNumber from './InputNumber'
 import Select from './Select'
+import Dropdown from './Dropdown'
 import NoData from './NoData'
 import Popover from './Popover'
 import CustomRender from './CustomRender'
@@ -30,6 +31,7 @@ const components = [
   Icon,
   InputNumber,
   Select,
+  Dropdown,
   NoData,
   Popover,
   CustomRender,

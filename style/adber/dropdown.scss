@@ -1,0 +1,37 @@
+@import "../variables.scss";
+// NoData 样式
+.#{$prefix}dropdown {
+  // 开启状态
+  &--open {
+    .action.el-icon-arrow-down:not(.clear) {
+      transform: rotate(180deg);
+    }
+  }
+  // 操作按钮标识
+  .action {
+    margin-left: 4px;
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+  &-link {
+    cursor: pointer;
+    color: #409eff;
+    &:hover {
+      // 转成清空按钮
+      .action.clear::before {
+        content: '\e79d';
+        color: #c0c4cc;
+      }
+    }
+    .placeholder {
+      color: $ad-color_5;
+    }
+  }
+  // 菜单
+  &-menu {
+    .local_no-data {
+      padding: 20px;
+    }
+  }
+}
+

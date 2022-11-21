@@ -332,7 +332,6 @@
     <div class="common_title">AdInputNumber</div>
     <div class="content">
       {{testNumber}}
-      <div class="common_title">----------</div>
       <AdInputNumber disabled v-model="testNumber" :min="0" prefix="#" _controlsPosition="1"></AdInputNumber>
       <AdInputNumber v-model="testNumber" :min="0" prefix="#" suffix="￥" size="mini" _controlsPosition="1"></AdInputNumber>
       <AdInputNumber v-model="testNumber" :min="0" prefix="#" size="small" _controlsPosition="1"></AdInputNumber>
@@ -367,6 +366,37 @@
       </el-tooltip>
     </div>
 
+    <div class="common_title">下拉Dropdown AdDropdown</div>
+    <div class="content">
+      <AdDropdown v-model="dropdownValue" :options="dropdownOptions" clearable modelValue>
+<!--        <template #btn="{ selectOption, showClear }">
+          <span class="ad-dropdown-link">
+            {{$log(showClear, 'showClear')}}
+            {{selectOption.label}}
+             <i :class="['action el-icon-arrow-down']" />
+          </span>
+        </template>-->
+      </AdDropdown>
+
+      <AdDropdown v-model="dropdownValue" :options="dropdownOptions" @command="$log($event, 'command 测试')">
+        <template #btn="test">
+          <span class="ad-dropdown-link">
+            {{test}}
+             <i :class="['action el-icon-arrow-down']" />
+          </span>
+        </template>
+        <template slot="options">
+          <el-dropdown-item
+            v-for="opt in dropdownOptions"
+            :key="opt.value"
+            :command="opt.value"
+            :disabled="opt.disabled"
+          >
+            ---{{ opt.label }}---- label
+          </el-dropdown-item>
+        </template>
+      </AdDropdown>
+    </div>
     <div class="common_title">暂无数据 AdNoData</div>
     <div class="content">
       <AdNoData
@@ -749,7 +779,18 @@ export default {
         }
       }),
       testValue: undefined,
-      testValue2: ['选项0', '选项1', '选项2']
+      testValue2: ['选项0', '选项1', '选项2'],
+      dropdownValue: undefined,
+      dropdownOptions: [
+        {
+          label: 'in',
+          value: 0
+        },
+        {
+          label: 'cm',
+          value: 1
+        }
+      ]
     }
   },
   watch: {
