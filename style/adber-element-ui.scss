@@ -151,3 +151,33 @@
     }
   }
 }
+
+// table表格样式覆盖
+// 排序类型样式调整
+//.el-table th.el-table__cell.is-sortable {
+/*.el-table th.is-sortable {
+  //cursor: pointer
+}*/
+.el-table {
+  // 排序类型样式调整
+  .caret-wrapper {
+    height: 16px;
+    vertical-align: unset;
+    transform: translateY(4px);
+  }
+  .sort-caret {
+    &.ascending {
+      top: -3px;
+    }
+    &.descending {
+      bottom: -3px;
+    }
+  }
+}
+// 按钮样式覆盖
+.el-button {
+  border-radius: 6px;
+  &--medium {
+    border-radius: 6px;
+  }
+}

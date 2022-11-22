@@ -10,17 +10,12 @@ import { $log } from 'adber-ui/src/utils/index.js'
 import AdberUI from './../packages'
 
 // 正式
-// import AdberUI from 'adber-ui/lib/adber-ui.common'
 // import AdberUI from 'adber-ui/lib/adber-ui.umd'
 // import AdberUI from 'adber-ui'
 
 // 默认 elemen-ui 样式
-// import 'element-ui/lib/theme-chalk/index.css'
-// import 'adber-ui/style/element-variables.scss' // 公用声明
-import '@/assets/css/element-variables.scss'
-
-// import 'adber-ui/style/reset.scss'
 import 'adber-ui/style/index.scss'
+// import '@/assets/css/project_normal.scss' // 自定义相关项目配置 模拟
 
 import ElementUI from 'element-ui/lib/element-ui.common.js'
 // import ElementUI from 'element-ui'

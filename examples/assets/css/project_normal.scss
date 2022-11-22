@@ -1,12 +1,11 @@
-/**若想要更多的 自定义 可参考该配置 于项目中 单独引用相关资源 进行调整(参考：project_normal)*/
 // 默认元素样式重置
-@import './reset.scss';
+@import 'adber-ui/style/reset.scss';
 // 涉及element-ui的全局样式主题设置
-@import './element-variables.scss';
+@import 'adber-ui/style/element-variables.scss';
 // 涉及element-ui的全局样式类改造&&新增修饰
-@import './adber-element-ui.scss';
+@import 'adber-ui/style/adber-element-ui.scss';
 // 涉及adber-ui的全局组件样式
-@import './adber-ui.scss';
+@import 'adber-ui/style/adber-ui.scss';
 
 body {
   font-family: $ad-family;
