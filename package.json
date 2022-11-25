@@ -1,7 +1,7 @@
 {
   "name": "adber-ui",
-  "version": "1.0.2",
-  "description": "基于vue-cli3的基于elementUI二次封装库",
+  "version": "1.0.3",
+  "description": "vue-cli3构建基于elementUI二次封装库",
   "main": "lib/adber-ui.umd.min.js",
   "keywords": [
     "element-ui",
@@ -70,8 +70,8 @@
     "gulp-sass": "^4.0.2",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
-    "sass": "^1.17.2",
-    "sass-loader": "^8.0.2",
+    "sass": "1.26.2",
+    "sass-loader": "8.0.2",
     "style-resources-loader": "^1.3.3",
     "typescript": "~3.9.3",
     "vue": "^2.6.6",

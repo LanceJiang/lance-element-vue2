@@ -1,26 +1,32 @@
-<template>
-  <el-dialog
-    :title="title"
-    :visible="visible"
-    @update:visible="changeVisible"
-    :closeOnClickModal="false"
-    :width="width"
-    customClass="ad-dialog ad-form-config-dialog"
-    @close="changeVisible"
-  >
-    <FormConfig
-      v-if="visible"
-      ref="configForm"
-      v-bind="formOptions"
-      :form-data="formData"
-      @submit="$emit('submit', $event)"
-      @cancel="changeVisible"
-    />
-  </el-dialog>
-</template>
-
 <script>
 import FormConfig from 'adber-ui/packages/FormConfig'
+const render = function(h) {
+  const { title, visible, width, changeVisible, formOptions, formData } = this
+  const on = {
+    'update:visible': changeVisible,
+    close: changeVisible
+  }
+  return <el-dialog
+    title={title}
+    visible={visible}
+    props={this.$attrs}
+    closeOnClickModal={false}
+    width={width}
+    customClass="ad-dialog ad-form-config-dialog"
+    on={on}
+  >
+    {
+      visible && <FormConfig
+        ref="configForm"
+        props={formOptions}
+        form-data={formData}
+        onSubmit={this.onSubmit}
+        onCancel={changeVisible}
+        scopedSlots={this.$scopedSlots}
+      />
+    }
+  </el-dialog>
+}
 
 export default {
   name: 'AdFormConfigDialog',
@@ -67,6 +73,7 @@ export default {
       type: String
     }
   },
+  render,
   data() {
     return {}
   },
@@ -76,6 +83,9 @@ export default {
   methods: {
     changeVisible(bool = false) {
       this.$emit('update:visible', bool)
+    },
+    onSubmit(events) {
+      this.$emit('submit', events)
     }
   }
 }

@@ -5,106 +5,109 @@
     @click.stop="toggleMenu"
     v-clickoutside="handleClose"
     :style="wrapStyle">
-    <div
-      class="el-select__tags"
-      v-if="multiple"
-      ref="tags"
-      :style="{ 'max-width': inputWidth - 34 + 'px', width: '100%' }">
-      <span v-if="collapseTags && selected.length" class="tags-wrap">
-        <el-tag
-          :closable="!selectDisabled"
-          :size="collapseTagSize"
-          :hit="selected[0].hitState"
-          type="info"
-          @close="deleteTag($event, selected[0])"
-          disable-transitions>
-          <span class="el-select__tags-text limit-weight">{{ selected[0].currentLabel }}</span>
-        </el-tag>
-        <el-tag
-          v-if="selected.length > 1"
-          :closable="false"
-          :size="collapseTagSize"
-          type="info"
-          disable-transitions>
-          <span class="el-select__tags-text">+ {{ selected.length - 1 }}</span>
-        </el-tag>
-      </span>
-      <span class="tags-wrap" v-if="!collapseTags">
-        <transition-group @after-leave="resetInputHeight">
-        <el-tag
-          v-for="item in selected"
-          :key="getValueKey(item)"
-          :closable="!selectDisabled"
-          :size="collapseTagSize"
-          :hit="item.hitState"
-          type="info"
-          @close="deleteTag($event, item)"
-          disable-transitions>
-          <span class="el-select__tags-text limit-weight">{{ item.currentLabel }}</span>
-        </el-tag>
-      </transition-group>
-      </span>
+    <div v-show="isPopover || filterable">
+      <div
+        class="el-select__tags"
+        v-if="multiple"
+        ref="tags"
+        :style="{ 'max-width': inputWidth - 34 + 'px', width: '100%' }">
+        <span v-if="collapseTags && selected.length" class="tags-wrap">
+          <el-tag
+            :closable="!selectDisabled"
+            :size="collapseTagSize"
+            :hit="selected[0].hitState"
+            type="info"
+            @close="deleteTag($event, selected[0])"
+            disable-transitions>
+            <span class="el-select__tags-text limit-weight">{{ selected[0].currentLabel }}</span>
+          </el-tag>
+          <el-tag
+            v-if="selected.length > 1"
+            :closable="false"
+            :size="collapseTagSize"
+            type="info"
+            disable-transitions>
+            <span class="el-select__tags-text">+ {{ selected.length - 1 }}</span>
+          </el-tag>
+        </span>
+        <span class="tags-wrap" v-if="!collapseTags">
+          <transition-group @after-leave="resetInputHeight">
+            <el-tag
+              v-for="item in selected"
+              :key="getValueKey(item)"
+              :closable="!selectDisabled"
+              :size="collapseTagSize"
+              :hit="item.hitState"
+              type="info"
+              @close="deleteTag($event, item)"
+              disable-transitions>
+              <span class="el-select__tags-text limit-weight">{{ item.currentLabel }}</span>
+            </el-tag>
+          </transition-group>
+        </span>
 
-      <input
+        <input
+          type="text"
+          class="el-select__input"
+          :class="[selectSize ? `is-${ selectSize }` : '']"
+          :disabled="selectDisabled"
+          :autocomplete="autoComplete || autocomplete"
+          @focus="handleFocus"
+          @blur="softFocus = false"
+          @keyup="managePlaceholder"
+          @keydown="resetInputState"
+          @keydown.down.prevent="handleNavigate('next')"
+          @keydown.up.prevent="handleNavigate('prev')"
+          @keydown.enter.prevent="selectOption"
+          @keydown.esc.stop.prevent="visible = false"
+          @keydown.delete="deletePrevTag"
+          @keydown.tab="visible = false"
+          @compositionstart="handleComposition"
+          @compositionupdate="handleComposition"
+          @compositionend="handleComposition"
+          v-model="query"
+          @input="debouncedQueryChange"
+          v-if="filterable"
+          :style="{ 'flex-grow': '1', width: inputLength / (inputWidth - 34) + '%', 'max-width': inputWidth - 42 + 'px' }"
+          ref="input">
+      </div>
+      <el-input
+        ref="reference"
+        v-model="selectedLabel"
         type="text"
-        class="el-select__input"
-        :class="[selectSize ? `is-${ selectSize }` : '']"
-        :disabled="selectDisabled"
+        :placeholder="currentPlaceholder"
+        :name="name"
+        :id="id"
         :autocomplete="autoComplete || autocomplete"
+        :size="selectSize"
+        :disabled="selectDisabled"
+        :readonly="readonly"
+        :validate-event="false"
+        :class="{ 'is-focus': visible }"
+        :tabindex="(multiple && filterable) ? '-1' : null"
         @focus="handleFocus"
-        @blur="softFocus = false"
-        @keyup="managePlaceholder"
-        @keydown="resetInputState"
-        @keydown.down.prevent="handleNavigate('next')"
-        @keydown.up.prevent="handleNavigate('prev')"
-        @keydown.enter.prevent="selectOption"
-        @keydown.esc.stop.prevent="visible = false"
-        @keydown.delete="deletePrevTag"
-        @keydown.tab="visible = false"
+        @blur="handleBlur"
+        @input="debouncedOnInputChange"
+        @keydown.native.down.stop.prevent="handleNavigate('next')"
+        @keydown.native.up.stop.prevent="handleNavigate('prev')"
+        @keydown.native.enter.prevent="selectOption"
+        @keydown.native.esc.stop.prevent="visible = false"
+        @keydown.native.tab="visible = false"
         @compositionstart="handleComposition"
         @compositionupdate="handleComposition"
         @compositionend="handleComposition"
-        v-model="query"
-        @input="debouncedQueryChange"
-        v-if="filterable"
-        :style="{ 'flex-grow': '1', width: inputLength / (inputWidth - 34) + '%', 'max-width': inputWidth - 42 + 'px' }"
-        ref="input">
+        @mouseenter.native="inputHovering = true"
+        @mouseleave.native="inputHovering = false">
+        <template slot="prefix" v-if="$slots.prefix">
+          <slot name="prefix"></slot>
+        </template>
+        <template slot="suffix">
+          <i v-show="!showClose" :class="['el-select__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
+          <i v-if="showClose" class="el-select__caret el-input__icon el-icon-circle-close"
+             @click="handleClearClick"></i>
+        </template>
+      </el-input>
     </div>
-    <el-input
-      ref="reference"
-      v-model="selectedLabel"
-      type="text"
-      :placeholder="currentPlaceholder"
-      :name="name"
-      :id="id"
-      :autocomplete="autoComplete || autocomplete"
-      :size="selectSize"
-      :disabled="selectDisabled"
-      :readonly="readonly"
-      :validate-event="false"
-      :class="{ 'is-focus': visible }"
-      :tabindex="(multiple && filterable) ? '-1' : null"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      @input="debouncedOnInputChange"
-      @keydown.native.down.stop.prevent="handleNavigate('next')"
-      @keydown.native.up.stop.prevent="handleNavigate('prev')"
-      @keydown.native.enter.prevent="selectOption"
-      @keydown.native.esc.stop.prevent="visible = false"
-      @keydown.native.tab="visible = false"
-      @compositionstart="handleComposition"
-      @compositionupdate="handleComposition"
-      @compositionend="handleComposition"
-      @mouseenter.native="inputHovering = true"
-      @mouseleave.native="inputHovering = false">
-      <template slot="prefix" v-if="$slots.prefix">
-        <slot name="prefix"></slot>
-      </template>
-      <template slot="suffix">
-        <i v-show="!showClose" :class="['el-select__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
-        <i v-if="showClose" class="el-select__caret el-input__icon el-icon-circle-close" @click="handleClearClick"></i>
-      </template>
-    </el-input>
     <transition
       name="el-zoom-in-top"
       @before-enter="handleMenuEnter"
@@ -115,14 +118,14 @@
         ref="popper"
         :append-to-body="popperAppendToBody"
         v-show="localVisible">
-<!--        <el-checkbox-->
-<!--        , indeterminate ? 'selected_indeterminate' : ''-->
+        <!--        <el-checkbox-->
+        <!--        , indeterminate ? 'selected_indeterminate' : ''-->
         <div
           v-if="multiple"
           v-show='computedOptions.length'
           :class="['el-select-dropdown__item checkAll', isAll ? 'selected' : '']"
           @click="checkAllHandler">
-          {{t('adb.selectAll')}}
+          {{ t('adb.selectAll') }}
         </div>
         <el-scrollbar
           tag="ul"
@@ -143,9 +146,9 @@
           <slot name="empty">
             <NoData :message="emptyText"/>
           </slot>
-<!--          <p class="el-select-dropdown__empty" v-else>
-            {{ emptyText }}
-          </p>-->
+          <!--   <p class="el-select-dropdown__empty" v-else>
+                   {{ emptyText }}
+                 </p>-->
         </template>
       </component>
     </transition>
@@ -156,10 +159,10 @@
 import Emitter from 'element-ui/src/mixins/emitter'
 import Focus from 'element-ui/src/mixins/focus'
 // import Locale from 'element-ui/src/mixins/locale'
-import Locale from 'adber-ui/src/mixins/locale'
+import Locale from '@adber/adber-ui/src/mixins/locale'
 // import ElInput from 'element-ui/packages/input'
 import ElSelectDropDown from 'element-ui/packages/select/src/select-dropdown'
-import NoData from 'adber-ui/packages/NoData'
+import NoData from '@adber/adber-ui/packages/NoData'
 // import ElOption from 'element-ui/packages/select/src/option.vue'
 // import ElTag from 'element-ui/packages/tag'
 // import ElScrollbar from 'element-ui/packages/scrollbar'
@@ -215,7 +218,7 @@ export default {
     },
 
     iconClass() {
-      if (!this.isPopover) return '' // 'search is-reverse'
+      if (!this.isPopover) return 'search is-reverse'
       return this.remote && this.filterable ? '' : (this.visible ? 'arrow-up is-reverse' : 'arrow-up')
     },
 
@@ -245,7 +248,7 @@ export default {
     },
 
     selectSize() {
-      return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size
+      return this.size || this._elFormItemSize || 'small' // || (this.$ELEMENT || {}).size
     },
 
     selectDisabled() {
@@ -335,10 +338,7 @@ export default {
       type: Boolean,
       default: true
     },
-    filterable: {
-      type: Boolean,
-      default: true
-    },
+    filterable: Boolean,
     allowCreate: Boolean,
     loading: Boolean,
     popperClass: String,
@@ -460,10 +460,10 @@ export default {
 
     visible(val) {
       if (!val) {
-        if (this.$refs.input) {
-          this.$refs.input.blur()
-        }
         if (this.isPopover) {
+          if (this.$refs.input) {
+            this.$refs.input.blur()
+          }
           this.broadcast('ElSelectDropdown', 'destroyPopper')
           this.query = ''
           this.previousQuery = null

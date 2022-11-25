@@ -41,6 +41,15 @@ export const columns = [
     t_label: `${tPrefix}orderNo`,
     prop: 'orderNo',
     minWidth: '220px',
+    // 用户提示配置
+    titleHelp: {
+      icon: 'ad-iconfont ad-check_1', // todo 自定义icon
+      message: `<span style='background: #f00'>wo的 <br/>sssssssssss</span>`
+    },
+    slots: {
+      default: ''
+    },
+    sortable: true,
     formatter() {
       return 'orderNo: formatter'
     }

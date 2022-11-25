@@ -400,6 +400,7 @@
     <div class="common_title">暂无数据 AdNoData</div>
     <div class="content">
       <AdNoData
+        @click="$log('test....')"
         isFull
       >
 <!--        message="<div style='background: #f00;'>test: lang: {$i18n.locale}</div>"-->

@@ -8,31 +8,12 @@ import Icon from 'adber-ui/packages/Icon'
 import AdSelect from 'adber-ui/packages/Select'
 import SearchFilterDrawer from './SearchFilterDrawer'
 import SelectedItemsSortDialog from './SelectedItemsSortDialog'
+import { renderSelectOption } from 'adber-ui/src/utils/slotsUtils'
 
 const render = function(h) {
   // const _this = this
   const { defaultForms, moreForms, searchParams, more_searchParams, tagList, local_deleteTag, drawerIsExpand, getFormLabelValue, selectedSettingSubmit, saveFilterSubmit } = this
   let warpClass = 'ad-search-group-wrap'
-  // select Option 自定义 渲染
-  const renderSelectOption = (slotOption, option, label) => {
-    if (slotOption) {
-      const args = [{
-        option,
-        label
-      }]
-      let scopedSlots_option = slotOption
-      if (typeof slotOption === 'string') {
-        scopedSlots_option = this.$scopedSlots[slotOption]
-      } else {
-        args.unshift(h)
-      }
-      if (typeof scopedSlots_option === 'function') {
-        // scopedSlots
-        return scopedSlots_option(...args)
-      }
-    }
-    return label
-  }
   const itemRender = (item, searchObj, isMore = false) => {
     const { prop, itemType, itemWidth, options, change, itemStyle = '', placeholder, t_placeholder, ...formOthers } = item
     const _options = options || []
@@ -49,12 +30,38 @@ const render = function(h) {
         return change(searchObj, _options, isMore)
       }
     }
+    const render_selectOptions = () => {
+      return _options.map((option) => {
+        let value = option
+        let label = option
+        let disabled = false
+        if (typeof option === 'object') {
+          value = option[item.valueKey || 'value']
+          label = option[item.labelKey || 'label']
+          if (item.i18n) label = t(label)
+          disabled = option.disabled
+        }
+        return <el-option
+          key={value}
+          value={value}
+          label={label}
+          disabled={disabled}
+          title={label}>
+          {renderSelectOption.call(this, item.slotOption, option, label)}
+        </el-option>
+      })
+    }
     switch (itemType) {
       case 'adSelect' :
         // v-model={(isMore ? more_searchParams : searchParams)[prop]}
+        let filterable = item.filterable
+        if (filterable === undefined && (item.options || []).length >= 5) {
+          filterable = true
+        }
         return <AdSelect
           v-model={searchObj[prop]}
           props={item}
+          filterable={filterable}
           on={{
             'update:selected_label': this.adSelectTagsUpdate.bind(null, item, isMore)
             // (label) => {
@@ -67,26 +74,7 @@ const render = function(h) {
           placeholder={_placeholder}
           width={itemWidth || defaultWidth}
         >
-          {
-            _options.map((option, optionIndex) => {
-              let value = option
-              let label = option
-              let disabled = false
-              if (typeof option === 'object') {
-                value = option[item.valueKey || 'value']
-                label = t(option[item.labelKey || 'label'])
-                disabled = option.disabled
-              }
-              return <el-option
-                key={value}
-                value={value}
-                label={label}
-                disabled={disabled}
-                title={label}>
-                {renderSelectOption(item.slotOption, option, label)}
-              </el-option>
-            })
-          }
+          {render_selectOptions()}
         </AdSelect>
 
       // <!-- 自定义render -->
@@ -105,24 +93,7 @@ const render = function(h) {
           disabled={disabled}
           style={_itemStyle}
         >
-          {
-            _options.map((option, optionIndex) => {
-              let value = option
-              let label = option
-              let disabled = false
-              if (typeof option === 'object') {
-                value = option[item.valueKey || 'value']
-                label = option[item.labelKey || 'label']
-                disabled = option.disabled
-              }
-              return <el-option
-                key={value}
-                value={value}
-                label={label}
-                disabled={disabled}
-                title={label}/>
-            })
-          }
+          {render_selectOptions()}
         </el-select>
       // <!-- 单选 -->
       case 'radio':
@@ -134,25 +105,26 @@ const render = function(h) {
           disabled={disabled}
           style={`${itemStyle} width:${itemWidth || '100%'};`}
         >
-          {
-            _options.map((option, optionIndex) => {
-              let value = option
-              let label = option
-              let disabled = false
-              if (typeof option === 'object') {
-                value = option[item.valueKey || 'value']
-                label = option[item.labelKey || 'label']
-                disabled = option.disabled
-              }
-
-              return <el-radio
-                key={optionIndex + '_local'}
+          {_options.map((option, optionIndex) => {
+            let value = option
+            let label = option
+            let disabled = false
+            if (typeof option === 'object') {
+              value = option[item.valueKey || 'value']
+              label = option[item.labelKey || 'label']
+              if (item.i18n) label = t(label)
+              disabled = option.disabled
+            }
+            return (
+              <el-radio
+                key={`${optionIndex}_local`}
                 label={value}
-                disabled={disabled}>
+                disabled={disabled}
+                title={label}>
                 {label}
               </el-radio>
-            })
-          }
+            )
+          })}
         </el-radio-group>
       // <!-- 单日期 || 日期区间 ... -->
       case 'datePicker':
@@ -334,7 +306,7 @@ const render = function(h) {
                   {labels}
                 </span>
                 <span class="el-tag__total">{`(${_valueLength})`}</span>
-                <i class="icon-delete el-icon-error" onClick={local_deleteTag.bind(null, item, index)}/>
+                <i class="icon-delete" onClick={local_deleteTag.bind(null, item, index)}/>
               </el-tag>
             } else {
               return <el-tag key={key} disable-transitions>
@@ -342,7 +314,7 @@ const render = function(h) {
                 <span title={_value} class="el-tag__label">
                   {_value}
                 </span>
-                <i class="icon-delete el-icon-error" onClick={local_deleteTag.bind(null, item, index)} />
+                <i class="icon-delete" onClick={local_deleteTag.bind(null, item, index)} />
               </el-tag>
             }
           })
@@ -775,7 +747,7 @@ export default {
           // 类似这样的格式：
           // return <el-tag>
           //   {`${transLabel}：<span class="el-tag__label">${searchParams[yourProp]}</span>`}
-          //   <i class="icon-delete el-icon-error" onClick={deleteFn} />
+          //   <i class="icon-delete" onClick={deleteFn} />
           // </el-tag>
         }
         labelValue = this.getFormLabelValue(item, searchParams)
@@ -955,7 +927,7 @@ export default {
             options: [], // 下拉配置 {[labelKey]: label, [valueKey]: value, disabled: Bool, visible: Bool(于 adSelect 控制是否隐藏) }
             valueKey: 'user_account', // options 提交的key
             labelKey: 'user_account', // options 展示的key
-            overlayWidth: '200px' // 内部pop弹窗的with
+            // i18n: Boolean 多语言装换
     },
  { // render (自定义渲染)
             label: '自定义render',
@@ -977,6 +949,7 @@ export default {
             ],
             // labelKey: 'label', // 默认 label
             // valueKey: 'value', // 默认 value
+            // i18n: Boolean 多语言装换
             change(param, _options, isMore) {}
             // 其他的 请参考 el-select 的配置
     },

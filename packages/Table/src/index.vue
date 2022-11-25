@@ -65,38 +65,31 @@ export const tableProps = {
   }
 }
 
-/** 针对默认的 header 展示添加slot */
-/*
-const slotHeader = function (titleHelp = {}, props) {
-  // console.error(props, 'props.column...', titleHelp)
-  // const { titleHelp, label } = props.column
-  // const { label } = props.column
-  const label = t(props.column.label)
+/** 针对默认的 header 展示添加slot 并支持 字段提示: titleHelp */
+const defaultRenderHeader = function (titleHelp = {}, h, { column }) {
+  const { t_label, label } = column || {}
+  const label_ = t_label ? t(t_label) : label
   // 1.针对 column 配置有 titleHelp 对象的 进行默认提示处理
   const { message, icon } = titleHelp || {}
   let TitleHelp = ''
   if (message) {
-    /!* eslint-disable *!/
+    /* eslint-disable */
     // @ts-ignore
-    TitleHelp = <el-tooltip placement="top" content={message}>
-      ??
+    TitleHelp = <el-tooltip placement="top">
+      <div slot="content" domPropsInnerHTML={message}/>
+      <i class={['tip-icon', icon || 'el-icon-question']}/>
     </el-tooltip>
-    /!* eslint-enable *!/
-    // 若有 iconfont 样式
-    // <i class={['iconfont', icon || 'icon-question']}/>
+    /* eslint-enable */
   }
-  // 2.若有自定义筛选配置
-  // todo...
   return (
     <div class="slot_title-wrap">
-      <el-tooltip placement="top" content={label}>
-        <span class="label">{label}</span>
+      <el-tooltip placement="top" content={label_}>
+        <span class="label">{label_}</span>
       </el-tooltip>
       {TitleHelp}
     </div>
   )
 }
-*/
 const slotDefault = ({ row, column }) => {
   // if (Object.keys(column).length) console.error(row, column, '     row, column, slotDefault')
   const val = row[column.property]
@@ -118,8 +111,9 @@ const columnSlots = (column, _this) => {
     }
   }
   // 新增默认header 超出隐藏&提示(?&问号提示)
-  // local_slots.header = slotHeader.bind(_this, column.titleHelp)
   const slots_key = Object.keys(column.slots || {})
+  // 默认header slot 处理
+  if (!slots_key.includes('header') && !column.renderHeader) local_slots.renderHeader = defaultRenderHeader.bind(_this, column.titleHelp)
   // let slots_headerName = ''
   if (slots_key.length) {
     slots_key.forEach((type) => {
@@ -217,7 +211,7 @@ const render = function (h) {
               )
             })}
             <template slot="empty">
-              <NoData />
+              <NoData size={computedOptions.size}/>
             </template>
           </el-table>
         </div>
@@ -263,7 +257,7 @@ export default {
           // 额外table参数
           loading: false, // 是否展示 tableLoading
           multipleSelect: false, // 是否多选 table
-          rowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 多选被选中的状态: Function(row)/string
+          // rowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 多选被选中的状态: Function(row)/string
           currentRowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 高亮状态: string/number
           align: 'left', // columnItem 对齐方式
           resizable: true, // ColumnItem 是否允许拖动
@@ -279,10 +273,14 @@ export default {
       }
     },
     realColumns() {
-      return this.columns.map((column) => ({
-        ...column,
-        adb_slots: columnSlots(column, this)
-      }))
+      return this.columns.map((column) => {
+        const { renderHeader, ...adb_slots } = columnSlots(column, this)
+        return {
+          renderHeader,
+          ...column,
+          adb_slots
+        }
+      })
     },
     localColumns() {
       const { multipleSelect, showIndex } = this.computedOptions // showFilling

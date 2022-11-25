@@ -9,7 +9,11 @@
         :forms="forms"
         :formConfig="formConfig"
         @submit="formSubmit"
-      />
+      >
+        <template #adSelectSlot="{option, label}">
+          <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
+        </template>
+      </AdFormConfig>
     </div>
 
     <div class="common_title">ad-form-config 表单 嵌入 dialog</div>
@@ -32,7 +36,12 @@
           :form-data="formData"
           @submit="formSubmit"
           @cancel="changeVisible"
-        />
+        >
+          <template #adSelectSlot="{option, label}">
+            {{$log(label, 'label')}}
+            <div style="background: #00f;">{{label}} + {{ option.value_1 }}</div>
+          </template>
+        </AdFormConfig>
       </el-dialog>
     </div>
     <div class="common_title">ad-form-config-dialog 表单弹窗</div>
@@ -48,7 +57,11 @@
         }"
         :formData="formData"
         @submit="formSubmit"
-      />
+      >
+        <template #adSelectSlot="{option, label}">
+          <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
+        </template>
+      </AdFormConfigDialog>
     </div>
   </div>
 </template>
@@ -67,6 +80,24 @@ export default {
         test1_select: 'test1_2'
       },
       forms: [
+        // select
+        {
+          prop: 'adSelect', // 提交的 params 的字段
+          label: 'adSelect', // label 标签
+          itemType: 'adSelect', // form-item 类型
+          labelKey: 'label_1',
+          valueKey: 'value_1',
+          // isPopover: false,
+          options: Array.from({ length: 20 }).map((_, i) => {
+            return {
+              value_1: '选项' + i,
+              label_1: '黄金糕' + i
+            }
+          }),
+          slotOption: 'adSelectSlot',
+          popperAppendToBody: true
+          // change: _this.serviceChange
+        },
         // render { render:function 必传 }
         {
           prop: 'render',
@@ -107,6 +138,7 @@ export default {
             label: `test1_LABEL_${i}`,
             value: `test1_${i}`
           })),
+          slotOption: 'adSelectSlot',
           rules: [
             {
               required: true,

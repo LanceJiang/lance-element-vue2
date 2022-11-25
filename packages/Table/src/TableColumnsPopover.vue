@@ -29,9 +29,11 @@
       <el-scrollbar>
         <ul class="el-scrollbar__view el-select-dropdown__list">
           <el-checkbox-group :value="checkedList" @input="onChange">
+<!--            columns-->
             <el-checkbox
               class="el-select-dropdown__item"
               v-for="item in columns"
+              v-show="!checkedList.includes(item.prop)"
               :title="t(item.t_label || item.label)"
               :key="item.prop"
               :label="item.prop"
@@ -114,6 +116,11 @@ export default {
     }
   },
   computed: {
+    // unsetColumns() {
+    //   return this.columns.filter(v => {
+    //     checkedList
+    //   })
+    // }
   },
   watch: {
     value: {

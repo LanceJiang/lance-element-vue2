@@ -2,12 +2,15 @@
 import { t } from 'adber-ui/src/locale'
 import InputNumber from 'adber-ui/packages/InputNumber'
 import CustomRender from 'adber-ui/packages/CustomRender'
+import AdSelect from 'adber-ui/packages/Select'
+import { renderSelectOption } from 'adber-ui/src/utils/slotsUtils'
 
 export default {
   name: 'AdFormConfig',
   components: {
     CustomRender,
-    InputNumber
+    InputNumber,
+    AdSelect
   },
   props: {
     forms: {
@@ -25,6 +28,7 @@ export default {
       //   format: Function, // 提交前的数据修改
       //   rules: Array
       //   render?: function(h, { form, params }) { JSX || createElement } // itemType === 'render' 专用
+      //   i18n: Boolean 多语言装换
       // }]
     },
     formData: {
@@ -45,7 +49,7 @@ export default {
       default: true
     }
   },
-  render() {
+  render(h) {
     const { isEdit, forms, params, local_formConfig, itemStyle } = this
     const {
       showLabel,
@@ -83,7 +87,43 @@ export default {
       if (disabled === undefined) {
         disabled = isEdit === false
       }
+      const render_selectOptions = () => {
+        return _options.map((option) => {
+          let value = option
+          let label = option
+          let disabled = false
+          if (typeof option === 'object') {
+            value = option[form.valueKey || 'value']
+            label = option[form.labelKey || 'label']
+            if (form.i18n) label = t(label)
+            disabled = option.disabled
+          }
+          return <el-option
+            key={value}
+            value={value}
+            label={label}
+            disabled={disabled}
+            title={label}>
+            {renderSelectOption.call(this, form.slotOption, option, label)}
+          </el-option>
+        })
+      }
       switch (itemType) {
+        /* 自定义 adber 自定义Select */
+        case 'adSelect' :
+          return <AdSelect
+            class={itemClass}
+            v-model={params[prop]}
+            props={formOthers}
+            isPopover={formOthers.isPopover ?? true}
+            popperAppendToBody={formOthers.popperAppendToBody ?? true}
+            onChange={() => change && change(params[prop], _options, params)}
+            size={_size ?? size}
+            placeholder={_placeholder}
+            style={_itemStyle}
+          >
+            {render_selectOptions()}
+          </AdSelect>
         /* 自定义 render */
         case 'render' :
           return <CustomRender
@@ -103,24 +143,7 @@ export default {
               size={_size ?? size}
               placeholder={_placeholder}
             >
-              {_options.map((option) => {
-                let value = option
-                let t_label = option
-                let _disabled = false
-                if (typeof option === 'object') {
-                  _disabled = option.disabled || false
-                  value = option[form.valueKey || 'value']
-                  t_label = option[form.labelKey || 'label']
-                }
-                return (
-                  <el-option
-                    key={value}
-                    label={t(t_label)}
-                    value={value}
-                    disabled={_disabled}
-                  />
-                )
-              })}
+              {render_selectOptions()}
             </el-select>
           )
         /* 单选框 */
@@ -136,12 +159,21 @@ export default {
               style={_itemStyle}
             >
               {_options.map((option, optionIndex) => {
-                const value = typeof option === 'object' ? option[form.valueKey || 'value'] : option
-                const label = t(
-                  typeof option === 'object' ? option[form.labelKey || 'label'] : option
-                )
+                let value = option
+                let label = option
+                let disabled = false
+                if (typeof option === 'object') {
+                  value = option[form.valueKey || 'value']
+                  label = option[form.labelKey || 'label']
+                  if (form.i18n) label = t(label)
+                  disabled = option.disabled
+                }
                 return (
-                  <el-radio key={`${optionIndex}_local`} label={value}>
+                  <el-radio
+                    key={`${optionIndex}_local`}
+                    label={value}
+                    disabled={disabled}
+                    title={label}>
                     {label}
                   </el-radio>
                 )

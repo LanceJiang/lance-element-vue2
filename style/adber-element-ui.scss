@@ -158,26 +158,22 @@
 /*.el-table th.is-sortable {
   //cursor: pointer
 }*/
-.el-table {
-  // 排序类型样式调整
-  .caret-wrapper {
-    height: 16px;
-    vertical-align: unset;
-    transform: translateY(4px);
-  }
-  .sort-caret {
-    &.ascending {
-      top: -3px;
-    }
-    &.descending {
-      bottom: -3px;
-    }
-  }
-}
 // 按钮样式覆盖
 .el-button {
+  font-family: $ad-family;
+  font-weight: normal;
   border-radius: 6px;
   &--medium {
     border-radius: 6px;
   }
+  // 若需要重置样式 todo...
+  //&:focus {
+  //  color: $ad-color_1;
+  //  border-color: $ad-border-color_1;
+  //  background-color: inherit;
+  //}
+}
+// input 输入框
+.el-input__inner, .el-input .el-input__inner {
+  border-radius: 6px;
 }

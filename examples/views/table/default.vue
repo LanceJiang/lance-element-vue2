@@ -295,6 +295,9 @@ export default {
             prop: 'radio',
             label: 'radio',
             itemType: 'radio',
+            // itemType: 'adSelect', // form-item 类型
+            // filterable: true,
+            // multiple: true,
             options: [
               { value: 0, label: '未结算' },
               { value: 1, label: '已结算' },
@@ -343,7 +346,7 @@ export default {
                   {`${transLabel}：`}
                   {showValue ? `<span class="el-tag__label">${showValue}</span>` : ''}
                   {others ? `others：<span class="el-tag__label">${showValue}</span>` : ''}
-                  <i class="icon-delete el-icon-error" onClick={deleteFn} />
+                  <i class="icon-delete" onClick={deleteFn} />
                 </el-tag>
               }
               return {
@@ -370,6 +373,7 @@ export default {
       list: [],
       total: 0,
       options: {
+        // rowKey: 'value',
         loading: false,
         // showIndex: true,
         multipleSelect: true

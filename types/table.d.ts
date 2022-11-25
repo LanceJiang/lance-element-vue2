@@ -10,7 +10,7 @@ export type columnProps = {
   // children?: TableColumnProps[]
   t_label?: string
   // eslint-disable-next-line no-undef
-  [string]?: any
+  [propName: string]: any
 }
 /* Column */
 // export type TableColumnProps = InstanceType<typeof ElTableColumn>['$props'] & columnProps
@@ -23,7 +23,7 @@ export type TableColumnProps = {
   align?: string
   showOverflowTooltip?: boolean
   fixed?: boolean | string
-  formatter?: function
+  formatter?: Function
 } & columnProps
 
 export type Options = {
@@ -61,8 +61,7 @@ export type TableProps = InstanceType<typeof ElTable>['$props'] & Options
 export type SearchParams = {
   page: number
   size: number
-  // eslint-disable-next-line no-undef
-  [any]?: any
+  [propName: string]: any
 }
 /*
 // import { TooltipEffect } from './tooltip'

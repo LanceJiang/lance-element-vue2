@@ -1,6 +1,13 @@
 @import "../variables.scss";
 // NoData 样式
 .#{$prefix}no-data {
+  &.mini,&.small {
+  }
+  &.medium,&.large {
+    .#{$prefix}no-data__img {
+      font-size: 120px;
+    }
+  }
   display: flex;
   flex-direction: column;
   justify-content: center;

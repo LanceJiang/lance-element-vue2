@@ -1,5 +1,5 @@
 <template>
-  <div :class="['ad-no-data', isFull ? 'ad-no-data--full' : '']">
+  <div @click="$emit('click')" :class="['ad-no-data', size, isFull ? 'ad-no-data--full' : '']">
     <Icon iconClass="ad-no_data" class="ad-no-data__img"/>
     <div class="message" v-html="message || t('adb.noData')"/>
     <!-- 额外处理 -->
@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import Icon from 'adber-ui/packages/Icon'
-import Locale from 'adber-ui/src/mixins/locale'
+import Icon from '@adber/adber-ui/packages/Icon'
+import Locale from '@adber/adber-ui/src/mixins/locale'
 export default {
   name: 'AdNoData',
   mixins: [Locale],
@@ -21,6 +21,10 @@ export default {
     isFull: {
       type: Boolean,
       default: false
+    },
+    size: {
+      type: String,
+      default: 'small' // large medium small mini
     }
   },
   components: {
