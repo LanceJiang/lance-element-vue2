@@ -17,7 +17,6 @@
         ["module-resolver", {
           "root": ["adber-ui"],
           "alias": {
-            "adber-ui-demo/src": "adber-ui-demo/lib",
             "adber-ui/src": "adber-ui/lib"
           }
         }]

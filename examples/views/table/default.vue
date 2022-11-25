@@ -536,7 +536,7 @@ export default {
     formParams: 'updateParams'
   },
   created() {
-    window.default = this
+    window.test = this
     this.queryTableConfig()
     this.updateParams()
     // this.queryList()
