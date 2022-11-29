@@ -1,6 +1,6 @@
 {
   "name": "adber-ui",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "vue-cli3构建基于elementUI二次封装库",
   "main": "lib/adber-ui.umd.min.js",
   "keywords": [
