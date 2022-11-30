@@ -21,6 +21,7 @@ import SearchFilterDrawer from './SearchFilterDrawer'
 // import BarCode from './BarCode'
 
 import locale from '../src/locale'
+const version = packageJson.version
 // 存储组件列表
 const components = [
   // Test,
@@ -44,22 +45,26 @@ const components = [
 // 加载adber-svg icon
 ;(function () {
   const d = document
-  const iconDom = d.getElementById('ad-icon')
-
-  if (!iconDom) {
-    /** update 最新 iconfont(.css && .js) */
-    // const origin_prefix = '//at.alicdn.com/t/c/font_3588867_eb8rgczzz9'
-    const origin_prefix = '//at.alicdn.com/t/c/font_3588867_6cmkzl4lrij'
-    const link = d.createElement('link')
-    link.rel = 'stylesheet'
-    link.type = 'text/css'
-    link.href = `${origin_prefix}.css`
-    d.getElementsByTagName('head')[0].appendChild(link)
-    const s = d.createElement('script')
-    s.id = 'ad-icon'
-    s.src = `${origin_prefix}.js`
-    d.getElementsByTagName('head')[0].appendChild(s)
-  }
+  // const iconDomList = d.querySelectorAll('.ad-icon-svg').length
+  // if (!iconDomList) {
+  /** update 最新 iconfont(.css && .js) */
+  // const origin_prefix = '//at.alicdn.com/t/c/font_3588867_eb8rgczzz9'
+  const origin_prefix = '//at.alicdn.com/t/c/font_3588867_6cmkzl4lrij'
+  const link = d.createElement('link')
+  link.rel = 'stylesheet'
+  link.type = 'text/css'
+  link.className = 'ad-icon-iconfont'
+  link.setAttribute('version', version)
+  link.setAttribute('origin', location.origin)
+  link.href = `${origin_prefix}.css`
+  d.getElementsByTagName('head')[0].appendChild(link)
+  const s = d.createElement('script')
+  s.className = 'ad-icon-svg'
+  s.src = `${origin_prefix}.js`
+  s.setAttribute('version', version)
+  s.setAttribute('origin', location.origin)
+  d.getElementsByTagName('head')[0].appendChild(s)
+  // }
 })()
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 const install = function (Vue, opts = {}) {
@@ -78,7 +83,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 // console.warn(packageJson, 'packageJson  packageJson.version', packageJson.version)
 export default {
-  version: packageJson.version,
+  version,
   locale: locale.use,
   i18n: locale.i18n,
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
