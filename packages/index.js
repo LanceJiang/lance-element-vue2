@@ -45,26 +45,26 @@ const components = [
 // 加载adber-svg icon
 ;(function () {
   const d = document
-  // const iconDomList = d.querySelectorAll('.ad-icon-svg').length
-  // if (!iconDomList) {
-  /** update 最新 iconfont(.css && .js) */
-  // const origin_prefix = '//at.alicdn.com/t/c/font_3588867_eb8rgczzz9'
-  const origin_prefix = '//at.alicdn.com/t/c/font_3588867_6cmkzl4lrij'
-  const link = d.createElement('link')
-  link.rel = 'stylesheet'
-  link.type = 'text/css'
-  link.className = 'ad-icon-iconfont'
-  link.setAttribute('version', version)
-  link.setAttribute('origin', location.origin)
-  link.href = `${origin_prefix}.css`
-  d.getElementsByTagName('head')[0].appendChild(link)
-  const s = d.createElement('script')
-  s.className = 'ad-icon-svg'
-  s.src = `${origin_prefix}.js`
-  s.setAttribute('version', version)
-  s.setAttribute('origin', location.origin)
-  d.getElementsByTagName('head')[0].appendChild(s)
-  // }
+  const existIconVersion = [...d.querySelectorAll('.ad-icon-svg')].map(v => v.getAttribute('version')).includes(version)
+  if (!existIconVersion) {
+    /** update 最新 iconfont(.css && .js) */
+    // const origin_prefix = '//at.alicdn.com/t/c/font_3588867_eb8rgczzz9'
+    const origin_prefix = '//at.alicdn.com/t/c/font_3588867_6cmkzl4lrij'
+    const link = d.createElement('link')
+    link.rel = 'stylesheet'
+    link.type = 'text/css'
+    link.className = 'ad-icon-iconfont'
+    link.setAttribute('version', version)
+    link.setAttribute('origin', location.origin)
+    link.href = `${origin_prefix}.css`
+    d.getElementsByTagName('head')[0].appendChild(link)
+    const s = d.createElement('script')
+    s.className = 'ad-icon-svg'
+    s.src = `${origin_prefix}.js`
+    s.setAttribute('version', version)
+    s.setAttribute('origin', location.origin)
+    d.getElementsByTagName('head')[0].appendChild(s)
+  }
 })()
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 const install = function (Vue, opts = {}) {
