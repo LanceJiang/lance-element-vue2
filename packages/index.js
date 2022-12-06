@@ -1,6 +1,53 @@
 import packageJson from '../package.json'
+import VXETable from 'vxe-table'
+/* import {
+  // 全局对象
+  VXETable,
+
+  // 功能模块
+  // Filter,
+  // Menu,
+  // Edit,
+  // Export,
+  // Keyboard,
+  // Validator,
+
+  // 可选组件
+  // Icon,
+  // Column,
+  // Colgroup,
+  // Grid,
+  Toolbar,
+  Pager,
+  Header,
+  Select as VxeSelect,
+  // Checkbox,
+  // CheckboxGroup,
+  // Radio,
+  // RadioGroup,
+  // RadioButton,
+  // Input,
+  // Textarea,
+  // Button,
+  // Modal,
+  // Tooltip,
+  // Form,
+  // FormItem,
+  // FormGather,
+  // Optgroup,
+  // Option,
+  // Switch,
+  // List,
+  // Pulldown,
+
+  // 表格
+  Table as VXE_Table
+} from 'vxe-table' // vxe-table表格插件 */
+// import VueStorage from 'vue-ls' // todo
+
 // import Test from './test'
 import Table from './Table'
+import AdVxeTable from './VxeTable'
 import DraggableNest from './DraggableNest'
 import FormConfig from './FormConfig'
 import FormConfigDialog from './FormConfigDialog'
@@ -21,11 +68,13 @@ import SearchFilterDrawer from './SearchFilterDrawer'
 // import BarCode from './BarCode'
 
 import locale from '../src/locale'
+import { $log, xeUtils } from '../src/utils'
 const version = packageJson.version
 // 存储组件列表
 const components = [
   // Test,
   Table,
+  AdVxeTable,
   DraggableNest,
   FormConfig,
   FormConfigDialog,
@@ -74,6 +123,69 @@ const install = function (Vue, opts = {}) {
   // 遍历注册全局组件
   // components.map(component => Vue.component(`${prefix}${component.name}`, component))
   components.map(component => Vue.component(component.name, component))
+  // vxeTable 配置
+  const Vxei18n = opts.i18n ? opts.i18n : (key, args) => xeUtils.toFormatString(xeUtils.get(require('vxe-table/lib/locale/lang/zh-CN'), key), args)
+  VXETable.setup({
+    size: 'mini',
+    tooltipConfig: {
+      theme: 'light'
+    },
+    // 对组件内置的提示语进行国际化翻译
+    i18n: Vxei18n
+  })
+  /* Vue.use(VueStorage, {
+    namespace: '', // key prefix
+    name: 'ls', // name variable Vue.[ls] or this.[$ls],
+    storage: 'local' // storage name session, local, memory
+  }) */
+  /* // 表格功能
+  // Vue.use(Filter)
+  // .use(Edit)
+  // .use(Menu)
+  // .use(Export)
+  // .use(Keyboard)
+  // .use(Validator)
+
+  // 可选组件
+  // Vue.use(Icon)
+  //   .use(Column)
+  // .use(Colgroup)
+  // .use(Grid)
+  Vue.use(Toolbar)
+    .use(Pager)
+    .use(Header)
+    .use(VxeSelect)
+  // .use(Checkbox)
+  // .use(CheckboxGroup)
+  // .use(Radio)
+  // .use(RadioGroup)
+  // .use(RadioButton)
+  // .use(Input)
+  // .use(Textarea)
+  // .use(Button)
+  // .use(Modal)
+  // .use(Tooltip)
+  // .use(Form)
+  // .use(FormItem)
+  // .use(FormGather)
+  // .use(Select)
+  // .use(Optgroup)
+  // .use(Option)
+  // .use(Switch)
+  // .use(List)
+  // .use(Pulldown)
+
+  // 安装表格
+  Vue.use(VXE_Table, {
+    // translate: (key, value) => opts.i18n(key, value)
+  }) */
+  // 安装表格
+  Vue.use(VXETable, {
+    // translate: (key, value) => opts.i18n(key, value)
+  })
+  // 给 vue 实例挂载内部对象:
+  // 页面$log 打印
+  Vue.prototype.$log = $log
 }
 
 // 判断是否是直接引入文件

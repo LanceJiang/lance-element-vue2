@@ -46,7 +46,7 @@
       padding: 0 12px;
       height: 36px;
       line-height: 36px;
-      color: #BDC3C9;
+      color: $ad-color_5;
     }
     //.draggableWrap {
     //  //display: flex;
@@ -173,7 +173,7 @@
     &.el-table--striped {
       .el-table__body {
         tr.el-table__row--striped td {
-          background: #f6f8fa;
+          background: $ad-hover-color_1;
         }
       }
     }
@@ -196,7 +196,7 @@
       }
     }
     .el-table__body tr.hover-row > td {
-      background: #f6f8fa;
+      background: $ad-hover-color_1;
     }
     // 排序类型样式调整
     .caret-wrapper {
@@ -215,7 +215,8 @@
   }
   .el-pagination {
     display: flex;
-    padding: 16px 12px;
+    //padding: 16px 12px;
+    padding: 12px 0;
     justify-content: flex-end;
   }
 }
