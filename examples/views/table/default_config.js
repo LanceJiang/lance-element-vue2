@@ -1,12 +1,22 @@
 const tPrefix = 'outboundOrder.table.'
 
 let flag = false
-const slot_user = (h, scope) => {
+// ad-table 渲染配置
+/* const slot_user = (h, scope) => {
   if (!flag) {
     console.log(scope, '自定义 函数渲染')
     flag = true
   }
   return <div style={'background: #f0f;'}>slot_user 函数渲染 slot:default </div>
+} */
+
+// ad-vxe-table 渲染配置
+const slot_user = (scope, h) => {
+  if (!flag) {
+    console.log(scope, '自定义 函数渲染')
+    flag = true
+  }
+  return [<div style={'background: #f0f;'}>slot_user 函数渲染 slot:default <el-button>button</el-button>   </div>]
 }
 
 const userConfig = {
@@ -33,13 +43,18 @@ const userConfig = {
 }
 const testColumns = Array.from({ length: 20 }).map((_, i) => ({
   label: `${tPrefix}test_${i}`,
-  prop: `test_${i}`
+  // title: `${tPrefix}test_${i}`,
+  prop: `test_${i}`,
+  // field: `test_${i}`,
+  minWidth: '130px'
 }))
 export const columns = [
   userConfig,
   {
     t_label: `${tPrefix}orderNo`,
+    // title: `${tPrefix}orderNo`,
     prop: 'orderNo',
+    // field: 'orderNo',
     minWidth: '220px',
     // 用户提示配置
     titleHelp: {
@@ -57,12 +72,15 @@ export const columns = [
   ...testColumns,
   {
     t_label: 'adb.table.action',
+    // title: 'adb.table.action',
     // label: '测试的 action label 非 t_label',
     prop: 'action',
+    // field: 'action',
     slots: {
       default: 'action'
     },
-    fixed: 'right'
+    fixed: 'right',
+    minWidth: '150px'
   }
 ]
 

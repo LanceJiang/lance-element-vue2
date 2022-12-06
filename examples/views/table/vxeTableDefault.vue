@@ -1,11 +1,13 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
-    <AdTable
+    <AdVxeTable
       class="local_table"
+      :class='`cellHeightWrap_${cellHeightWrap}`'
       :searchParams.sync="searchParams"
       :list="localList"
       :total="total"
       :options="options"
+      :tableOptions="tableOptions"
       :columns="localColumns"
       :checkedOptions.sync="checkedOptions"
       :columnsConfig="curColumnsConfig"
@@ -35,6 +37,7 @@
           </template>
         </ad-search-group>
       </template>
+<!--      <template #top>-->
       <template #top>
         <!-- 按钮集合 -->
         <div class="ad-button-wrap">
@@ -94,7 +97,7 @@
           <AdIcon icon-class="ad-hide_column"></AdIcon>
         </el-button>
       </template>
-    </AdTable>
+    </AdVxeTable>
   </div>
 </template>
 
@@ -109,6 +112,7 @@ export default {
   },
   data() {
     return {
+      cellHeightWrap: '',
       formParams: {
         render: 'testXXX',
         pattern: 'input 搜索',
@@ -381,6 +385,9 @@ export default {
         // showIndex: true,
         multipleSelect: true
       },
+      tableOptions: {
+        scrollY: { mode: 'wheel' }
+      },
       dropdownList: ['PickingList', 'PackingList'],
       // 列配置对象
       curColumnsConfig: {
@@ -520,6 +527,7 @@ export default {
       const { checkedOptions } = this
       const columns = this.curColumnsConfig.columns
       if (!checkedOptions.length) return columns
+
       return checkedOptions.map((v) => {
         const cur = columns.find((column) => column.prop === v.prop)
         if (cur) {
@@ -531,6 +539,28 @@ export default {
         }
         return false
       }).filter(Boolean)
+      // todo... delete
+      /* const hiddenColumns = columns.map(v => {
+        return {
+          ...v,
+          visible: false
+        }
+      })
+      const visibleColumns = checkedOptions.map((v) => {
+        const index = columns.findIndex((column) => column.prop === v.prop)
+        if (index > -1) {
+          const cur = columns[index]
+          const fixedFlag = cur.fixed
+          if (fixedFlag) {
+            v.fixed = fixedFlag
+          }
+          cur.visible = true
+          hiddenColumns.splice(index, 1)
+          return cur
+        }
+        return false
+      }).filter(Boolean)
+      return visibleColumns.concat(hiddenColumns) */
     }
   },
   watch: {
@@ -540,12 +570,24 @@ export default {
       this.queryList()
     },
     // 更新formParams
-    formParams: 'updateParams'
+    formParams: 'updateParams',
+    localColumns(columns) {
+      if (columns.find(v => v.field === 'value')) {
+        this.cellHeightWrap = 'value'
+        return
+      }
+      if (columns.find(v => v.field === 'action')) {
+        this.cellHeightWrap = 'action'
+      }
+    }
   },
   beforeCreate() {
-    console.error('before create default ElTable')
-    columns.find(v => v.prop === 'local_user').slots.default = (h, scope) => {
-      return <div style={'background: #f0f;'}>slot_user 函数渲染 slot:default </div>
+    console.error('before create vxeTableDefault VxeTable')
+    columns.map(v => {
+      v.visible = true
+    })
+    columns.find(v => v.prop === 'local_user').slots.default = (scope, h) => {
+      return [<div style={'background: #f0f; display: flex;flex-wrap: wrap;height_xxx: 50px;'}>slot_user 函数渲染 slot:default <el-button>button</el-button>   </div>]
     }
   },
   created() {
@@ -678,5 +720,26 @@ export default {
 // 其他样式
 .local_table {
   padding: 0 12px;
+}
+// 触发table 的 虚拟滚动时，需要根据当前 table 的选中项 处理 vxe-cell 的高度
+.cellHeightWrap_XXXX{
+  &_value {
+    ::v-deep {
+      .vxe-table--body .vxe-cell {
+        //height: 32 + 22;
+        height: 54px;
+        min-height: 54px !important;
+      }
+    }
+  }
+  &_action {
+    ::v-deep {
+      .vxe-table--body .vxe-cell {
+        //height: 32 + 22;
+        height: 32px;
+        min-height: 32px !important;
+      }
+    }
+  }
 }
 </style>

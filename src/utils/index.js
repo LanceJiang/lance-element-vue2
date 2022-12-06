@@ -1,3 +1,7 @@
+import xeUtils from 'xe-utils'
+export {
+  xeUtils
+}
 /**
  * 针对本地开发 console.log 添加颜色打印
  */
