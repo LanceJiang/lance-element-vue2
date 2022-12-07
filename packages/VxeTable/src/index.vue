@@ -1,16 +1,20 @@
 <!--
  申明： 本组件通过 vxe-table 插件 兼容目前项目 修整
  相关配置参考： https://xuliangzhan_admin.gitee.io/vxe-table/v3/#/table/api
+ 注意：
+ 1. columns: AdVxeTable 为了更方便兼容 AdTable(基于el-table 的封装组件) 将会默认对 没有设置 title(t_label > label -> title) 和 field(prop -> field) 做转译
+ 2. options: AdVxeTable 配置对象: tableOptions(vxeTable的配置) 和 options(除vxeTable配置以外的配置) 两个配置  AdTable只有一个options
+ 3. slots: slot fn 不同
+    AdVxeTable:  default: (scope, h) => [<div>1</div> , <div>2</div>]
+    AdTable:  default: (h, scope) => <div>1</div>
  -->
 <script lang='jsx'>
 import NoData from '@adber/adber-ui/packages/NoData'
 import Icon from '@adber/adber-ui/packages/Icon'
 import TableColumnsPopover from '@adber/adber-ui/packages/Table/src/TableColumnsPopover'
-// import TableColumnsPopover from './TableColumnsPopover'
 import _ from 'lodash'
 import { xeUtils, getDeepValue } from '@adber/adber-ui/src/utils'
 import { t } from '@adber/adber-ui/src/locale'
-// console.log(Icon, 'icon')
 export const tableProps = {
   list: {
     type: Array,
@@ -176,12 +180,9 @@ const render = function(h) {
   console.error(curPageSelectLength, 'curPageSelectLength length')
   const scopedSlots_toolLeft = this.$scopedSlots.toolLeft
   return <div class='ad-vxe-table-warp'>
-    {/* <div v-show={computedOptions.loading} class='tableLoading'>
-      <a-spin tip='加载中...' /> todo
-    </div> */}
+    {/* <div v-show={computedOptions.loading} v-loading={computedOptions.loading} class='tableLoading'></div> */}
     <div class='tableBody'>
-      {/* todo custom */}
-      <vxe-toolbar custom class='toolBarWrap' ref='vxeToolBar'>
+      <vxe-toolbar class='toolBarWrap' ref='vxeToolBar'>
         <template slot='buttons'>
           {scopedSlots_toolLeft && scopedSlots_toolLeft({ curPageSelectLength })}
         </template>
@@ -371,13 +372,13 @@ export default {
     },
     computedOptions() {
       const defaultOptions = {
-        // el-table 配置 todo...(对比下  vxe-table 的配置  区分vxeTable 写自定义配置 )
-        size: 'medium', // 尺寸类型 (弹窗建议使用 mini)
+        // el-table 配置
+        size: 'medium', // 仅针对无数据配置 尺寸类型 (弹窗建议使用 mini)
 
         // 分页器参数
         showPagination: true, // 是否展示 分页器栏
         pageSizes: [20, 50, 100, 500, 1000, 10000], // 页面配置 todo
-        layout: 'total, sizes, prev, pager, next, jumper', // todo
+        layout: 'total, sizes, prev, pager, next, jumper',
 
         // 额外table自定义参数
         showIndex: false, // 是否展示序号
@@ -407,7 +408,7 @@ export default {
       this.$vxeTable.connect(this.$refs.vxeToolBar)
     }) */
 
-    // 监听 父级调用 XTable 的 内部方法 触发
+    // 监听 父级调用 AdVxeTable 的 内部方法 触发
     this.$on('AdVxeTableAction', (handlerArr = [], params) => {
       // console.log(handlerArr, 'XTableAction handlerArr params', params)
       this.$nextTick(() => {
