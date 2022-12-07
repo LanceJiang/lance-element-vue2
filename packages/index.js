@@ -1,5 +1,6 @@
 // import { prefix } from '@adber/adber-ui/packages/config'
 import packageJson from '../package.json'
+import lodash from 'lodash/lodash.min'
 import VXETable from 'vxe-table'
 /* import {
   // 全局对象
@@ -185,6 +186,8 @@ const install = function (Vue, opts = {}) {
     // translate: (key, value) => opts.i18n(key, value)
   })
   // 给 vue 实例挂载内部对象:
+  // 挂载 lodash 操作
+  Vue.prototype.$_ = lodash
   // 页面$log 打印
   Vue.prototype.$log = $log
 }

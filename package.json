@@ -29,6 +29,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lib:packages": "vue-cli-service build --target lib --name adber-ui --dest lib packages/index.js",
+    "lib:packages-report": "vue-cli-service build --target lib --name adber-ui --dest lib packages/index.js --report",
     "lib:utils": "cross-env BABEL_ENV=utils babel src --out-dir lib --ignore src/index.js",
     "lib": "npm run lib:packages && npm run lib:utils",
     "lib2publish": "npm run lib && npm publish"
