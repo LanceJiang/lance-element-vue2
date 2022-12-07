@@ -174,11 +174,11 @@
     justify-content: space-between;
     //padding: 16px 0;
     padding: 12px 0;
-    .pagerLeft {
+    .footerLeft {
       .selectedWrap {
         //display: inline-flex;
         //align-items: flex-end;
-        padding: 0 12px;
+        padding-right: 12px;
         line-height: 30px;
         //color: rgba(0, 0, 0, .45);
         color: $ad-color_3;
