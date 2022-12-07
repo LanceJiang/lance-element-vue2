@@ -200,7 +200,7 @@ const render = function (h) {
               const label_ = t_label ? t(t_label) : label
               return (
                 <el-table-column
-                  key={index}
+                  key={column.prop}
                   props={opts}
                   label={label_}
                   scopedSlots={adb_slots}
@@ -265,7 +265,7 @@ export default {
           updateSort: false, // 列表变更 是否更新 sort 排序的 column
 
           showIndex: false, // 是否展示序号
-          showFilling: true, // 是否默认填充空白
+          // showFilling: true, // 是否默认填充空白
           showPagination: true, // 是否加载table 分页栏
           showTools: true // 是否展示table tools栏目
         },
@@ -317,7 +317,7 @@ export default {
   },
   watch: {
     list() {
-      this.$nextTick().then(this.handleDefaults)
+      // this.$nextTick().then(this.handleDefaults)
     },
     localColumns(columns) {
       // console.error('watch  localColumns  doLayout', columns)
@@ -326,21 +326,15 @@ export default {
         // this.$refs.ELTable.doLayout()
       })
     }
-    // localColumns: debounce(function (columns) {
-    //   console.error('watch  localColumns  doLayout', columns)
-    //   this.$nextTick(() => {
-    //     this.$refs.ELTable.doLayout()
-    //   })
-    // }, 30)
   },
   methods: {
-    handleDefaults() {
+    /* handleDefaults() {
       // 更新 列表 sort
       const sortParams = this.searchParams.sortParams || {}
       if (this.computedOptions.updateSort && sortParams.prop) {
         this.tableUpdateSort(sortParams)
       }
-    },
+    }, */
     // 排序
     tableSortChange({ column, prop, order }) {
       // console.error(column, prop, order, 'column, prop, order tableSortChange', ...arguments)
