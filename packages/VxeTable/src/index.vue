@@ -167,17 +167,16 @@ const render = function(h) {
     searchParams
   } = this
   const tableOn = {
-    'cell-click': this.cellClick,
+    'cell-click': ($event) => this.$emit('cellClick', $event), // args: { row, rowIndex, column } 当前点选即会触发
+    'toggle-row-expand': ($event) => this.$emit('toggleRowExpand', $event),
     'sort-change': this.tableSortChange,
     'filter-change': this.filterChangeEvent,
     'checkbox-change': this.checkboxChange,
     'checkbox-all': this.checkboxChange,
     'current-change': this.currentChange,
-    'toggle-row-expand': ($event) => this.$emit('toggleRowExpand', $event),
-    'hook:mounted': this.tableMounted,
-    'scroll': ($event) => this.$emit('tableScroll', $event)
+    'hook:mounted': this.tableMounted
   }
-  console.error(curPageSelectLength, 'curPageSelectLength length')
+
   const scopedSlots_toolLeft = this.$scopedSlots.toolLeft
   return <div class='ad-vxe-table-warp'>
     {/* <div v-show={computedOptions.loading} v-loading={computedOptions.loading} class='tableLoading'></div> */}
@@ -222,11 +221,11 @@ const render = function(h) {
         </vxe-table>
       </div>
     </div>
-    {/* 自定义 pagerLeft */}
+    {/* 自定义 footerLeft */}
     <div class='tableFooterWrap'>
-      <div class='pagerLeft'>
-        {this.$slots.pagerLeft ||
-          <div v-show={curPageSelectLength} class='selectedWrap'>已选择<span>{curPageSelectLength}</span>条</div>}
+      <div class='footerLeft'>
+        {this.$slots.footerLeft ||
+          <div v-show={curPageSelectLength} class='selectedWrap'><span>{curPageSelectLength}</span>{t('adb.table.hasChecked')}</div>}
       </div>
       {/* --分页-- */}
       {
@@ -636,13 +635,6 @@ export default {
       // 选中当前列 触发
       this.$emit('currentChange', args)
     },
-    // 当前点选即会触发
-    cellClick(args) {
-      // { row, rowIndex, column }
-      // // 更新当前选中行
-      // this.$emit('update:curRow', args.row)
-      this.$emit('cellClick', args)
-    },
     // 可用于父级 通过 ref 获取该实例 手动切换
     toggleCheckboxRowByIndex(index, bool) {
       this.$vxeTable.toggleCheckboxRow(this.list[index])
@@ -738,9 +730,7 @@ export default {
     @refreshHandler="refreshHandler" 刷新功能额外操作 (已经内置刷新列表功能 page:1)
     :columnsConfig="columnsConfig" // 自定义配置列表 展示控制 { defaultCheckedOptions: [], columns: []}
     @checkboxChange="checkboxChange" // 若存在多选的情况 将目前被选中的数据 传递给父组件
-    :selectedList="testList" // 多选情况下 接口返回的元贝备选中的 数组  【有多选数据必传】
     :curRow="testCurRow" // 当前高亮的 数据  【需要高亮上次数据必传】
-    // :checkSelectedKey="checkSelectedKey" // 查询当前页面数据是否被选中 筛选的唯一key值 【有多选数据不传默认 为 ‘id'】 todo
 />
 */
 </script>
