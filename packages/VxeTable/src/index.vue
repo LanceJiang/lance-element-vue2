@@ -12,7 +12,7 @@
 import NoData from '@adber/adber-ui/packages/NoData'
 import Icon from '@adber/adber-ui/packages/Icon'
 import TableColumnsPopover from '@adber/adber-ui/packages/Table/src/TableColumnsPopover'
-import _ from 'lodash'
+// import _ from 'lodash/lodash.min'
 import { xeUtils, getDeepValue } from '@adber/adber-ui/src/utils'
 import { t } from '@adber/adber-ui/src/locale'
 export const tableProps = {
@@ -353,7 +353,7 @@ export default {
         fixed: 'left'
       })
 
-      const realColumns = _.cloneDeep(this.columns.filter(Boolean))
+      const realColumns = this.$_.cloneDeep(this.columns.filter(Boolean))
 
       // 空白格填充
       let fillSpaceColumns = [{ minWidth: 0, slots: { default: () => '' } }]
