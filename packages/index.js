@@ -1,8 +1,8 @@
 // import { prefix } from '@adber/adber-ui/packages/config'
 import packageJson from '../package.json'
 import lodash from 'lodash/lodash.min'
-import VXETable from 'vxe-table'
-/* import {
+// import VXETable from 'vxe-table'
+import {
   // 全局对象
   VXETable,
 
@@ -44,7 +44,7 @@ import VXETable from 'vxe-table'
 
   // 表格
   Table as VXE_Table
-} from 'vxe-table' // vxe-table表格插件 */
+} from 'vxe-table' // vxe-table表格插件
 // import VueStorage from 'vue-ls' // todo
 
 // import Test from './test'
@@ -140,7 +140,7 @@ const install = function (Vue, opts = {}) {
     name: 'ls', // name variable Vue.[ls] or this.[$ls],
     storage: 'local' // storage name session, local, memory
   }) */
-  /* // 表格功能
+  // 表格功能
   // Vue.use(Filter)
   // .use(Edit)
   // .use(Menu)
@@ -179,10 +179,6 @@ const install = function (Vue, opts = {}) {
 
   // 安装表格
   Vue.use(VXE_Table, {
-    // translate: (key, value) => opts.i18n(key, value)
-  }) */
-  // 安装表格
-  Vue.use(VXETable, {
     // translate: (key, value) => opts.i18n(key, value)
   })
   // 给 vue 实例挂载内部对象:

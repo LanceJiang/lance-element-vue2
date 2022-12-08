@@ -1,7 +1,7 @@
 {
   "name": "@adber/adber-ui",
-  "version": "0.3.13",
-  "description": "vue-cli3构建基于elementUI二次封装库",
+  "version": "0.4.1",
+  "description": "vue-cli3构建基于elementUI二次封装库 集成 vxe-table",
   "main": "lib/adber-ui.umd.min.js",
   "keywords": [
     "element-ui",
@@ -63,6 +63,7 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",
+    "babel-plugin-import": "^1.13.5",
     "babel-plugin-module-resolver": "^2.2.0",
     "babel-preset-env": "^1.7.0",
     "core-js": "^3.25.5",
