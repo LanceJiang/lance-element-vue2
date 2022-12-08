@@ -203,7 +203,7 @@
   // 提示样式统一
   .vxe-table--tooltip-wrapper.theme--dark {
     background: rgba(0, 0, 0, 0.75);
-    box-shadow: 0 2px 8px rgb(0, 0, 0, 15%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 15%);
     border-radius: 2px;
     padding: 6px 8px;
     &.placement--top .vxe-table--tooltip-arrow{
