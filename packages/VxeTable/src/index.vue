@@ -28,7 +28,7 @@ export const tableProps = {
    *     width, // 列宽
    *     minWidth, // 最小列宽
    *     sortable, // 是否允许排列顺序
-   *     formatter: function(row, column){}, // 格式化 [Function, Array, String]
+   *     formatter: function({row, column, cellValue}){}, // 格式化 [Function, Array, String]
    // *     （slots.default > formatter） todo 验证
    *     slots: {
    *       // slots不同类型 scope 关键数据项描述
@@ -313,7 +313,7 @@ export default {
         highlightCurrentRow: true, // 是否要高亮当前行
         // height: 'auto',
         height: '100%',
-        // showOverflow: 'tooltip', // 超出内容 省略号 同时添加 tooltip [纯展示数据才使用（若有其他功能加上这个 展示会有问题!!!!）]
+        showOverflow: 'tooltip', // 超出内容 省略号 同时添加 tooltip [纯展示数据才使用（若有其他功能加上这个 展示会有问题!!!!）] // todo./..
         showHeaderOverflow: 'tooltip', // 超出内容 省略号 同时添加 tooltip // title, ellipsis
         // showHeaderOverflow: false, // 超出内容 省略号 同时添加 tooltip // title, ellipsis
         showFooterOverflow: 'tooltip', // 超出内容 省略号 同时添加 tooltip // title, ellipsis
