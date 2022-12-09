@@ -22,6 +22,7 @@ import {
   Pager,
   Header,
   Select as VxeSelect,
+  Tooltip,
   // Checkbox,
   // CheckboxGroup,
   // Radio,
@@ -31,7 +32,6 @@ import {
   // Textarea,
   // Button,
   // Modal,
-  // Tooltip,
   // Form,
   // FormItem,
   // FormGather,
@@ -156,6 +156,7 @@ const install = function (Vue, opts = {}) {
     .use(Pager)
     .use(Header)
     .use(VxeSelect)
+    .use(Tooltip)
   // .use(Checkbox)
   // .use(CheckboxGroup)
   // .use(Radio)
@@ -165,7 +166,6 @@ const install = function (Vue, opts = {}) {
   // .use(Textarea)
   // .use(Button)
   // .use(Modal)
-  // .use(Tooltip)
   // .use(Form)
   // .use(FormItem)
   // .use(FormGather)

@@ -67,6 +67,7 @@ export const columns = [
       default: ''
     },
     sortable: true,
+    showOverflow: 'tooltip',
     formatter() {
       return 'orderNo: formatter'
     }
@@ -90,7 +91,7 @@ export const columns = [
 export const checkedOptions = columns.map((v) => v)
 
 // 若有特殊的 默认配置 (产品特殊要求 含: column 展示配置  和 展示 顺序)
-export const defaultCheckedOptions = columns.map((v) => v).reverse()
+export const defaultCheckedOptions = [userConfig] // columns.map((v) => v).reverse()
 
 // 搜索的表单配置 示例
 // 表单对象值
