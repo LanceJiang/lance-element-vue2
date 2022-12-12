@@ -35,6 +35,7 @@
     "lib2publish": "npm run lib && npm publish"
   },
   "dependencies": {
+    "decimal.js": "^10.2.1",
     "jsbarcode": "^3.11.5",
     "pdfjs-dist": "2.2.228",
     "vuedraggable": "^2.24.3",
