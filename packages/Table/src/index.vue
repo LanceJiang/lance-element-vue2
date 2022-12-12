@@ -21,8 +21,8 @@ export const tableProps = {
    *     width, // 列宽
    *     minWidth, // 最小列宽
    *     sortable, // 是否允许排列顺序
-   *     formatter: function(row, column){}, // 返回需要展示的数据
-   *     slots: { header: fn || slotName, default: fn || slotName } （slots.default > formatter）
+   *     formatter: function(row, column, cellValue, index){}, // 返回需要展示的数据
+   *     slots: { header: fn || slotName, default: fn() || slotName }（slots.default > formatter）
    * }]
    */
   columns: {

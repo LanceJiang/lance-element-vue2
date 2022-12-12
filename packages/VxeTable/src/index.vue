@@ -29,7 +29,7 @@ export const tableProps = {
    *     minWidth, // 最小列宽
    *     sortable, // 是否允许排列顺序
    *     formatter: function({row, column, cellValue}){}, // 格式化 [Function, Array, String]
-   // *     （slots.default > formatter） todo 验证
+   // *     （slots.default > formatter）
    *     slots: {
    *       // slots不同类型 scope 关键数据项描述
             // header: '#slotName || render function', // { $columnIndex, $rowIndex, rowIndex, $table, columnIndex, column } // rowIndex 是实际的 index $rowIndex 为虚拟渲染的 index

@@ -64,11 +64,21 @@ export const columns = [
       message: `<span style='background: #f00'>wo的 <br/>sssssssssss</span>`
     },
     slots: {
+      /**
+       *  不同组件下配置的区别
+       *  adTable slots.default: (h, {row, column, index...}){ return <element> }
+       *  adVxeTable slots.default: ({row, column, rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex}, h){ return [<element>]}
+       */
       default: ''
     },
     sortable: true,
     showOverflow: 'tooltip',
     formatter() {
+      /**
+       * 不同组件下配置的区别
+       *  adTable formatter: (row, column, cellValue, index){}
+       *  adVxeTable formatter: ( {row, column, cellValue, index} ){}
+       */
       return 'orderNo: formatter'
     }
   },
