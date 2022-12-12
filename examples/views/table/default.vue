@@ -107,7 +107,7 @@ export default {
   beforeCreate() {
     console.error('before create default ElTable')
     columns.find(v => v.prop === 'local_user').slots.default = (h, scope) => {
-      return <div style={'background: #f0f;'}>slot_user 函数渲染 slot:default </div>
+      return [<div style={'background: #f0f;'}>slot_user 函数渲染 slot:default </div>]
     }
   }
 }
