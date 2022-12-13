@@ -1,24 +1,22 @@
 import { getOrders, getOrdersCount, getTableConfig } from '@/views/table/queryApi'
+// import { cellSlot_price } from './testSlots.jsx'
+// import { cellSlot_price } from '@adber/adber-ui/src/utils/cellSlots.vue'
+// import { cellSlot_price } from '@adber/adber-ui/packages/sys_cellSlots'
+import { cellSlot_price } from '@adber/adber-ui/packages/sys_cellSlots/index.jsx'
+// import { cellSlot_price } from '@/../src/utils/cellSlots.vue'
 
 const tPrefix = 'outboundOrder.table.'
 
-let flag = false
-// ad-table 渲染配置
-/* const slot_user = (h, scope) => {
-  if (!flag) {
-    console.log(scope, '自定义 函数渲染')
-    flag = true
-  }
-  return <div style={'background: #f0f;'}>slot_user 函数渲染 slot:default </div>
-} */
-
-// ad-vxe-table 渲染配置
+/**
+ *  不同组件下配置的区别
+ *  adTable slots.default: ({row, column, (index...)}, h){ return <element> } 为方便 ad(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
+ *  adVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}, h){ return [<element>]}
+ */
 const slot_user = (scope, h) => {
-  if (!flag) {
-    console.log(scope, '自定义 函数渲染')
-    flag = true
-  }
-  return [<div style={'background: #f0f;'}>slot_user 函数渲染 slot:default <el-button>button</el-button>   </div>]
+  // $rowIndex 指 vxeTable Cell  $index 指 elTable Cell
+  if (scope.$rowIndex === 0 || scope.$index === 0) console.error(scope, 'slot_user scope 第一条数据')
+  const { row, column } = scope
+  return [<div style={'background: #f0f;'}>slot:default <br/><el-button>row[column.property]: {row[column.property]}</el-button>   </div>]
 }
 
 const userConfig = {
@@ -66,20 +64,32 @@ export const columns = [
     slots: {
       /**
        *  不同组件下配置的区别
-       *  adTable slots.default: (h, {row, column, index...}){ return <element> }
-       *  adVxeTable slots.default: ({row, column, rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex}, h){ return [<element>]}
+       *  adTable slots.default: ({row, column, (index...)}, h){ return [<element>] || <element> } 为方便 ad(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
+       *  adVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}, h){ return [<element>]}
        */
       default: ''
     },
     sortable: true,
     showOverflow: 'tooltip',
-    formatter() {
+    formatter(maybeRow, ...others) {
       /**
        * 不同组件下配置的区别
        *  adTable formatter: (row, column, cellValue, index){}
-       *  adVxeTable formatter: ( {row, column, cellValue, index} ){}
+       *  adVxeTable formatter: ( {row, column, cellValue, rowIndex} ){}
        */
-      return 'orderNo: formatter'
+      console.error(maybeRow, 'maybeRow ', others, 'others')
+      const row = maybeRow.row || maybeRow
+      return 'orderNo: formatter: ' + row.orderNo
+    }
+  },
+  {
+    label: 'slotPrice',
+    // title: `${tPrefix}orderNo`,
+    prop: 'priceValue',
+    minWidth: '240px',
+    slots: {
+      // default: cellSlot_price() // 默认 金额单位 currency, 再是 非 prop 的数据渲染
+      default: cellSlot_price('currency', 'priceValue')
     }
   },
   ...testColumns,
