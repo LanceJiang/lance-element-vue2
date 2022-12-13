@@ -77,7 +77,7 @@
       <!-- 自定义slot title -->
       <template #slotName_title>
         <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">
-          <span>slotName_title</span>
+          <span>slotName_title by localUser</span>
         </el-tooltip>
       </template>
       <!-- 操作 -->
@@ -100,7 +100,7 @@
 
 <script>
 import {
-  columns,
+  // columns,
   tableBaseMixin
 } from './default_config'
 
@@ -180,9 +180,9 @@ export default {
   },
   beforeCreate() {
     console.error('before create vxeTableDefault VxeTable')
-    columns.find(v => v.prop === 'local_user').slots.default = (scope, h) => {
-      return [<div style={'background: #f0f; height: 68px; overflow: hidden;'}>slot_user 函数渲染 slot:default <el-button>button</el-button>   </div>]
-    }
+    // columns.find(v => v.prop === 'local_user').slots.default = (scope, h) => {
+    //   return [<div style={'background: #f0f; height: 68px; overflow: hidden;'}>slot_user 函数渲染 slot:default <el-button>button</el-button>   </div>]
+    // }
   },
   methods: {
   }

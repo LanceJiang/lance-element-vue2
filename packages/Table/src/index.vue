@@ -22,7 +22,7 @@ export const tableProps = {
    *     minWidth, // 最小列宽
    *     sortable, // 是否允许排列顺序
    *     formatter: function(row, column, cellValue, index){}, // 返回需要展示的数据
-   *     slots: { header: fn || slotName, default: fn() || slotName }（slots.default > formatter）
+   *     slots: { header: fn || slotName, default: fn({row, column, $index...}, h) || slotName }（slots.default > formatter）
    * }]
    */
   columns: {
@@ -127,7 +127,9 @@ const columnSlots = (column, _this) => {
           local_slots[type] = $scopedSlots[slotName] || null
           break
         case 'function': // 非 vue3 无法直接通过全局获取到 createElement 进行强制绑定
-          local_slots[type] = slotName.bind(null, $createElement)
+          // local_slots[type] = slotName.bind(null, $createElement)
+          // 重载 兼容vxeTable slots 传参方式
+          local_slots[type] = (scope) => slotName(scope, $createElement)
           break
         default:
       }
