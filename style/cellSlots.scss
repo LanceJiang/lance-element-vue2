@@ -6,7 +6,8 @@
   .text-uppercase {
     text-transform: uppercase;
   }
-  .cell-label {
+  // label 类型
+  &-label {
     color: $ad-color_4;
   }
   // 金额渲染样式
