@@ -18,7 +18,7 @@ const render = function(h) {
     const { prop, itemType, itemWidth, options, change, itemStyle = '', placeholder, t_placeholder, ...formOthers } = item
     const _options = options || []
     const defaultWidth = isMore ? '100%' : '280px'
-    const _itemStyle = itemStyle + (itemWidth ? `width: ${itemWidth || defaultWidth};` : '')
+    const _itemStyle = itemStyle + `width: ${itemWidth || defaultWidth};`
     const _placeholder = t_placeholder ? t(t_placeholder) : placeholder
     let disabled = item.disabled
     if (disabled === undefined) {
@@ -88,6 +88,7 @@ const render = function(h) {
         return <el-select
           v-model={searchObj[prop]}
           props={{ ...formOthers }}
+          placeholder={_placeholder}
           popper-append-to-body={formOthers.popperAppendToBody || false}
           onChange={formatterChange}
           disabled={disabled}
@@ -129,6 +130,8 @@ const render = function(h) {
       // <!-- 单日期 || 日期区间 ... -->
       case 'datePicker':
         let dateOpts = {}
+        dateOpts.valueFormat = item.valueFormat || 'MM/dd/yyyy'
+        dateOpts.format = item.format || dateOpts.valueFormat
         // 区间类型
         if (/range$/.test(item.type || '')) {
           dateOpts = {
@@ -147,8 +150,6 @@ const render = function(h) {
           onChange={formatterChange}
           disabled={disabled}
           clearable={item.clearable !== false}
-          format={item.format || 'MM/dd/yyyy'}
-          valueFormat={item.valueFormat || 'MM/dd/yyyy'}
           type={item.type || 'date'}
           style={_itemStyle}
         />

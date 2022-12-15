@@ -116,7 +116,8 @@ export default {
       // vxeTableOptions 额外配置
       tableOptions: {
         // 虚拟滚动 模式配置 (建议使用)
-        scrollY: { mode: 'wheel' }
+        scrollY: { mode: 'wheel' },
+        gt: 50
       }
     }
   },
