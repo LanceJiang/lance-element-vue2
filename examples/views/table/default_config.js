@@ -128,6 +128,7 @@ export const formParams = {
   dateRange: ['11/10/2022', '11/25/2022'],
   dateRangeMore: [],
   datePickerMore: '11/25/2022'
+  // datePickerMore: '2022-11-25'
   // inputNumber: undefined
 }
 // 表单配置类目
@@ -265,6 +266,8 @@ export const formOptions = {
       isMore: true, // 只要不为true 就是 默认展示
       prop: 'datePickerMore', // 提交的 params 的字段
       label: 'datePickerMore', // label 标签
+      // valueFormat: 'yyyy-MM-dd', // 提交 数据
+      // format: 'MM/dd/yyyy', // label 展示
       itemType: 'datePicker' // form-item 类型
     },
     {
