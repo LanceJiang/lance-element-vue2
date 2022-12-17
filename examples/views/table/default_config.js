@@ -239,7 +239,7 @@ export const formOptions = {
       prop: 'dateRange', // 提交的 params 的字段
       label: 'dateRange', // label 标签
       itemType: 'datePicker', // form-item 类型
-      type: 'daterange', // form-item 类型  unlink-panels
+      type: 'daterange', // form-item 类型
       change(params, options, isMore) {
         // // 模拟针对 change 事件 对 其他formItem 进行调整 (success) to do...
         // that.searchParams2.rangePicker = undefined // 测试only
@@ -252,7 +252,10 @@ export const formOptions = {
       prop: 'dateRangeMore', // 提交的 params 的字段
       label: 'dateRangeMore', // label 标签
       itemType: 'datePicker', // form-item 类型
-      type: 'daterange' // form-item 类型  unlink-panels
+      // type: 'daterange', // form-item 类型
+      type: 'datetimerange',
+      valueFormat: 'yyyy-MM-dd HH:mm:ss', // 提交 数据
+      format: 'MM/dd/yyyy HH:mm:ss' // label 展示
     },
     {
       visible: true, // 只要不为false 就是 展示
@@ -532,6 +535,7 @@ export const tableBaseMixin = {
       return this.list
     },
     localColumns() {
+      console.error('重新 计算localColumns.....')
       // 为保险起见 拿到接口的配置数据 需要过滤 已失效的配置项 [checkedOptions]
       const { checkedOptions } = this
       const columns = this.curColumnsConfig.columns

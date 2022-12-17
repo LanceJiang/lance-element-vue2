@@ -139,7 +139,7 @@ const columnSlots = (column, _this) => {
   return local_slots
 }
 const render = function (h) {
-  const { computedOptions, list, total, searchParams, checkedOptions, columnsConfig } = this
+  const { computedOptions, list, total, searchParams, checkedOptions, columnsConfig, localColumns } = this
   // const listeners = {
   //   // 事件
   //   onSortChange: this.tableSortChange,
@@ -188,7 +188,7 @@ const render = function (h) {
             on-row-click={this.handleCurrentChange}
             on-selection-change={this.handleSelectionChange}
           >
-            {this.localColumns.map((column, index) => {
+            {localColumns.map((column, index) => {
               const {
                 label,
                 t_label,
@@ -202,8 +202,8 @@ const render = function (h) {
               const label_ = t_label ? t(t_label) : label
               return (
                 <el-table-column
-                  key={column.prop}
                   props={opts}
+                  key={column.prop}
                   label={label_}
                   scopedSlots={adb_slots}
                   align={align ?? computedOptions.align}
@@ -289,6 +289,7 @@ export default {
       const _columns = []
       // 序号
       showIndex && _columns.push({
+        prop: 'adTable_index',
         type: 'index',
         label: 'No.',
         showOverflowTooltip: true,
@@ -299,6 +300,7 @@ export default {
       })
       // 多选
       multipleSelect && _columns.push({
+        prop: 'adTable_selection',
         type: 'selection',
         showOverflowTooltip: false,
         resizable: false,
@@ -308,7 +310,7 @@ export default {
       })
       const realColumns = this.realColumns.filter(Boolean)
       // 空白格填充
-      let fillSpaceColumns = [{ minWidth: 0 }]
+      let fillSpaceColumns = [{ minWidth: 0, prop: 'adTable_fillSpace' }]
       if (realColumns.some(v => !v.fixed)) {
         fillSpaceColumns = []
       }
@@ -324,8 +326,17 @@ export default {
     localColumns(columns) {
       // console.error('watch  localColumns  doLayout', columns)
       this.$nextTick(() => {
-        ;(getDeepValue(this, ['$refs', 'ELTable', 'doLayout']) || function() {})()
-        // this.$refs.ELTable.doLayout()
+        const ELTable = getDeepValue(this, ['$refs', 'ELTable'])
+        if (ELTable) {
+          // 修复 element-ui 相同prop 的 columns 调换顺序不更新问题
+          const table_states = ELTable.store.states
+          const lastColumns = table_states._columns
+          const newColumns = columns.map(v => lastColumns.find(_v => _v.property === v.prop)).filter(Boolean)
+          table_states._columns = newColumns
+          ELTable.store.updateColumns()
+          ;(ELTable.doLayout || function() {})()
+        }
+        // ELTable.doLayout()
       })
     }
   },
