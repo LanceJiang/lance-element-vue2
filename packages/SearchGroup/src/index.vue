@@ -136,7 +136,8 @@ const render = function(h) {
         if (/range$/.test(item.type || '')) {
           dateOpts = {
             startPlaceholder: t(item.startPlaceholder || 'adb.filter.startDate'),
-            endPlaceholder: t(item.endPlaceholder || 'adb.filter.endDate')
+            endPlaceholder: t(item.endPlaceholder || 'adb.filter.endDate'),
+            unlinkPanels: item.unlinkPanels ?? true // 双面板联动
           }
         } else {
           dateOpts.placeholder = _placeholder || t('adb.filter.selectDate')
