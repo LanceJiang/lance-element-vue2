@@ -11,6 +11,7 @@
       :columns="localColumns"
       :checkedOptions.sync="checkedOptions"
       :columnsConfig="curColumnsConfig"
+      @sortChange='testSortChange'
     >
       <template #toolLeft>
 <!--        <AdSearchGroup/>-->
