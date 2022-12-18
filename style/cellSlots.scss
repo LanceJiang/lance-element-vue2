@@ -1,7 +1,7 @@
 @import "variables.scss";
 
 // cellSlots 样式 公用 前缀
-.#{$prefix}-cell {
+.#{$prefix}cell {
   // 文字大写
   .text-uppercase {
     text-transform: uppercase;

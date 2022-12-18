@@ -73,9 +73,11 @@
       </template>
       <!-- 自定义slot title -->
       <template #slotName_title>
-        <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">
-          <span>slotName_title by localUser</span>
-        </el-tooltip>
+        <div class="slot_title-wrap">
+          <el-tooltip placement="top" content="slotName_title by localUser">
+            <span class='label'>slotName_title by localUser</span>
+          </el-tooltip>
+        </div>
       </template>
       <!-- 操作 -->
       <template #action="{ row }">
