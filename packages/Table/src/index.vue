@@ -338,6 +338,19 @@ export default {
         }
         // ELTable.doLayout()
       })
+    },
+    // fix 动态 rowKey 问题
+    'computedOptions.rowKey': {
+      handler(rowKey, lastRowKey) {
+        if (lastRowKey || rowKey) {
+          // console.warn('rowKey 变化 new, old', rowKey, lastRowKey)
+          try {
+            this.$refs.ELTable.store.states.rowKey = 'local_packing_sku2Id'
+          } catch (e) {
+            console.error(e, 'set element table rowKey error')
+          }
+        }
+      }
     }
   },
   methods: {
