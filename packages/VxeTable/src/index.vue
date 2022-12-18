@@ -583,11 +583,16 @@ export default {
       }
     },
     // 排序
-    tableSortChange({ order, property: sort }) {
-      // todo... temptemptemp
-      const _searchParam = { sort, sort_type: order ? order.toUpperCase() : null }
-      this.$emit('update:searchParams', { ...this.searchParams, ..._searchParam })
+    tableSortChange({ column, property: prop, order }) {
+      // console.error(arguments, 'tableSortChange.... desc:降序(el-table: descending),  asc:升序(el-table: ascending), null')
+      const sortParams = {
+        prop,
+        // 升序/降序的 描述不同 el-table 为了统一 改为el的order描述
+        order: order ? `${order}ending` : order
+      }
+      this.$emit('update:searchParams', { ...this.searchParams, ...sortParams })
       // this.$vxeTable.sort(sort, order)
+      this.$emit('sortChange', sortParams)
     },
     filterChangeEvent({ column, values }) {
       if (!this.tableOptions.filterConfig || !this.tableOptions.filterConfig.remote) {

@@ -363,6 +363,7 @@ export default {
     }, */
     // 排序
     tableSortChange({ column, prop, order }) {
+      // console.error(arguments, 'tableSortChange.... descending:降序, ascending: 升序, null')
       // console.error(column, prop, order, 'column, prop, order tableSortChange', ...arguments)
       const sortParams = {
         prop,
@@ -374,7 +375,7 @@ export default {
         ...this.searchParams,
         sortParams
       })
-      // this.$emit('sort-change', searchParam)
+      this.$emit('sortChange', sortParams)
     },
     handleCurrentChange(row) {
       // console.warn(row, 'handleCurrentChange row')

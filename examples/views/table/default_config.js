@@ -77,7 +77,7 @@ export const columns = [
        *  adTable formatter: (row, column, cellValue, index){}
        *  adVxeTable formatter: ( {row, column, cellValue, rowIndex} ){}
        */
-      console.error(maybeRow, 'maybeRow ', others, 'others')
+      // console.error(maybeRow, 'maybeRow ', others, 'others')
       const row = maybeRow.row || maybeRow
       return 'orderNo: formatter: ' + row.orderNo
     }
@@ -535,7 +535,6 @@ export const tableBaseMixin = {
       return this.list
     },
     localColumns() {
-      console.error('重新 计算localColumns.....')
       // 为保险起见 拿到接口的配置数据 需要过滤 已失效的配置项 [checkedOptions]
       const { checkedOptions } = this
       const columns = this.curColumnsConfig.columns
@@ -569,6 +568,10 @@ export const tableBaseMixin = {
     // this.queryList()
   },
   methods: {
+    testSortChange(sortParams) {
+      // 默认会更新 searchParams 有额外处理 在此添加
+      console.error(sortParams, 'testSortChange sortParams')
+    },
     updateParams() {
       console.error(JSON.stringify(this.formParams), 'updateParams  去请求接口 todo....')
       this.searchParams = {
