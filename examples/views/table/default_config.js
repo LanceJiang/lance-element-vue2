@@ -1,8 +1,8 @@
 import { getOrders, getOrdersCount, getTableConfig } from '@/views/table/queryApi'
 // import { cellSlot_price } from './testSlots.jsx'
-// import { cellSlot_price } from '@adber/adber-ui/src/utils/cellSlots.vue'
-// import { cellSlot_price } from '@adber/adber-ui/packages/sys_cellSlots'
-import { cellSlot_price } from '@adber/adber-ui/packages/sys_cellSlots/index.jsx'
+// import { cellSlot_price } from 'adber-ui/src/utils/cellSlots.vue'
+// import { cellSlot_price } from 'adber-ui/packages/sys_cellSlots'
+import { cellSlot_price } from 'adber-ui/packages/sys_cellSlots/index.jsx'
 // import { cellSlot_price } from '@/../src/utils/cellSlots.vue'
 
 const tPrefix = 'outboundOrder.table.'

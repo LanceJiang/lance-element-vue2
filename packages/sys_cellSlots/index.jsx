@@ -1,5 +1,5 @@
-import { formatNumber } from '@adber/adber-ui/src/utils/index'
-import { UnitTranslate, weightUnitCodes } from '@adber/adber-ui/src/utils/unit-translate'
+import { formatNumber } from 'adber-ui/src/utils/index'
+import { UnitTranslate, weightUnitCodes } from 'adber-ui/src/utils/unit-translate'
 // /* formatDateString, */ /* , formatRate */ console.error(formatDateString, formatRate, 'formatDateString, formatRate')
 
 /**

@@ -9,12 +9,12 @@
     AdTable:  default: (h, scope) => <div>1</div>
  -->
 <script lang='jsx'>
-import NoData from '@adber/adber-ui/packages/NoData'
-import Icon from '@adber/adber-ui/packages/Icon'
-import TableColumnsPopover from '@adber/adber-ui/packages/Table/src/TableColumnsPopover'
+import NoData from 'adber-ui/packages/NoData'
+import Icon from 'adber-ui/packages/Icon'
+import TableColumnsPopover from 'adber-ui/packages/Table/src/TableColumnsPopover'
 // import _ from 'lodash/lodash.min'
-import { xeUtils, getDeepValue } from '@adber/adber-ui/src/utils'
-import { t } from '@adber/adber-ui/src/locale'
+import { xeUtils, getDeepValue } from 'adber-ui/src/utils'
+import { t } from 'adber-ui/src/locale'
 export const tableProps = {
   list: {
     type: Array,
