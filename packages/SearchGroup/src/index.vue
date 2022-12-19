@@ -134,11 +134,11 @@ const render = function(h) {
         dateOpts.format = item.format || dateOpts.valueFormat
         // 区间类型
         if (/range$/.test(item.type || '')) {
-          dateOpts = {
+          dateOpts = Object.assign(dateOpts, {
             startPlaceholder: t(item.startPlaceholder || 'adb.filter.startDate'),
             endPlaceholder: t(item.endPlaceholder || 'adb.filter.endDate'),
             unlinkPanels: item.unlinkPanels ?? true // 双面板联动
-          }
+          })
         } else {
           dateOpts.placeholder = _placeholder || t('adb.filter.selectDate')
         }
