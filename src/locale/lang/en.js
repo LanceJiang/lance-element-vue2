@@ -70,7 +70,9 @@ export default {
     el: {
       input: {
         placeholder: 'Input',
-        search: 'Search'
+        search: 'Search',
+        min: 'Min',
+        max: 'Max'
       }
     },
     table: {

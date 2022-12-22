@@ -1,9 +1,9 @@
 <script lang="jsx">
 import { t } from 'adber-ui/src/locale'
-// import InputNumberRange from './customizeFormItem/InputNumberRange'
 import Popover from 'adber-ui/packages/Popover'
 import CustomRender from 'adber-ui/packages/CustomRender'
 import InputNumber from 'adber-ui/packages/InputNumber'
+import InputNumberRange from 'adber-ui/packages/InputNumberRange'
 import Icon from 'adber-ui/packages/Icon'
 import AdSelect from 'adber-ui/packages/Select'
 import SearchFilterDrawer from './SearchFilterDrawer'
@@ -87,7 +87,7 @@ const render = function(h) {
       case 'select':
         return <el-select
           v-model={searchObj[prop]}
-          props={{ ...formOthers }}
+          props={formOthers}
           placeholder={_placeholder}
           popper-append-to-body={formOthers.popperAppendToBody || false}
           onChange={formatterChange}
@@ -100,7 +100,7 @@ const render = function(h) {
       case 'radio':
         return <el-radio-group
           class="search-radio-group"
-          props={{ ...formOthers }}
+          props={formOthers}
           v-model={searchObj[prop]}
           onChange={formatterChange}
           disabled={disabled}
@@ -160,36 +160,36 @@ const render = function(h) {
         return <InputNumber
           class="rate100"
           v-model={searchObj[prop]}
-          attrs={{ ...formOthers }}
+          attrs={formOthers}
           onChange={formatterChange}
           disabled={disabled}
           placeholder={_placeholder}
-          precision={item.precision || 0}
+          precision={item.precision ?? 0}
           style={_itemStyle}
         />
-      /* // <!-- 数值文本框 范围 -->
+      // <!-- 数值文本框 范围 -->
       case 'inputNumberRange':
-        var precision = item.precision || 0
-        var localStyle = `${itemStyle} width:${_itemWidth || defaultWidth || '100px'};`
-        var numberChange = (e, propKey) => {
+        const numberChange = (e, propKey) => {
           change && change(searchObj, _options, isMore, propKey)
         }
+        const numberRangeStyle = _itemStyle + `width: ${itemWidth || (isMore ? '100%' : '380px')}`
         return <InputNumberRange
           v-model={searchObj}
           prop={prop}
-          attrs={{ ...formOthers }}
+          attrs={formOthers}
+          props={formOthers}
           onChange={numberChange}
           disabled={disabled}
-          precision={precision}
-          itemStyle={localStyle}
+          precision={item.precision ?? 0}
+          style={numberRangeStyle}
         >
-        </InputNumberRange> */
+        </InputNumberRange>
       // <!-- 文本框 -->
       case 'input':
       default:
         return <el-input
           v-model={searchObj[prop]}
-          props={{ ...formOthers }}
+          props={formOthers}
           maxlength={formOthers.maxlength}
           onChange={formatterChange}
           disabled={disabled}
@@ -419,11 +419,11 @@ export default {
     Popover,
     CustomRender,
     InputNumber,
+    InputNumberRange,
     Icon,
     SearchFilterDrawer,
     SelectedItemsSortDialog,
     AdSelect
-    // InputNumberRange,
     // InputTextArea
   },
   render,
@@ -707,7 +707,7 @@ export default {
         case 'datePicker':
           // 兼容 dateragne datetimerange 相关
           if (Array.isArray(val) && val.length) {
-            return val.join('-')
+            return val.join(' - ')
           }
         // eslint-disable-next-line no-fallthrough
         case 'inputNumber':
@@ -982,8 +982,10 @@ export default {
             // propEnd: 'inputNumberRange_end',
             label: 'inputNumberRange',
             itemType: 'inputNumberRange',
-            prefix: '展示前缀',
-            suffix: '展示后缀',
+            prepend: '展示前置', // range 前缀
+            append: '展示后置', // range 后缀
+            prefix: '展示前缀', // 每个inputItem都有
+            suffix: '展示后缀', // 每个inputItem都有
             // 其他的 请参考 el-input-number 的配置
     },
  { // input (文本框)

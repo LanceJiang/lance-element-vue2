@@ -54,6 +54,7 @@ import FormConfig from './FormConfig'
 import FormConfigDialog from './FormConfigDialog'
 import Icon from './Icon'
 import InputNumber from './InputNumber'
+import InputNumberRange from './InputNumberRange'
 import Select from './Select'
 import Dropdown from './Dropdown'
 import NoData from './NoData'
@@ -81,6 +82,7 @@ const components = [
   FormConfigDialog,
   Icon,
   InputNumber,
+  InputNumberRange,
   Select,
   Dropdown,
   NoData,
