@@ -70,7 +70,9 @@ export default {
     el: {
       input: {
         placeholder: '请输入',
-        search: '请搜索'
+        search: '请搜索',
+        min: '最小值',
+        max: '最大值'
       }
     },
     table: {

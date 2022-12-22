@@ -263,9 +263,10 @@
         <template slot="suffix"><span class="ad-addon ad-input-number__suffix" style="background: #f00">suffix</span></template>
       </AdInputNumber>
       <div>-------AdInputNumberRange--------</div>
-      <AdInputNumberRange v-model="testNumber" :min="0" style="width: 300px;" controlsPosition="1">
-        <template slot="prefix"><span class="ad-addon ad-input-number__prefix" style="background: #0f0;">prefix</span></template>
-        <template slot="suffix"><span class="ad-addon ad-input-number__suffix" style="background: #f00">suffix</span></template>
+      {{numberRangeParams}}<br>
+      <AdInputNumberRange v-model="numberRangeParams" v-bind="numberRangeForm" style='width: 500px;'>
+<!--        <template slot="prepend"><span class="ad-input-number-range_addon local_prepend" style="background: #0f0;">prepend</span></template>-->
+        <template slot="append"><span class="ad-input-number-range_addon local_append" style="background: #f00">append</span></template>
       </AdInputNumberRange>
     </div>
     <div class="common_title">iconfont && AdIcon</div>
@@ -385,12 +386,33 @@ export default {
         }
       ],
       testNumber: 1,
+      numberRangeParams: {
+        numberRangeStart: 2,
+        numberRangeEnd: 50
+      },
+      numberRangeForm: {
+        prop: 'numberRange', // (numberRangeStart,  numberRangeEnd)
+        // propStart: 'numberRange__min',
+        // propEnd: 'numberRange__max'
+
+        // addonAfterVisible: true,
+        prefix: '$',
+        suffix: '￥',
+        prepend: 'Prepend',
+        append: 'Append',
+        min: 0,
+        max: 999
+        // controlsPosition: 'right' // 默认
+      },
       testDrawer: false,
       searchParams: {
         radio: undefined,
         input: 'testInput',
         adSelectMultiple: ['选项1'],
-        adSelectMultipleMore: ['选项2']
+        adSelectMultipleMore: ['选项2'],
+        // numberInput 区间
+        inputNumberRangeStart: undefined,
+        inputNumberRangeEnd: undefined
       },
       formOptions: {
         // 调整是否 isMore todo... 交互
@@ -583,6 +605,7 @@ export default {
             label: 'monthPicker',
             itemType: 'monthPicker'
           },
+           */
           {
             prop: 'inputNumber',
             label: 'inputNumber',
@@ -590,13 +613,13 @@ export default {
             change: (val) => {
               console.log('inputNumber   change.....', val)
             }
-          }, */
-          // {
-          //   isMore: true, // 只要不为true 就是 默认展示
-          //   prop: 'inputNumber2',
-          //   label: 'inputNumber2',
-          //   itemType: 'inputNumber'
-          // },
+          },
+          {
+            isMore: true, // 只要不为true 就是 默认展示
+            prop: 'inputNumber2',
+            label: 'inputNumber2',
+            itemType: 'inputNumber'
+          },
           {
             prop: 'radio',
             label: 'radio',
@@ -625,8 +648,8 @@ export default {
             change: (val) => {
               console.log('radio   change.....', val)
             }
-          }
-          /* {
+          },
+          {
             // isMore: true, // 只要不为true 就是 默认展示
             // showLabel: true,
             prop: 'inputNumberRange', // 若不添加 propStart  propEnd 自动变为 `${prop}Start` `${prop}End`
@@ -634,12 +657,40 @@ export default {
             // propEnd: 'inputNumberRange_end',
             label: 'inputNumberRange',
             itemType: 'inputNumberRange',
-            placeholderStart: 'xxxx最小值',
-            placeholderEnd: 'xxxx最大值',
+            prefix: '$',
+            suffix: '￥',
+            prepend: 'Prepend',
+            append: 'Append',
+            min: 0,
+            max: 999,
+            // placeholderStart: 'xxxx最小值', // 直接支持多语言
+            // placeholderEnd: 'xxxx最大值',
             change(params, _options, isMore, propKey) {
+              // options 无用 其他有用
               console.log(params, _options, isMore, propKey, 'params, _options, isMore, propKey')
             }
-          } */
+          },
+          {
+            isMore: true, // 只要不为true 就是 默认展示
+            // showLabel: true,
+            prop: 'inputNumberRangeMore', // 若不添加 propStart  propEnd 自动变为 `${prop}Start` `${prop}End`
+            // propStart: 'inputNumberRange_start',
+            // propEnd: 'inputNumberRange_end',
+            label: 'inputNumberRangeMore',
+            itemType: 'inputNumberRange',
+            prefix: '$',
+            suffix: '￥',
+            // prepend: 'Prepend',
+            // append: 'Append',
+            min: 0,
+            max: 999,
+            // placeholderStart: 'xxxx最小值', // 直接支持多语言
+            // placeholderEnd: 'xxxx最大值',
+            change(params, _options, isMore, propKey) {
+              // options 无用 其他有用
+              console.log(params, _options, isMore, propKey, 'params, _options, isMore, propKey')
+            }
+          }
           // 复合类型_【下拉+rangePicker】 注：  【替代： SearchInfo timeSelect 类型】
           /* { // 复合类型 todo...
             // isMore: true, // 只要不为true 就是 默认展示 (暂无该类型)

@@ -82,3 +82,44 @@
     }
   }
 }
+// InputNumberRange 样式(inputNumber 区间)
+.#{$prefix}input-number-range {
+  display: inline-flex;
+  //align-items: center;
+  &_addon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: unset;
+    //padding: 0 10px;
+    color: $ad-color_1;
+    text-align: center;
+    transition: all .3s;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    // 前置
+    &.prepend {
+      //padding-left:
+    }
+    // 后置
+    &.append {
+      padding-left: 4px;
+      padding-right: 8px;
+    }
+  }
+  &_line {
+    padding: 0 12px;
+    align-self: center;
+    //text-align: center;
+  }
+  // min
+  &_start {
+  }
+  // max
+  &_end {
+  }
+  .#{$prefix}input-number {
+    flex: 1;
+  }
+}
