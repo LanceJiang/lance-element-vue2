@@ -1,6 +1,7 @@
 <script lang="jsx">
 import { t } from '@adber/adber-ui/src/locale'
 import InputNumber from '@adber/adber-ui/packages/InputNumber'
+import InputNumberRange from '@adber/adber-ui/packages/InputNumberRange'
 import CustomRender from '@adber/adber-ui/packages/CustomRender'
 import AdSelect from '@adber/adber-ui/packages/Select'
 import { renderSelectOption } from '@adber/adber-ui/src/utils/slotsUtils'
@@ -10,6 +11,7 @@ export default {
   components: {
     CustomRender,
     InputNumber,
+    InputNumberRange,
     AdSelect
   },
   props: {
@@ -87,6 +89,13 @@ export default {
       if (disabled === undefined) {
         disabled = isEdit === false
       }
+      // 优化后的 change事件
+      const formatterChange = async () => {
+        if (change) {
+          // onChange={() => change && change(params[prop], _options, params)}
+          return change(params[prop], _options, params)
+        }
+      }
       const render_selectOptions = () => {
         return _options.map((option) => {
           let value = option
@@ -117,7 +126,7 @@ export default {
             props={formOthers}
             isPopover={formOthers.isPopover ?? true}
             popperAppendToBody={formOthers.popperAppendToBody ?? true}
-            onChange={() => change && change(params[prop], _options, params)}
+            onChange={formatterChange}
             size={_size ?? size}
             placeholder={_placeholder}
             style={_itemStyle}
@@ -135,9 +144,9 @@ export default {
           return (
             <el-select
               class={itemClass}
-              props={{ ...formOthers }}
+              props={formOthers}
               v-model={params[prop]}
-              onChange={() => change && change(params[prop], _options, params)}
+              onChange={formatterChange}
               style={_itemStyle}
               disabled={disabled}
               size={_size ?? size}
@@ -151,11 +160,11 @@ export default {
           return (
             <el-radio-group
               class={itemClass}
-              props={{ ...formOthers }}
+              props={formOthers}
               v-model={params[prop]}
               disabled={disabled}
               size={_size ?? size}
-              onChange={() => change && change(params[prop], _options, params)}
+              onChange={formatterChange}
               style={_itemStyle}
             >
               {_options.map((option, optionIndex) => {
@@ -185,9 +194,9 @@ export default {
           return (
             <el-cascader
               class={itemClass}
-              props={{ ...formOthers }}
+              props={formOthers}
               v-model={params[prop]}
-              onChange={() => change && change(params[prop], _options, params)}
+              onChange={formatterChange}
               style={_itemStyle}
               disabled={disabled}
               size={_size ?? size}
@@ -202,9 +211,9 @@ export default {
           return (
             <InputNumber
               class={`rate100 ${itemClass}`}
-              attrs={{ ...formOthers }}
+              attrs={formOthers}
               v-model={params[prop]}
-              onChange={() => change && change(params[prop], _options, params)}
+              onChange={formatterChange}
               style={_itemStyle}
               disabled={disabled}
               placeholder={_placeholder}
@@ -212,6 +221,22 @@ export default {
               precision={form.precision || 0}
             />
           )
+        /* /!* 数字区间 *!/
+        case 'InputNumberRange':
+          return (
+            <InputNumberRange
+              class={itemClass}
+              attrs={formOthers}
+              props={formOthers}
+              v-model={params}
+              onChange={(e, propKey) => change && change(params, _options, params, propKey)}
+              style={_itemStyle}
+              disabled={disabled}
+              placeholder={_placeholder}
+              size={_size ?? size}
+              precision={form.precision || 0}
+            />
+          ) */
         /* 日期选择(单日期 || 日期区间) */
         case 'datePicker':
           let dateOpts = {}
@@ -235,7 +260,7 @@ export default {
                 ...dateOpts
               }}
               v-model={params[prop]}
-              onChange={() => change && change(params[prop], _options, params)}
+              onChange={formatterChange}
               style={_itemStyle}
               disabled={disabled}
               size={_size ?? size}
@@ -245,10 +270,10 @@ export default {
         case 'switch':
           return (
             <el-switch
-              props={{ ...formOthers }}
+              props={formOthers}
               v-model={params[prop]}
               size={_size ?? size}
-              onChange={() => change && change(params[prop], _options, params)}
+              onChange={formatterChange}
               disabled={disabled}
             />
           )
@@ -257,11 +282,11 @@ export default {
           return (
             <el-input
               class={itemClass}
-              props={{ ...formOthers }}
+              props={formOthers}
               maxlength={formOthers.maxlength}
               v-model={params[prop]}
               size={_size ?? size}
-              onChange={() => change && change(params[prop], _options, params)}
+              onChange={formatterChange}
               disabled={disabled}
               placeholder={_placeholder}
               style={_itemStyle}
