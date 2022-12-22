@@ -71,7 +71,7 @@
 }
 
 // 更多 list item 展示 (可类似 table类型)
-.ad-popover--list {
+.#{$prefix}popover--list {
   $width: 16px;
   padding: 12px 0 12px $width !important;
   width: max-content;
