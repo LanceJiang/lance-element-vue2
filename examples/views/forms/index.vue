@@ -126,7 +126,8 @@ export default {
         // select
         {
           prop: 'test1_select',
-          t_label: `${prefix}test1`,
+          t_label: 'test1_select',
+          // t_label: `${prefix}test1`,
           itemType: 'select',
           disabled: false,
           // valueKey: 'value', // 默认
@@ -177,8 +178,8 @@ export default {
         // radio
         {
           prop: 'radio',
-          // label: '自定义Render',
-          t_label: `${prefix}test3`,
+          label: 'radio',
+          // t_label: `${prefix}test3`,
           itemType: 'radio',
           // span: 12,
           labelKey: 'labelX',
@@ -202,8 +203,8 @@ export default {
         // cascader
         {
           prop: 'cascader',
-          // label: 'cascader',
-          t_label: `${prefix}test4`,
+          label: 'cascader',
+          // t_label: `${prefix}test4`,
           itemType: 'cascader',
           // placeholder: '请选择cascader____',
           options: [
@@ -253,8 +254,8 @@ export default {
         // inputNumber
         {
           prop: 'inputNumber',
-          // label: 'inputNumber',
-          t_label: `${prefix}test5`,
+          label: 'inputNumber',
+          // t_label: `${prefix}test5`,
           prefix: 'Http://',
           suffix: '.com',
           itemType: 'inputNumber',
@@ -265,18 +266,20 @@ export default {
         // date
         {
           prop: 'date',
-          // label: 'date(对应-date-picker)',
-          t_label: `${prefix}test6`,
-          itemType: 'date',
+          label: 'date(date-picker)',
+          // t_label: `${prefix}test6`,
+          itemType: 'datePicker',
           placeholder: '请输入date'
         },
         // dateRange
         {
           prop: 'dateRange',
-          startKey: 'dateRangeStart',
-          endKey: 'dateRangeEnd',
-          t_label: `${prefix}test7`,
-          itemType: 'dateRange'
+          label: 'dateRange(date-picker [type:daterange])',
+          // startKey: 'dateRangeStart', // todo 去除(??? 直接delete)
+          // endKey: 'dateRangeEnd',
+          // t_label: `${prefix}test7`,
+          itemType: 'datePicker',
+          type: 'daterange'
         },
         {
           prop: 'switch',
@@ -294,7 +297,7 @@ export default {
       formConfig: {
         labelPosition: 'left', // right // top
         // labelPosition: 'top',
-        labelWidth: '120px',
+        labelWidth: '270px',
         itemWidth: '100%',
         // labelSuffix: '',
         submitLoading: false,

@@ -212,39 +212,35 @@ export default {
               precision={form.precision || 0}
             />
           )
-        /* 日期选择 */
-        case 'date':
+        /* 日期选择(单日期 || 日期区间) */
+        case 'datePicker':
+          let dateOpts = {}
+          dateOpts.valueFormat = form.valueFormat || 'MM/dd/yyyy'
+          dateOpts.format = form.format || dateOpts.valueFormat
+          // 区间类型
+          if (/range$/.test(form.type || '')) {
+            dateOpts = Object.assign(dateOpts, {
+              startPlaceholder: t(form.startPlaceholder || 'adb.filter.startDate'),
+              endPlaceholder: t(form.endPlaceholder || 'adb.filter.endDate'),
+              unlinkPanels: form.unlinkPanels ?? true // 双面板联动
+            })
+          } else {
+            dateOpts.placeholder = _placeholder || t('adb.filter.selectDate')
+          }
           return (
             <el-date-picker
               class={itemClass}
-              props={{ ...formOthers }}
+              props={{
+                ...formOthers,
+                ...dateOpts
+              }}
               v-model={params[prop]}
               onChange={() => change && change(params[prop], _options, params)}
               style={_itemStyle}
               disabled={disabled}
               size={_size ?? size}
-              placeholder={_placeholder}
-              value-format={form.valueFormat || 'yyyy-MM-dd'}
             />
           )
-        /* 日期区间 */
-        case 'dateRange':
-          return (
-            <el-date-picker
-              class={itemClass}
-              props={{ ...formOthers }}
-              v-model={params[prop]}
-              type="daterange"
-              startPlaceholder={t(form.t_startPlaceholder)}
-              endPlaceholder={t(form.t_endPlaceholder)}
-              size={_size ?? size}
-              onChange={() => change && change(params[prop], _options, params)}
-              style={_itemStyle}
-              disabled={disabled}
-              value-format={form.valueFormat || 'yyyy-MM-dd'}
-            />
-          )
-        // </el-date-picker>
         /* switch */
         case 'switch':
           return (
@@ -407,7 +403,7 @@ export default {
         const { props } = v // 绑定的其他数据
         if (propType === 'string') {
           params[_prop] = this.setItemData(formData[_prop]) // 数据初始化
-          if (v.itemType === 'dateRange') {
+          /* if (v.itemType === 'dateRange') {
             const startKey = v.startKey || `${_prop}Start`
             const endKey = v.endKey || `${_prop}End`
             const hasDate = formData[startKey] && formData[endKey]
@@ -416,7 +412,8 @@ export default {
             params[_prop] = hasDate
               ? [formData[startKey], formData[endKey]]
               : formData[_prop] || undefined
-          } else if (v.itemType === 'cascader') {
+          } else */
+          if (v.itemType === 'cascader') {
             // 级联数据为数组
             params[_prop] = params[_prop] || [] // 变成数组  // 若不是数组 怎么操作
           }
@@ -424,11 +421,7 @@ export default {
           if (Array.isArray(props)) {
             bindProps.push(...props)
           }
-        } /* else if (_this.isArray(_prop)) {
-          _prop.forEach(vv => {
-            params[vv] = formData[vv] || ''
-          })
-        } */
+        }
       })
       // 赋值其他被绑的的值
       bindProps.map((prop) => {
@@ -477,16 +470,16 @@ export default {
           const key = form.prop
           if (key) {
             // 对应的form 内部设置有 formats 函数的值做提交前的最后操作 fn(value, key)
-            if (form.itemType === 'dateRange' && form.startKey) {
+            /* if (form.itemType === 'dateRange' && form.startKey) {
               // 含有startKey 表示拆分出来
               const { startKey } = form // || key + 'Start'
               const { endKey } = form // || key + 'End'
               const [startDate, endDate] = params[key] || []
               formattedForm[startKey] = startDate
               formattedForm[endKey] = endDate
-            } else {
-              formattedForm[key] = formats[key] ? formats[key](params, key) : params[key]
-            }
+            } else { */
+            formattedForm[key] = formats[key] ? formats[key](params, key) : params[key]
+            // }
           }
           // 对含有 其他prop的数据 赋值
           if (Array.isArray(form.props)) {
