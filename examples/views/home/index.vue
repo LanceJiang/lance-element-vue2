@@ -1,13 +1,192 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
     Home
+    <div class="common_title">多语言 使用</div>
+    <div class="content">
+      <el-button @click="switchLang" size="small">
+        lang: 切换
+        <AdIcon iconClass="ad-frozen"/>
+        <AdIcon iconClass="ad-warning"/>
+        {{$i18n.locale}}
+      </el-button>
+      <div>local文字: {{$t('route.location')}}</div>
+      <div>src/locale 文字(携带 adb前缀做区分): {{$t('adb.btn.add')}}</div>
+    </div>
+    <div class="common_title">AdSearchGroup 使用 示例(继承于AdPopover)</div>
+    <div class="content">
+      <AdSearchGroup v-bind="formOptions" v-model="searchParams" :selectedSettingSubmit="selectedSettingSubmit"/>
+    </div>
     <div class="common_title">AdPopover 使用</div>
     <div class="content">
-      <el-button plain disabled> addddddddd </el-button>
-      <el-button plain> addddddddd </el-button>
+<!--      <el-button plain disabled> addddddddd </el-button>
+      <el-button plain> addddddddd </el-button>-->
+      <div>-------类AdSearchGroup 组件创建示例-------</div>
+      <!-- button-group 类型 下拉弹窗选择 AdSearchGroup 生成模拟 -->
+      <el-button-group>
+        <!-- ad-search-group_btn  -->
+        <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover--select ${'popperClass'}`" placement="bottom">
+          <el-button slot="reference" class="ad-popover-box__btn">
+          <span>
+            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
+            <span class="ad-popover-box__btn__label">{{ 'item.label  1' }}</span>
+            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
+          </span>
+          </el-button>
+
+          <div class="ad-popover--select_content">
+            <div
+              class="more-item"
+              v-for='num of Array.from({length: 10}).map((_, i) => i)'
+              :key='num'
+            >
+              <span class="label"> 待调仓{{num}} </span>
+              <span class="value"> 1{{num}} </span>
+            </div>
+          </div>
+
+          <div class="ad-popover--select_footer">
+            <el-tooltip
+              placement="top"
+              :content="$t('adb.btn.reset')"
+            >
+              <el-button size='small' @click='$message.warning("触发 reset 方法")'>
+                <ad-icon icon-class="ad-clear" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip
+              placement="top"
+              :content="$t('adb.btn.confirm')"
+            >
+              <el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
+                <ad-icon icon-class="ad-confirm" />
+              </el-button>
+            </el-tooltip>
+          </div>
+        </AdPopover>
+        <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover--select ${'popperClass'}`" placement="top">
+          <el-button slot="reference" class="ad-popover-box__btn">
+          <span>
+            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
+            <span class="ad-popover-box__btn__label">{{ 'item.label  2' }}</span>
+            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
+          </span>
+          </el-button>
+
+          <div class="ad-popover--select_content">
+            <div
+              class="more-item"
+              v-for='num of Array.from({length: 10}).map((_, i) => i)'
+              :key='num'
+            >
+              <span class="label"> 待调仓{{num}} </span>
+              <span class="value"> 1{{num}} </span>
+            </div>
+          </div>
+
+          <div class="ad-popover--select_footer">
+            <el-button size='small' @click='$message.warning("触发 reset 方法")'>
+              <ad-icon icon-class="ad-clear" />
+            </el-button>
+            <el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
+              <ad-icon icon-class="ad-confirm" />
+            </el-button>
+          </div>
+        </AdPopover>
+        <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover--select ${'popperClass'}`" placement="top">
+          <el-button slot="reference" class="ad-popover-box__btn">
+          <span>
+            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
+            <span class="ad-popover-box__btn__label">{{ 'item.label  3' }}</span>
+            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
+          </span>
+          </el-button>
+
+          <div class="ad-popover--select_content">
+            <div
+              class="more-item"
+              v-for='num of Array.from({length: 10}).map((_, i) => i)'
+              :key='num'
+            >
+              <span class="label"> 待调仓{{num}} </span>
+              <span class="value"> 1{{num}} </span>
+            </div>
+          </div>
+
+          <div class="ad-popover--select_footer">
+            <el-button size='small' @click='$message.warning("触发 reset 方法")'>
+              <ad-icon icon-class="ad-clear" />
+            </el-button>
+            <el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
+              <ad-icon icon-class="ad-confirm" />
+            </el-button>
+          </div>
+        </AdPopover>
+        <span class="ad-popover-box">
+          <span class="el-popover__reference-wrapper">
+            <el-tooltip
+              placement="top"
+              :content="$t('adb.filter.filterLabel')"
+            >
+              <el-button @click='testDrawer = true,$message.warning("触发 filter 方法")'>
+                <ad-icon icon-class="ad-filter"/>
+              </el-button>
+            </el-tooltip>
+          </span>
+        </span>
+      </el-button-group>
+      <!--   FilterDrawer抽屉示例   -->
+      <AdSearchFilterDrawer :visible.sync="testDrawer">
+        测试......
+        <template #footer>
+          1
+        </template>
+      </AdSearchFilterDrawer>
+      <div>-------button 类型 下拉弹窗 示例--------</div>
+      <!--   模拟 button 类型 下拉弹窗选择 ad-popover--select   -->
+      <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover--select ${'popperClass'}`" placement="top">
+        <el-button slot="reference" class="ad-popover-box__btn">
+          <span>
+            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
+            <span class="ad-popover-box__btn__label">{{ 'item.label' }}</span>
+            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
+          </span>
+        </el-button>
+
+        <div class="ad-popover--select_content">
+          <div
+            class="more-item"
+            v-for='num of Array.from({length: 10}).map((_, i) => i)'
+            :key='num'
+          >
+            <span class="label"> 待调仓{{num}} </span>
+            <span class="value"> 1{{num}} </span>
+          </div>
+        </div>
+
+        <div class="ad-popover--select_footer">
+          <el-tooltip
+            placement="top"
+            :content="$t('adb.btn.reset')"
+          >
+            <el-button size='small' @click='$message.warning("触发 reset 方法")'>
+              <ad-icon icon-class="ad-clear" />
+            </el-button>
+          </el-tooltip>
+          <el-tooltip
+            placement="top"
+            :content="$t('adb.btn.confirm')"
+          >
+            <el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
+              <ad-icon icon-class="ad-confirm" />
+            </el-button>
+          </el-tooltip>
+        </div>
+      </AdPopover>
+      <div>-------分割--------</div>
+      <!--   模拟 查看更多下拉列表 类型 ad-popover--list   -->
       <AdPopover trigger="click" :popperClass="`ad-popover--list ${'popperClass'}`" placement="right">
-        <div class="labelWrap" style="width: 250px" slot="reference">
-          可售：666
+        <div class="labelWrap" style="width: 400px;background: #f00;" slot="reference">
+          可售：666（ad-popover默认 click 触发ad-popover-list展示）
         </div>
         <div class="more-item_title">
           <span class="label">类目</span>
@@ -28,10 +207,10 @@
           </div>
         </el-main>
       </AdPopover>
-
+      <div>-------分割--------</div>
       <AdPopover :first-load='true' trigger="click" :popperClass="`ad-popover--list ${'popperClass'}`" placement="right">
-        <div class="labelWrap" style="width: 250px" slot="reference">
-          可售：666
+        <div class="labelWrap" style="width: 690px;background: #ff0;" slot="reference">
+          可售：666（ad-popover默认 click 触发ad-popover-list展示【slot default 内容未展示 就触发生命周期示例】）
         </div>
         <el-main style='padding: 0;' @hook:created='$log("创建完成 触发(可能有接口请求) 。。。22222")' class="ad-popover--list_content">
           <div class="more-item">
@@ -47,250 +226,11 @@
             <span class="value"> 1{{num}} </span>
           </div>
         </el-main>
-        <!--    <div @click.stop class="ad-popover--list_content">
-          <slot />
-        </div>-->
       </AdPopover>
-      <!--   模拟 button 类型 下拉弹窗选择 todo...   -->
-      <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover--select ${'popperClass'}`" placement="top">
-        <el-button slot="reference" class="ad-popover-box__btn">
-          <span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
-            <span class="ad-popover-box__btn__label">{{ 'item.label' }}</span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
-          </span>
-        </el-button>
+    </div>
 
-        <div class="ad-popover--select_content">
-          <div class="more-item">
-            <span class="label"> 可售 </span>
-            <span class="value"> 666 </span>
-          </div>
-          <div
-            class="more-item"
-            v-for='num of Array.from({length: 10}).map((_, i) => i)'
-            :key='num'
-          >
-            <span class="label"> 待调仓{{num}} </span>
-            <span class="value"> 1{{num}} </span>
-          </div>
-        </div>
-
-        <div class="ad-popover--select_footer">
-          <!--            @click="handleReset"-->
-          <el-tooltip
-            placement="top"
-            :content="$t('adb.btn.reset')"
-          >
-            <el-button size='small'>
-              <ad-icon icon-class="ad-clear" />
-            </el-button>
-          </el-tooltip>
-
-          <!--            v-if="notSimple"-->
-          <!--            :disabled="isDisabled"-->
-          <!--            @click="handleCommit"-->
-          <el-tooltip
-            placement="top"
-            :content="$t('adb.btn.confirm')"
-          >
-            <el-button size='small' type="primary">
-              <ad-icon icon-class="ad-confirm" />
-            </el-button>
-          </el-tooltip>
-        </div>
-
-        <!--    <div slot="reference" class="labelWrap">
-          <slot name="ddd" />
-          <i
-            v-if="showDownIcon"
-            :class="['el-icon-arrow-down', isVisible ? 'link' : '']"
-            style="margin-left: 4px"
-            type="down"
-          />
-        </div>-->
-        <!--    <slot />-->
-        <!--    <div @click.stop class="ad-popover--select_content">
-          <slot />
-        </div>-->
-      </AdPopover>
-      <div>-------分割--------</div>
-      <!-- button-group 类型 下拉弹窗选择 todo... AdSearchGroup -->
-      <el-button-group>
-<!--        ad-search-group_btn-->
-        <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover--select ${'popperClass'}`" placement="bottom">
-          <el-button slot="reference" class="ad-popover-box__btn">
-          <span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
-            <span class="ad-popover-box__btn__label">{{ 'item.label  1' }}</span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
-          </span>
-          </el-button>
-
-          <div class="ad-popover--select_content">
-            <div class="more-item">
-              <span class="label"> 可售 </span>
-              <span class="value"> 666 </span>
-            </div>
-            <div
-              class="more-item"
-              v-for='num of Array.from({length: 10}).map((_, i) => i)'
-              :key='num'
-            >
-              <span class="label"> 待调仓{{num}} </span>
-              <span class="value"> 1{{num}} </span>
-            </div>
-          </div>
-
-          <div class="ad-popover--select_footer">
-            <!--            @click="handleReset"-->
-            <el-tooltip
-              placement="top"
-              :content="$t('adb.btn.reset')"
-            >
-              <el-button size='small'>
-                <ad-icon icon-class="ad-clear" />
-              </el-button>
-            </el-tooltip>
-
-            <!--            v-if="notSimple"-->
-            <!--            :disabled="isDisabled"-->
-            <!--            @click="handleCommit"-->
-            <el-tooltip
-              placement="top"
-              :content="$t('adb.btn.confirm')"
-            >
-              <el-button size='small' type="primary">
-                <ad-icon icon-class="ad-confirm" />
-              </el-button>
-            </el-tooltip>
-          </div>
-
-          <!--    <div slot="reference" class="labelWrap">
-            <slot name="ddd" />
-            <i
-              v-if="showDownIcon"
-              :class="['el-icon-arrow-down', isVisible ? 'link' : '']"
-              style="margin-left: 4px"
-              type="down"
-            />
-          </div>-->
-          <!--    <slot />-->
-          <!--    <div @click.stop class="ad-popover--select_content">
-            <slot />
-          </div>-->
-        </AdPopover>
-        <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover--select ${'popperClass'}`" placement="top">
-          <el-button slot="reference" class="ad-popover-box__btn">
-          <span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
-            <span class="ad-popover-box__btn__label">{{ 'item.label  2' }}</span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
-          </span>
-          </el-button>
-
-          <div class="ad-popover--select_content">
-            <div class="more-item">
-              <span class="label"> 可售 </span>
-              <span class="value"> 666 </span>
-            </div>
-            <div
-              class="more-item"
-              v-for='num of Array.from({length: 10}).map((_, i) => i)'
-              :key='num'
-            >
-              <span class="label"> 待调仓{{num}} </span>
-              <span class="value"> 1{{num}} </span>
-            </div>
-          </div>
-
-          <div class="ad-popover--select_footer">
-            <!--            @click="handleReset"-->
-            <el-tooltip
-              placement="top"
-              :content="$t('adb.btn.reset')"
-            >
-              <el-button size='small'>
-                <ad-icon icon-class="ad-clear" />
-              </el-button>
-            </el-tooltip>
-
-            <!--            v-if="notSimple"-->
-            <!--            :disabled="isDisabled"-->
-            <!--            @click="handleCommit"-->
-            <el-tooltip
-              placement="top"
-              :content="$t('adb.btn.confirm')"
-            >
-              <el-button size='small' type="primary">
-                <ad-icon icon-class="ad-confirm" />
-              </el-button>
-            </el-tooltip>
-          </div>
-        </AdPopover>
-        <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover--select ${'popperClass'}`" placement="top">
-          <el-button slot="reference" class="ad-popover-box__btn">
-          <span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
-            <span class="ad-popover-box__btn__label">{{ 'item.label  3' }}</span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
-          </span>
-          </el-button>
-
-          <div class="ad-popover--select_content">
-            <div class="more-item">
-              <span class="label"> 可售 </span>
-              <span class="value"> 666 </span>
-            </div>
-            <div
-              class="more-item"
-              v-for='num of Array.from({length: 10}).map((_, i) => i)'
-              :key='num'
-            >
-              <span class="label"> 待调仓{{num}} </span>
-              <span class="value"> 1{{num}} </span>
-            </div>
-          </div>
-
-          <div class="ad-popover--select_footer">
-            <el-tooltip
-              placement="top"
-              :content="$t('adb.btn.reset')"
-            >
-              <el-button size='small'>
-                <ad-icon icon-class="ad-clear" />
-              </el-button>
-            </el-tooltip>
-            <el-tooltip
-              placement="top"
-              :content="$t('adb.btn.confirm')"
-            >
-              <el-button size='small' type="primary">
-                <ad-icon icon-class="ad-confirm" />
-              </el-button>
-            </el-tooltip>
-          </div>
-        </AdPopover>
-        <!-- hidden v-if="!isShowAll" @click="visibleFilters = true"
-          :class="!isAllFilters ? 'border-left_none' : ''" -->
-        <span class="ad-popover-box">
-          <span class="el-popover__reference-wrapper">
-<!--            adb-filter.filterTitle-->
-            <el-tooltip
-              placement="top"
-              :content="$t('adb.filter.filterLabel')"
-            >
-              <el-button @click="filterDrawer = true">
-                <ad-icon icon-class="ad-filter"/>
-              </el-button>
-            </el-tooltip>
-          </span>
-        </span>
-      </el-button-group>
-      <div>-------分割-  group-------</div>
-
-      <AdSearchGroup v-bind="formOptions" v-model="searchParams" :selectedSettingSubmit="selectedSettingSubmit"/>
-      <div>-------分割--------</div>
+    <div class="common_title">AdSelect 使用</div>
+    <div class="content">
       <AdSelect v-model="testValue" filterable multiple isPopover>
         <el-option
           v-for="item in options"
@@ -299,7 +239,7 @@
           :value="item.value">
         </el-option>
       </AdSelect>
-      <div>-------分割--------  isPopover  false</div>
+      <div>-------AdSelect 无弹窗(isPopover  false)--------</div>
       <AdSelect v-model="testValue2" filterable multiple :isPopover="false">
         <el-option
           v-for="item in options"
@@ -308,30 +248,9 @@
           :value="item.value">
         </el-option>
       </AdSelect>
-      <div>-------分割--------</div>
-
-      <button @click="testDrawer = true">testDrawer</button>
-      <AdSearchFilterDrawer :visible.sync="testDrawer">
-        测试......
-        <template #footer>
-          1
-        </template>
-      </AdSearchFilterDrawer>
     </div>
 
-    <div class="common_title">多语言 使用</div>
-    <div class="content">
-      <el-button @click="switchLang" size="small">
-        lang: 切换
-        <AdIcon iconClass="ad-frozen"/>
-        <AdIcon iconClass="ad-warning"/>
-        {{$i18n.locale}}
-      </el-button>
-      <div>local文字: {{$t('route.location')}}</div>
-      <div>src/locale 文字(携带 adb前缀做区分): {{$t('adb.btn.add')}}</div>
-    </div>
-
-    <div class="common_title">AdInputNumber</div>
+    <div class="common_title">AdInputNumber && AdInputNumberRange</div>
     <div class="content">
       {{testNumber}}
       <AdInputNumber disabled v-model="testNumber" :min="0" prefix="#" _controlsPosition="1"></AdInputNumber>
@@ -339,10 +258,15 @@
       <AdInputNumber v-model="testNumber" :min="0" prefix="#" size="small" _controlsPosition="1"></AdInputNumber>
       <AdInputNumber v-model="testNumber" :min="0" suffix="￥" _controlsPosition="1"></AdInputNumber>
       <AdInputNumber size="mini" v-model="testNumber" :min="0" prefix="#" suffix="￥" _controlsPosition="1"></AdInputNumber>
-      <AdInputNumber v-model="testNumber" :min="0" style="width: 200px;" controlsPosition="1">
+      <AdInputNumber v-model="testNumber" :min="0" style="width: 300px;" controlsPosition="1">
         <template slot="prefix"><span class="ad-addon ad-input-number__prefix" style="background: #0f0;">prefix</span></template>
         <template slot="suffix"><span class="ad-addon ad-input-number__suffix" style="background: #f00">suffix</span></template>
       </AdInputNumber>
+      <div>-------AdInputNumberRange--------</div>
+      <AdInputNumberRange v-model="testNumber" :min="0" style="width: 300px;" controlsPosition="1">
+        <template slot="prefix"><span class="ad-addon ad-input-number__prefix" style="background: #0f0;">prefix</span></template>
+        <template slot="suffix"><span class="ad-addon ad-input-number__suffix" style="background: #f00">suffix</span></template>
+      </AdInputNumberRange>
     </div>
     <div class="common_title">iconfont && AdIcon</div>
     <div class="content">
