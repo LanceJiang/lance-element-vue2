@@ -9,7 +9,7 @@ import AdSelect from 'adber-ui/packages/Select'
 import SearchFilterDrawer from './SearchFilterDrawer'
 import SelectedItemsSortDialog from './SelectedItemsSortDialog'
 import { renderSelectOption } from 'adber-ui/src/utils/slotsUtils'
-
+const isVNode = el => el?.constructor?.name === 'VNode'
 const render = function(h) {
   // const _this = this
   const { defaultForms, moreForms, searchParams, more_searchParams, tagList, local_deleteTag, drawerIsExpand, getFormLabelValue, selectedSettingSubmit, saveFilterSubmit } = this
@@ -206,10 +206,13 @@ const render = function(h) {
     const label = item.t_label ? t(item.t_label) : item.label
     const searchObj = isMore ? more_searchParams : searchParams
     const prop = item.prop
-    let showValue = getFormLabelValue(item, searchObj)
+    let showValue = getFormLabelValue(item, searchObj, isMore)
     if (Array.isArray(showValue)) {
-      showValue = showValue.join(',')
+      if (!isVNode(showValue[0])) {
+        showValue = showValue.join(',')
+      }
     }
+    const isShow = showValue || typeof showValue === 'number'
     // 更多
     if (isMore) {
       return <el-collapse-item
@@ -218,7 +221,7 @@ const render = function(h) {
       >
         <template slot="title">
           <span class="title">{label}</span>
-          <div v-show={showValue} class="tag-value">{ showValue }</div>
+          <div v-show={isShow} class="tag-value">{ showValue }</div>
         </template>
         {itemRender(item, more_searchParams, true)}
         <div class="filters-footer">
@@ -237,7 +240,7 @@ const render = function(h) {
     return [
       <el-button
         slot="reference"
-        class={`ad-popover-box__btn ${showValue ? 'active' : ''}`}>
+        class={`ad-popover-box__btn ${isShow ? 'active' : ''}`}>
         <span>
           <span class="ad-popover-box__btn__label">{label}</span>
           <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix"/>
@@ -293,12 +296,14 @@ const render = function(h) {
         {
           tagList.map((item, index) => {
             // 针对特殊类型 根据搜索的数据 进行自定义tag展示
-            if (item.local_tagHTML) {
-              return item.local_tagHTML
+            // local_tagHTML 即: tag [tagRender(h,{searchParams, transLabel, deleteFn}){return {showValue, tag}}处理 返回的 tag]
+            const form = item.form
+            if (form.local_tagHTML) {
+              return form.local_tagHTML
             }
             const _value = item.value
             const local_label = t(item.label)
-            const key = item.form.prop || index
+            const key = form.prop || index
             if (Array.isArray(_value)) {
               const _valueLength = _value.length
               const labels = _value.join(',')
@@ -637,15 +642,31 @@ export default {
       }, {})
     },
     // prop   label   value
-    getFormLabelValue(form, formData = this.searchParams) {
+    getFormLabelValue(form, formData = this.searchParams, isMore = false) {
       const { prop, itemType, options: _options } = form
       const options = _options || []
       const val = formData[prop]
+      // 如果有配置自定义tag 优先考虑自定义渲染tag
+      /** local_labelValue 需要结合 tagRender(h,{searchParams, transLabel, deleteFn}){return {showValue, tag}}处理 */
+      if (form.hasOwnProperty('local_labelValue')) { // local_labelValue 即: showValue
+        if (isMore) {
+          const { showValue } = form.tagRender(this.$createElement, {
+            searchParams: formData,
+            // 由于在more 中只需要获取 showValue 和tag相关的删除 和 转译Label 可以不传
+            // transLabel: form.t_label ? t(form.t_label) : form.label,
+            transLabel: '',
+            deleteFn: () => {},
+            isMore: true
+          }) || {}
+          return showValue
+        }
+        return form.local_labelValue
+      }
       let localValue
       switch (itemType) {
         // 对应的 prop 进行 提取 select_label
         case 'render':
-          /** render类型 需要结合 tagRender(h,{searchParams, transLabel, deleteFn}){}处理 */
+          /** render类型 需要结合 tagRender(h,{searchParams, transLabel, deleteFn}){return {showValue, tag}}处理 */
           localValue = form.local_labelValue
           break
         case 'adSelect':
@@ -724,43 +745,40 @@ export default {
       // const tags_forms = this.forms
       // 保证展示的 tagList 默认优先展示 然后再展示 more类型
       const tags_forms = [].concat(this.defaultForms, this.moreForms)
-      // this.defaultForms.map(v => {
-      //   // if (v.itemType === 'adSelect') {
-      //   tags_forms.push(v)
-      //   // }
-      // })
-      // tags_forms.push(...this.moreForms)
-      // 对需要渲染的 forms 进行遍历
-
       const searchParams = this.searchParams
-      this.tagList = tags_forms.reduce((res, item) => {
+      // 对需要渲染的 forms 进行遍历(非空数据)
+      this.tagList = tags_forms.reduce((res, form) => {
         let labelValue
-        if (typeof item.tagRender === 'function') {
-          const { showValue, tag } = item.tagRender(this.$createElement, {
+        const item = {
+          // label: form.t_label || form.label,
+          // value: labelValue,
+          form
+        }
+        if (typeof form.tagRender === 'function') {
+          const { showValue, tag } = form.tagRender(this.$createElement, {
             searchParams,
-            transLabel: item.t_label ? t(item.t_label) : item.label,
-            deleteFn: () => this.local_deleteTag(item, res.length)
+            transLabel: form.t_label ? t(form.t_label) : form.label,
+            deleteFn: () => this.local_deleteTag(item, res.length),
+            isMore: false
           }) || {}
           // 定义可通过 formLabelValue 获取的 labelValue(more展示&&default active)
-          item.local_labelValue = showValue
-          item.local_tagHTML = tag
-          // console.warn(showValue, tag, 'showValue, tag', item)
+          form.local_labelValue = showValue
+          form.local_tagHTML = tag
+          // console.warn(showValue, tag, 'showValue, tag', form)
           // eg: tag
           // 类似这样的格式：
           // return <el-tag>
-          //   {`${transLabel}：<span class="el-tag__label">${searchParams[yourProp]}</span>`}
+          //   {transLabel}：<span class="el-tag__label">${searchParams[yourProp]}</span>
           //   <i class="icon-delete" onClick={deleteFn} />
           // </el-tag>
         }
-        labelValue = this.getFormLabelValue(item, searchParams)
+        labelValue = this.getFormLabelValue(form, searchParams)
 
-        // forms
-        if (labelValue !== undefined) {
-          res.push({
-            label: item.t_label || item.label,
-            value: labelValue,
-            form: item
-          })
+        // items
+        if (labelValue || typeof labelValue === 'number') {
+          item.label = form.t_label || form.label
+          item.value = labelValue
+          res.push(item)
         }
         return res
       }, []).filter(v => {

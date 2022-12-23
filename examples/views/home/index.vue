@@ -348,7 +348,19 @@
 </template>
 
 <script>
-
+const iconOptions = [
+  { label: 'ad-insurance_grey', value: 2, icon: 'ad-insurance', color: '#C6CDD5' },
+  { label: 'ad-sign_grey', value: 4, icon: 'ad-sign', color: '#C6CDD5' },
+  { label: 'ad-insurance_green', value: 1, icon: 'ad-insurance', color: '#03B497' },
+  { label: 'ad-sign_green', value: 3, icon: 'ad-sign', color: '#03B497' }
+]
+const icon_configObj = iconOptions.reduce((res, v) => {
+  res[v.value] = {
+    icon: v.icon,
+    color: v.color
+  }
+  return res
+}, {})
 export default {
   name: 'home',
   components: {
@@ -412,7 +424,8 @@ export default {
         adSelectMultipleMore: ['选项2'],
         // numberInput 区间
         inputNumberRangeStart: undefined,
-        inputNumberRangeEnd: undefined
+        inputNumberRangeEnd: undefined,
+        adSelectMultipleMore_icon: [1, 3]
       },
       formOptions: {
         // 调整是否 isMore todo... 交互
@@ -439,6 +452,82 @@ export default {
           {
             // visible: true, // 只要不为false 就是 展示
             // isMore: true, // 只要不为true 就是 默认展示
+            prop: 'adSelect_icon', // 提交的 params 的字段
+            label: 'adSelect_icon', // label 标签
+            itemType: 'adSelect', // form-item 类型
+            options: iconOptions,
+            slotOption(h, { option, label }) {
+              // console.error(option, label, 'option, label')
+              const style = `color: ${option.color}`
+              return <ad-icon icon-class={option.icon} style={style}></ad-icon>
+            },
+            // 渲染选中的特殊展示
+            tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+              // console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
+              // 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
+              const iconValue = searchParams['adSelect_icon']
+              let showValue = ''
+              let tag = ''
+              if (iconValue) {
+                const option = icon_configObj[iconValue]
+                const style = `color: ${option.color}`
+                showValue = <ad-icon icon-class={option.icon} style={style}></ad-icon>
+                // isMore请求 无需生成 tag
+                if (isMore) return { showValue }
+                tag = <el-tag disable-transitions>
+                  {transLabel}：
+                  {showValue ? <span class="el-tag__label">{showValue}</span> : ''}
+                  <i class='icon-delete' onClick={deleteFn} />
+                </el-tag>
+              }
+              return {
+                showValue,
+                tag
+              }
+            }
+          },
+          {
+            // visible: true, // 只要不为false 就是 展示
+            isMore: true, // 只要不为true 就是 默认展示
+            prop: 'adSelectMultipleMore_icon', // 提交的 params 的字段
+            label: 'adSelectMultipleMore_icon', // label 标签
+            itemType: 'adSelect', // form-item 类型
+            multiple: true, // todo order 进行替换
+            options: iconOptions,
+            slotOption(h, { option, label }) {
+              const style = `color: ${option.color}`
+              return <ad-icon icon-class={option.icon} style={style}></ad-icon>
+            },
+            // 渲染选中的特殊展示
+            tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+              // console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
+              // 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
+              const iconValue = searchParams['adSelectMultipleMore_icon']
+              let showValue = ''
+              let tag = ''
+              if (iconValue) {
+                const options = Array.isArray(iconValue) ? iconValue.map(v => icon_configObj[v]) : [icon_configObj[iconValue]]
+                showValue = options.map(option => {
+                  const style = `color: ${option.color}`
+                  return <ad-icon icon-class={option.icon} style={style}></ad-icon>
+                })
+                // isMore请求 无需生成 tag
+                if (isMore) return { showValue }
+                tag = <el-tag disable-transitions>
+                  {transLabel}：
+                  {showValue ? <span class="el-tag__label">{showValue}</span> : ''}
+                  <i class='icon-delete' onClick={deleteFn} />
+                </el-tag>
+              }
+              return {
+                showValue,
+                tag
+              }
+            }
+          },
+          {
+            // visible: true, // 只要不为false 就是 展示
+            // isMore: true, // 只要不为true 就是 默认展示
             prop: 'adSelect', // 提交的 params 的字段
             label: 'adSelect', // label 标签
             itemType: 'adSelect', // form-item 类型
@@ -450,9 +539,6 @@ export default {
                 label_1: '黄金糕' + i
               }
             })
-            /** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 */
-            // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-            // showSearch: true,
           },
           {
             // visible: true, // 只要不为false 就是 展示
@@ -468,9 +554,6 @@ export default {
                 label_1: '黄金糕' + i
               }
             })
-            /** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 */
-            // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-            // showSearch: true,
           },
           {
             // visible: true, // 只要不为false 就是 展示
@@ -487,9 +570,6 @@ export default {
                 label_1: '黄金糕' + i
               }
             })
-            /** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 */
-            // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-            // showSearch: true,
           },
           {
             // visible: true, // 只要不为false 就是 展示
@@ -506,9 +586,6 @@ export default {
                 label_1: '黄金糕' + i
               }
             })
-            /** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 */
-            // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-            // showSearch: true,
           },
           /* { // 可用于特殊场合中 但不支持 tagList   （支持 替代  iconTip itemType 类型）
             // showLabel: true,
@@ -550,9 +627,6 @@ export default {
               { value: 0, label: '小三' },
               { value: 1, label: '小四' }
             ]
-            /!** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 *!/
-            // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-            // showSearch: true,
           },
           {
             // visible: true, // 只要不为false 就是 展示
@@ -564,9 +638,6 @@ export default {
               { value: 0, label: '小三' },
               { value: 1, label: '小四' }
             ]
-            /!** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 *!/
-            // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-            // showSearch: true,
           }, */
           // {
           //   prop: 'rangePicker', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 startKey, endKey 作定义
@@ -658,9 +729,9 @@ export default {
             label: 'inputNumberRange',
             itemType: 'inputNumberRange',
             prefix: '$',
-            suffix: '￥',
-            prepend: 'Prepend',
-            append: 'Append',
+            // suffix: '￥',
+            // prepend: 'Prepend',
+            // append: 'Append',
             min: 0,
             max: 999,
             // placeholderStart: 'xxxx最小值', // 直接支持多语言
@@ -679,7 +750,7 @@ export default {
             label: 'inputNumberRangeMore',
             itemType: 'inputNumberRange',
             prefix: '$',
-            suffix: '￥',
+            // suffix: '￥',
             // prepend: 'Prepend',
             // append: 'Append',
             min: 0,

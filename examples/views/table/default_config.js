@@ -110,6 +110,20 @@ export const columns = [
 // 初始化 checkedOptions (用于 接口还没获取到 之前保存的columns 配置)
 export const checkedOptions = columns.map((v) => v)
 
+const iconOptions = [
+  { label: 'ad-insurance_grey', value: 2, icon: 'ad-insurance', color: '#C6CDD5' },
+  { label: 'ad-sign_grey', value: 4, icon: 'ad-sign', color: '#C6CDD5' },
+  { label: 'ad-insurance_green', value: 1, icon: 'ad-insurance', color: '#03B497' },
+  { label: 'ad-sign_green', value: 3, icon: 'ad-sign', color: '#03B497' }
+]
+const icon_configObj = iconOptions.reduce((res, v) => {
+  res[v.value] = {
+    icon: v.icon,
+    color: v.color
+  }
+  return res
+}, {})
+
 // 若有特殊的 默认配置 (产品特殊要求 含: column 展示配置  和 展示 顺序)
 export const defaultCheckedOptions = [userConfig] // columns.map((v) => v).reverse()
 
@@ -117,6 +131,7 @@ export const defaultCheckedOptions = [userConfig] // columns.map((v) => v).rever
 // 表单对象值
 export const formParams = {
   render: 'testXXX',
+  others: '',
   pattern: 'input 搜索',
   input: 'testInput',
   adSelect: '选项1',
@@ -127,7 +142,8 @@ export const formParams = {
   inputMore: 'inputMore_init',
   dateRange: ['11/10/2022', '11/25/2022'],
   dateRangeMore: [],
-  datePickerMore: '11/25/2022'
+  datePickerMore: '11/25/2022',
+  adSelect_icon: 3
   // datePickerMore: '2022-11-25'
   // inputNumber: undefined
 }
@@ -143,6 +159,43 @@ export const formOptions = {
       // prepend: 'Http://', // 额外form-item配置
       // append: '.com' // 额外form-item配置
       // placeholder: '请输入input..............' // 额外form-item配置
+    },
+    {
+      // visible: true, // 只要不为false 就是 展示
+      // isMore: true, // 只要不为true 就是 默认展示
+      prop: 'adSelect_icon', // 提交的 params 的字段
+      label: 'adSelect_icon', // label 标签
+      itemType: 'adSelect', // form-item 类型
+      options: iconOptions,
+      slotOption(h, { option, label }) {
+        // console.error(option, label, 'option, label')
+        const style = `color: ${option.color}`
+        return <ad-icon icon-class={option.icon} style={style}></ad-icon>
+      },
+      // 渲染选中的特殊展示
+      tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+        // console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
+        // 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
+        const iconValue = searchParams['adSelect_icon']
+        let showValue = ''
+        let tag = ''
+        if (iconValue) {
+          const option = icon_configObj[iconValue]
+          const style = `color: ${option.color}`
+          showValue = <ad-icon icon-class={option.icon} style={style}></ad-icon>
+          // isMore请求 无需生成 tag
+          if (isMore) return { showValue }
+          tag = <el-tag disable-transitions>
+            {transLabel}：
+            {showValue ? <span class="el-tag__label">{showValue}</span> : ''}
+            <i class='icon-delete' onClick={deleteFn} />
+          </el-tag>
+        }
+        return {
+          showValue,
+          tag
+        }
+      }
     },
     {
       visible: true, // 只要不为false 就是 展示
@@ -173,9 +226,6 @@ export const formOptions = {
       // slotOption(h, { option, label }) {
       //   return label + '_____'
       // }
-      /** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 */
-      // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-      // showSearch: true,
     },
     {
       // visible: true, // 只要不为false 就是 展示
@@ -191,9 +241,6 @@ export const formOptions = {
           label_1: 'adSelectMore单选' + i
         }
       })
-      /** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 */
-      // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-      // showSearch: true,
     },
     {
       // visible: true, // 只要不为false 就是 展示
@@ -210,9 +257,6 @@ export const formOptions = {
           label_1: 'adSelect多选' + i
         }
       })
-      /** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 */
-      // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-      // showSearch: true,
     },
     {
       // visible: true, // 只要不为false 就是 展示
@@ -229,9 +273,6 @@ export const formOptions = {
           label_1: 'adSelectMore多选' + i
         }
       })
-      /** !!!! defaultValue 不再使用  如需 初始化 请在 对应的 双向绑定 对象 searchParams 中进行定义 */
-      // defaultValue: 1 // eg: searchParams = {select: 1} todo delete
-      // showSearch: true,
     },
     {
       visible: true, // 只要不为false 就是 展示
@@ -339,25 +380,27 @@ export const formOptions = {
       itemType: 'render',
       render: (h, extendsParams) => {
         const { form, params } = extendsParams
+        // console.error(params, 'params')
         return <div style="background: #f0f;">
-          <el-input v-model={params[form.prop]} placeholder="placeholder render"/>
-          <el-input v-model={params.others} placeholder="placeholder others"/>
+          <el-input value={params[form.prop]} on-input={(e) => (params[form.prop] = e)} placeholder="placeholder render"/>
+          <el-input value={params.others} on-input={(e) => (params.others = e)} placeholder="placeholder others"/>
         </div>
       },
-      tagRender(h, { searchParams, transLabel, deleteFn }) {
-        console.error(searchParams, transLabel, deleteFn, 'searchParams, label, value')
+      tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+        // 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
+        // console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
         const render = searchParams['render'] || ''
         const others = searchParams['others']
-        let showValue = render
+        let showValue = render ? `render: ${render}` : ''
         if (others) {
-          showValue += (showValue ? '-and-' : '') + others
+          showValue += (showValue ? ' -and- ' : '') + `others: ${others}`
         }
         let tag = ''
         if (showValue) {
           tag = <el-tag disable-transitions>
-            {`${transLabel}：`}
-            {showValue ? `<span class="el-tag__label">${showValue}</span>` : ''}
-            {others ? `others：<span class="el-tag__label">${showValue}</span>` : ''}
+            {transLabel}：
+            {showValue ? <span class="el-tag__label" title={showValue}>{showValue}</span> : ''}
+            {/* {others ? [' others：', <span class="el-tag__label">{showValue}</span>] : ''} */}
             <i class="icon-delete" onClick={deleteFn} />
           </el-tag>
         }
@@ -677,6 +720,7 @@ export const tableBaseMixin = {
     // 目前删除只针对 标签删除(未兼容 popoverItem 和 moreItem 的 clear)
     deleteTag(form, searchParams) {
       console.log('deleteTag ', form, searchParams)
+      // 针对性删除特殊内容
       if (form.prop === 'render') {
         // 额外处理逻辑
         searchParams.others = ''
