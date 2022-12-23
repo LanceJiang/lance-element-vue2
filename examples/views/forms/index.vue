@@ -263,6 +263,20 @@ export default {
             console.error(...args, 'change...inputNumberinputNumberinputNumberinputNumberinputNumber')
           }
         },
+        /* // inputNumberRange // todo 是否添加
+        {
+          prop: 'inputNumberRange',
+          label: 'inputNumberRange',
+          // t_label: `${prefix}test5`,
+          prepend: 'Prepend',
+          append: 'Append',
+          prefix: 'Http://',
+          suffix: '.com',
+          itemType: 'inputNumberRange',
+          change(...args) {
+            console.error(...args, 'change...inputNumberinputNumberinputNumberinputNumberinputNumber')
+          }
+        }, */
         // date
         {
           prop: 'date',
