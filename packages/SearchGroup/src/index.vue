@@ -715,7 +715,7 @@ export default {
           var varStart = formData[form.propStart || `${prop}Start`]
           var varEnd = formData[form.propEnd || `${prop}End`]
           if (typeof varStart === 'number') {
-            localValue = (!varEnd) ? ('>= ' + varStart) : varStart
+            localValue = (!varEnd && varEnd !== 0) ? ('>= ' + varStart) : varStart
           }
           if (typeof varEnd === 'number') {
             if (localValue === undefined) {

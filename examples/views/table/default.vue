@@ -14,6 +14,7 @@
       <template #toolLeft>
 <!--        <AdSearchGroup/>-->
         <ad-search-group
+          class="local_search-group-wrap"
           v-bind="formOptions"
           v-model="formParams"
           :selectedSettingSubmit="selectedSettingSubmit"
@@ -124,5 +125,21 @@ export default {
 // 其他样式
 .local_table {
   padding: 0 12px;
+  // 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整1 eg:
+  /*&::v-deep {
+    .ad-column-wrap {
+      display: none;
+    }
+  }*/
 }
+.local_search-group-wrap ::v-deep {
+  // 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整2 eg:
+  /*.tags-wrap {
+    margin-right: 48px;
+  }
+  .ad-search-group-tags .tags-action {
+    right: -48px;
+  }*/
+}
+
 </style>

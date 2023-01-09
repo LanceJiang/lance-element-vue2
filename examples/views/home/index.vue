@@ -342,8 +342,18 @@
         :move="onMove"
       />
     </div>
-    <div class="common_title">iconfont && AdIcon</div>
+    <div class="common_title">ElCard Style</div>
     <div class="content">...</div>
+    <div class="common_title">iconfont && AdIcon</div>
+    <div class="content">
+      <el-card shadow="never" class="ad-card-bg picking-list" header="Picking List">
+        <template slot="header">
+          Picking List----
+          <el-button type="text">Clear</el-button>
+        </template>
+        123456
+      </el-card>
+    </div>
   </div>
 </template>
 
