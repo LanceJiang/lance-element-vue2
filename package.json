@@ -1,6 +1,6 @@
 {
   "name": "@adber/adber-ui",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "vue-cli3构建基于elementUI二次封装库 集成 vxe-table",
   "main": "lib/adber-ui.umd.min.js",
   "keywords": [

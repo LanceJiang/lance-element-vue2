@@ -101,7 +101,7 @@ const components = [
   const existIconVersion = [...d.querySelectorAll('.ad-icon_svg')].map(v => v.getAttribute('version')).includes(version)
   if (!existIconVersion) {
     /** update 最新 iconfont(.css && .js) */
-    const origin_prefix = '//at.alicdn.com/t/c/font_3588867_a176e5bsc0w'
+    const origin_prefix = '//at.alicdn.com/t/c/font_3588867_doyw1x1gbf'
     const link = d.createElement('link')
     link.rel = 'stylesheet'
     link.type = 'text/css'

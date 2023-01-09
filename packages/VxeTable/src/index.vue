@@ -164,7 +164,8 @@ const render = function(h) {
     total,
     list,
     tableOptions,
-    searchParams
+    searchParams,
+    columnsConfig
   } = this
   const tableOn = {
     'cell-click': ($event) => this.$emit('cellClick', $event), // args: { row, rowIndex, column } 当前点选即会触发
@@ -186,18 +187,22 @@ const render = function(h) {
           {scopedSlots_toolLeft && scopedSlots_toolLeft({ curPageSelectLength })}
         </template>
         <div class='toolRight' slot='tools'>
+          {this.$slots.toolRight}
           {/* 刷新 */}
           <el-tooltip placement="top" content={t('adb.refresh')}>
-            <el-button type="default" class="icon-button" onClick={this.refreshHandler}>
+            <el-button type="default" class="icon-button refresh" onClick={this.refreshHandler}>
               <Icon iconClass="ad-refresh" />
             </el-button>
           </el-tooltip>
           {/* columns过滤 */}
-          <TableColumnsPopover
-            value={this.checkedOptions}
-            onInput={this.checkedOptionsChange}
-            props={this.columnsConfig}
-          />
+          {
+            // columnsConfig?.columns?.length ? <TableColumnsPopover
+            <TableColumnsPopover
+              value={this.checkedOptions}
+              onInput={this.checkedOptionsChange}
+              props={columnsConfig}
+            />
+          }
         </div>
       </vxe-toolbar>
       {this.$slots.top}

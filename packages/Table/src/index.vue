@@ -157,18 +157,22 @@ const render = function (h) {
           <div class="toolBarWrap">
             <div class="toolLeft">{this.$slots.toolLeft}</div>
             <div class="toolRight">
+              {this.$slots.toolRight}
               {/* 刷新 */}
               <el-tooltip placement="top" content={t('adb.refresh')}>
-                <el-button type="default" class="icon-button" onClick={this.refreshHandler}>
+                <el-button type="default" class="icon-button refresh" onClick={this.refreshHandler}>
                   <Icon iconClass="ad-refresh" />
                 </el-button>
               </el-tooltip>
               {/* columns过滤 */}
-              <TableColumnsPopover
-                value={checkedOptions}
-                onInput={this.checkedOptionsChange}
-                props={columnsConfig}
-              />
+              {
+                // columnsConfig?.columns?.length ? <TableColumnsPopover
+                <TableColumnsPopover
+                  value={checkedOptions}
+                  onInput={this.checkedOptionsChange}
+                  props={columnsConfig}
+                />
+              }
             </div>
           </div>
         )}

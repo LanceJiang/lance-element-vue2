@@ -56,7 +56,8 @@
     // 保存/清除 默认放置 在 toolLeft 外部 定位位置
     .tags-action {
       position: absolute;
-      right: -95px;
+      // toolRight 的宽度 (默认情况下 toolRight 宽: 96px  若有特殊情况 需要 另外做调整)
+      right: -96px;
       top: 0;
       display: inline-flex;
       justify-content: flex-end;
