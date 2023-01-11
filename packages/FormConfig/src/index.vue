@@ -429,13 +429,13 @@ export default {
         if (propType === 'string') {
           params[_prop] = this.setItemData(formData[_prop]) // 数据初始化
           /* if (v.itemType === 'dateRange') {
-            const startKey = v.startKey || `${_prop}Start`
-            const endKey = v.endKey || `${_prop}End`
-            const hasDate = formData[startKey] && formData[endKey]
+            const propStart = v.propStart || `${_prop}Start`
+            const propEnd = v.propEnd || `${_prop}End`
+            const hasDate = formData[propStart] && formData[propEnd]
             // 仅当 初始日期 和 结束日期 都有的情况下 才赋值 prop值
             // （只有一个值时，存在 rangeDate不展示对应数据，点选日期 也被置回1970年 的问题）
             params[_prop] = hasDate
-              ? [formData[startKey], formData[endKey]]
+              ? [formData[propStart], formData[propEnd]]
               : formData[_prop] || undefined
           } else */
           if (v.itemType === 'cascader') {
@@ -457,9 +457,10 @@ export default {
       }
       this.params = params
     },
-    isArray(value) {
-      return typeof value === 'object' && Object.prototype.toString.call(value) === '[object Array]'
-    },
+    /* isArray(value) {
+      // return typeof value === 'object' && Object.prototype.toString.call(value) === '[object Array]'
+      return Object.prototype.toString.call(value).slice(8, -1) === 'Array'
+    }, */
     cancelHandler() {
       this.$emit('cancel')
     },
@@ -495,13 +496,13 @@ export default {
           const key = form.prop
           if (key) {
             // 对应的form 内部设置有 formats 函数的值做提交前的最后操作 fn(value, key)
-            /* if (form.itemType === 'dateRange' && form.startKey) {
-              // 含有startKey 表示拆分出来
-              const { startKey } = form // || key + 'Start'
-              const { endKey } = form // || key + 'End'
+            /* if (form.itemType === 'dateRange' && form.propStart) {
+              // 含有propStart 表示拆分出来
+              const { propStart } = form // || key + 'Start'
+              const { propEnd } = form // || key + 'End'
               const [startDate, endDate] = params[key] || []
-              formattedForm[startKey] = startDate
-              formattedForm[endKey] = endDate
+              formattedForm[propStart] = startDate
+              formattedForm[propEnd] = endDate
             } else { */
             formattedForm[key] = formats[key] ? formats[key](params, key) : params[key]
             // }

@@ -650,7 +650,7 @@ export default {
             ]
           }, */
           // {
-          //   prop: 'rangePicker', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 startKey, endKey 作定义
+          //   prop: 'rangePicker', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 propStart, propEnd 作定义
           //   label: 'rangePicker(对应a-range-picker)',
           //   itemType: 'rangePicker',
           //   calendarChange: (dates) => {
@@ -660,12 +660,12 @@ export default {
           /* {
             // showLabel: true,
             // isMore: true, // 只要不为true 就是 默认展示
-            prop: 'dateRange', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 startKey, endKey 作定义
+            prop: 'dateRange', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 propStart, propEnd 作定义
             label: 'rangePicker(对应a-range-picker2)',
             itemType: 'rangePicker'
           },
           {
-            prop: 'datePicker', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 startKey, endKey 作定义
+            prop: 'datePicker', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 propStart, propEnd 作定义
             label: 'datePicker',
             itemType: 'datePicker',
             change(params, options, isMore) {
@@ -676,7 +676,7 @@ export default {
           },
           {
             // isMore: true, // 只要不为true 就是 默认展示
-            prop: 'datePicker2', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 startKey, endKey 作定义
+            prop: 'datePicker2', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 propStart, propEnd 作定义
             label: 'datePicker2',
             itemType: 'datePicker'
           },
