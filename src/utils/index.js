@@ -56,7 +56,12 @@ export function debounce(func, wait, immediate) {
     }
   }
 }
-
+/**
+ * 请求确切的类型
+ */
+export const queryTypeOf = (obj) => {
+  return Object.prototype.toString.call(obj).slice(8, -1)
+}
 /**
  * 深层数据的集合进行有机合并
  * @param objs[] 需要合并的 对象集合 （后面的覆盖前面的参数）
@@ -68,7 +73,8 @@ export const objDeepMerge = (...objs) => {
     for (const prop in opt) {
       // eslint-disable-next-line
       if (opt.hasOwnProperty(prop)) {
-        if (Object.prototype.toString.call(opt[prop]) === '[object Object]') {
+        // if (Object.prototype.toString.call(opt[prop]) === '[object Object]') {
+        if (queryTypeOf(opt[prop]) === 'Object') {
           res[prop] = objDeepMerge(res[prop], opt[prop])
         } else {
           res[prop] = opt[prop]

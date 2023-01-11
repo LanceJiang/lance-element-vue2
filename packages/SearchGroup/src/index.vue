@@ -9,6 +9,7 @@ import AdSelect from '@adber/adber-ui/packages/Select'
 import SearchFilterDrawer from './SearchFilterDrawer'
 import SelectedItemsSortDialog from './SelectedItemsSortDialog'
 import { renderSelectOption } from '@adber/adber-ui/src/utils/slotsUtils'
+import { queryTypeOf } from '@adber/adber-ui/src/utils'
 const isVNode = el => el?.constructor?.name === 'VNode'
 const render = function(h) {
   // const _this = this
@@ -229,7 +230,7 @@ const render = function(h) {
             type="text"
             class="filters-clear"
             title="clear filter"
-            onClick={this.clearMoreHandler.bind(null, prop)}
+            onClick={this.clearMoreHandler.bind(null, item)}
           >
             <Icon icon-class="ad-clear"/>
           </el-button>
@@ -250,7 +251,7 @@ const render = function(h) {
         {itemRender(item, searchParams, false)}
       </div>,
       <div class="ad-popover--select_footer">
-        <el-button title={t('adb.btn.reset')} size='small' onClick={this.clearItemHandler.bind(null, prop)}>
+        <el-button title={t('adb.btn.reset')} size='small' onClick={this.clearItemHandler.bind(null, item)}>
           <ad-icon icon-class="ad-clear"/>
         </el-button>
 
@@ -415,7 +416,6 @@ const render = function(h) {
     }
   </div>
 }
-// import { getDeepValue } from '@/utils'
 
 export default {
   name: 'AdSearchGroup',
@@ -818,9 +818,6 @@ export default {
       const extraParams = this.tagResetParams(form)
       const new_searchParams = { ...this.searchParams, ...extraParams }
       // 关闭tag 后涉及到的额外联动操作(用于：对即将生成的新 searchParams 数据进行调整)
-      // if (typeof form.deleteTag === 'function') {
-      //   await form.deleteTag(form, new_searchParams)
-      // }
       if (typeof this.deleteTag === 'function') {
         await this.deleteTag(form, new_searchParams)
       }
@@ -848,9 +845,12 @@ export default {
       this.saveFilterSubmit(this)
     },
     // 清空更多
-    async clearMoreHandler (key) {
-      // 清空数据 是否针对不同的类型进行 reset  todo...
-      if (key === 'all') {
+    async clearMoreHandler (keyOrItem) {
+      // console.error(keyOrItem, 'key or item')
+      // 清空数据 针对不同的类型进行
+      const queryType = queryTypeOf(keyOrItem)
+      // if (queryType === 'String') {
+      if (keyOrItem === 'all') {
         this.moreFormKeys.map(prop => {
           this.more_searchParams[prop] = undefined
           // todo delete
@@ -858,22 +858,26 @@ export default {
           //  this.deleteTag(this.moreForms.find(v => v.prop === key), this.more_searchParams)
           // }
         })
-      } else {
-        this.more_searchParams[key] = undefined
-        // todo delete
-        // if (typeof this.deleteTag === 'function') {
-        //  this.deleteTag(this.moreForms.find(v => v.prop === key), this.more_searchParams)
-        // }
+      } else if (queryType === 'Object') {
+      // } else if (typeof ) {
+        this.queryItemTypeKey(keyOrItem).map(prop => {
+          this.more_searchParams[prop] = undefined
+          // todo delete
+          // if (typeof this.deleteTag === 'function') {
+          //  this.deleteTag(this.moreForms.find(v => v.prop === key), this.more_searchParams)
+          // }
+        })
       }
     },
     // 清空快捷Filter
-    clearItemHandler(key) {
-      this.searchParams[key] = undefined
-      // todo delete
-      // if (typeof this.deleteTag === 'function') {
-      //  this.deleteTag(this.defaultForms.find(v => v.prop === key), this.searchParams)
-      // }
-
+    clearItemHandler(item) {
+      this.queryItemTypeKey(item).map(prop => {
+        this.searchParams[prop] = undefined
+        // todo delete
+        // if (typeof this.deleteTag === 'function') {
+        //  this.deleteTag(this.defaultForms.find(v => v.prop === key), this.searchParams)
+        // }
+      })
       // this.$refs[`popover_${key}`].showPopper = false
       // this.searchHandler(key)
     },

@@ -289,8 +289,8 @@ export default {
         {
           prop: 'dateRange',
           label: 'dateRange(date-picker [type:daterange])',
-          // startKey: 'dateRangeStart', // todo 去除(??? 直接delete)
-          // endKey: 'dateRangeEnd',
+          // propStart: 'dateRangeStart', // 已被删除(暂不考虑开启)
+          // propEnd: 'dateRangeEnd',
           // t_label: `${prefix}test7`,
           itemType: 'datePicker',
           type: 'daterange'
