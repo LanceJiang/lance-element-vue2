@@ -11,7 +11,8 @@ export default {
       confirm: '确认',
       save: '保存',
       cancel: '取消',
-      reset: '重置'
+      reset: '重置',
+      deleteView: '删除页签'
       // clear: '清空'
     },
     selectAll: '全选',
@@ -95,6 +96,10 @@ export default {
       editSuccess: '编辑成功',
       CopiedSuccessfully: '复制成功!',
       CopyFailure: '复制失败'
+    },
+    tabs: {
+      tab: '标签',
+      tabSetting: '标签设置'
     }
   }
 }

@@ -1,0 +1,70 @@
+@import '../variables.scss';
+// tabs 样式
+.#{$prefix}tabs-wrap {
+  display: flex;
+  height: 40px;
+  background: red;
+  .tab-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2px;
+    padding: 0 16px;
+    min-width: 48px;
+    height: 100%;
+    border-radius: 6px 6px 0 0;
+    background: #eaedf0;
+    font-size: 16px;
+    cursor: pointer;
+    &__name {
+      margin-right: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+    .edit-icon {
+      
+    }
+  }
+  .tab-active {
+    color: $ad-color-primary;
+    background-color: #ffffff;
+  }
+  .ad-setting-tabs-dialog {
+    width: 390px;
+    .el-dialog__body {
+      .setting-connent {
+        border: 1px solid #ebeef5;
+        border-radius: 6px;
+        .title {
+          padding: 0 12px;
+          height: 40px;
+          line-height: 40px;
+          color: #5c6570;
+          background-color: #fafafa;
+          border-bottom: 1px solid #ebeef5;
+        }
+        .drag-wrapp {
+          height: 350px;
+          padding: 12px;
+          background-color: #fafafa;
+
+          .ad-draggable-nest {
+            height: 100%;
+            &-item {
+              margin-bottom: 4px;
+            }
+          }
+          .setting-tab-item {
+            height: 30px;
+            background-color: #fff;
+          }
+        }
+      }
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
