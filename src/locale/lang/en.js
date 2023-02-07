@@ -11,7 +11,8 @@ export default {
       confirm: 'Confirm',
       save: 'Save',
       cancel: 'Cancel',
-      reset: 'Reset'
+      reset: 'Reset',
+      deleteView: 'Delete View'
       // clear: 'Clear'
     },
     selectAll: 'Select All',
@@ -95,6 +96,10 @@ export default {
       editSuccess: 'Edit Success',
       CopiedSuccessfully: 'Copied successfully!',
       CopyFailure: 'Copy Failure'
+    },
+    tabs: {
+      tab: 'Tab',
+      tabSetting: 'Tab Setting'
     }
   }
 }

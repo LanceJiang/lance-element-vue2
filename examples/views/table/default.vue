@@ -1,5 +1,6 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
+    <AdTabs v-model="localTabsList" @updateTabs="updateTabs" @clickTab="queryList"/>
     <AdTable
       class="local_table"
       :searchParams.sync="searchParams"

@@ -569,7 +569,91 @@ export const tableBaseMixin = {
           ],
           is_button: true
         }
-      ]
+      ],
+      localTabsListData: [
+        {
+          id: 'b8b778c8-358a-4a5c-9efc-8d78d6de879aaa',
+          name: 'localTab1',
+          path: '/shipments/history',
+          search: '?selectedView=active&saved_search_id=2323836698791',
+          filter: [
+            {
+              key: 'saved_search_id1',
+              value: '1111',
+              form: {}
+            }
+          ],
+          columns: [
+            {
+              prop: 'brand1',
+              width: ''
+            }
+          ],
+          isLocal: true
+        }
+      ],
+      remoteTabsList: [
+        {
+          id: 'b8b778c8-358a-4a5c-9efc-8d78d6de879e',
+          name: 'test-name1',
+          path: '/shipments/history',
+          search: '?selectedView=active&saved_search_id=2323836698791',
+          filter: [
+            {
+              key: 'saved_search_id1',
+              value: '1111',
+              form: {}
+            }
+          ],
+          columns: [
+            {
+              prop: 'brand1',
+              width: ''
+            }
+          ]
+        },
+        {
+          id: 'b8b778c8-358a-4a5c-9efc-8d78d6de879a',
+          name: 'test-name2',
+          path: '/shipments/history',
+          search: '?selectedView=active&saved_search_id=2323836698791',
+          filter: [
+            {
+              key: 'saved_search_id2',
+              value: '22222',
+              form: {}
+            }
+          ],
+          columns: [
+            {
+              prop: 'brand2',
+              width: ''
+            }
+          ]
+
+        },
+        {
+          id: 'b8b778c8-358a-4a5c-9efc-8d78d6de879b',
+          name: 'test-name3',
+          path: '/shipments/history',
+          search: '?selectedView=active&saved_search_id=2323836698791',
+          filter: [
+            {
+              key: 'saved_search_id2',
+              value: '3333',
+              form: {}
+            }
+          ],
+          columns: [
+            {
+              prop: 'brand3',
+              width: ''
+            }
+          ]
+
+        }
+      ],
+      localTabsList: []
     }
   },
   computed: {
@@ -608,6 +692,7 @@ export const tableBaseMixin = {
     window.test = this
     this.queryTableConfig()
     this.updateParams()
+    this.getTabs()
     // this.queryList()
   },
   methods: {
@@ -726,6 +811,14 @@ export const tableBaseMixin = {
         searchParams.others = ''
         // searchParams.render = 'render reset.........'
       }
+    },
+    getTabs() {
+      this.localTabsList =
+        [...this.localTabsListData, ...this.remoteTabsList]
+    },
+    updateTabs(newTabsList) {
+      console.log('newTabsList: ', newTabsList)
+      // TODO 发送请求保存到远程
     }
   }
 }
