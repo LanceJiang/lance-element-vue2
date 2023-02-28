@@ -33,6 +33,10 @@ export default {
         children?: Option[] // 同上配置
       }[] */
     },
+    options: {
+      type: Object,
+      default: () => ({})
+    },
     // todo: 扩展预设 设置定位(置顶/底)
     setFixed: {
       type: Function,
@@ -57,10 +61,7 @@ export default {
     const { level, t, emitter, move, $slots } = this
     return <Draggable
       class='ad-draggable-nest'
-      props={this.dragOptions}
-      animation={280}
-      ghost-class='ghost'
-      chosen-class='chosen'
+      options={this.dragOptions}
       list={this.list}
       value={this.value}
       onInput={emitter}
@@ -100,18 +101,20 @@ export default {
   },
   data() {
     return {
-      dragOptions: {
-        animation: 280,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost',
-        chosenClass: 'chosen'
-      }
     }
   },
   computed: {
     realValue() {
       return this.value ? this.value : this.list
+    },
+    dragOptions() {
+      return Object.assign({
+        animation: 280,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost',
+        chosenClass: 'chosen'
+      }, this.options)
     }
   },
   // created() {
