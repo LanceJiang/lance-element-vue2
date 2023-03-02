@@ -63,6 +63,11 @@ export default {
       // '1-3d': '1-3d'
       // // filterOrder: 'Filter Order'
     },
+    tabs: {
+      tab: 'Tab',
+      all: 'All',
+      tabSetting: 'Tab Setting'
+    },
     columnsPop: {
       title: 'Select option to display on the table',
       selected: 'Selected',
@@ -96,10 +101,6 @@ export default {
       editSuccess: 'Edit Success',
       CopiedSuccessfully: 'Copied successfully!',
       CopyFailure: 'Copy Failure'
-    },
-    tabs: {
-      tab: 'Tab',
-      tabSetting: 'Tab Setting'
     }
   }
 }

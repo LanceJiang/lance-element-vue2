@@ -13,7 +13,7 @@ import { queryTypeOf } from 'adber-ui/src/utils'
 const isVNode = el => el?.constructor?.name === 'VNode'
 const render = function(h) {
   // const _this = this
-  const { defaultForms, moreForms, searchParams, more_searchParams, tagList, local_deleteTag, drawerIsExpand, getFormLabelValue, selectedSettingSubmit, saveFilterSubmit } = this
+  const { defaultForms, moreForms, searchParams, more_searchParams, tagList, local_deleteTag, drawerIsExpand, getFormLabelValue, selectedSettingSubmit, tabCreateSubmit } = this
   let warpClass = 'ad-search-group-wrap'
   const itemRender = (item, searchObj, isMore = false) => {
     const { prop, itemType, itemWidth, options, change, itemStyle = '', placeholder, t_placeholder, ...formOthers } = item
@@ -331,17 +331,32 @@ const render = function(h) {
       <div class="tags-action">
         {/* 保存 */}
         {
-          saveFilterSubmit && [
-            <el-tooltip
-              content={t('adb.filter.saveFilter')}
-              placement="top"
-            ><el-button
-                type="text"
-                class="btn btn-save"
-                onClick={this.group_saveFilterSubmit}
-              >
-                <Icon icon-class="ad-save"/>
-              </el-button></el-tooltip>,
+          tabCreateSubmit && [
+            <Popover
+              popperClass="ad-tabs_popover"
+              v-model={this.tabCreate_visible}
+            >
+              <el-tooltip
+                content={t('adb.filter.saveFilter')}
+                placement="top"
+                slot="reference"
+              ><el-button
+                  type="text"
+                  class="btn btn-save"
+                >
+                  <Icon icon-class="ad-save"/>
+                </el-button>
+              </el-tooltip>
+              <FormConfig
+                ref='tab_formConfig'
+                class='ad-tabs_popover_formConfig'
+                formData={this.tabCreate_data}
+                formConfig={this.tabCreate_formConfig}
+                forms={this.tabCreate_forms}
+                onSubmit={this.tabCreate}
+                onCancel={this.tabCancel}
+              />
+            </Popover>,
             <span class="line">|</span>
           ]
         }
@@ -428,7 +443,8 @@ export default {
     Icon,
     SearchFilterDrawer,
     SelectedItemsSortDialog,
-    AdSelect
+    AdSelect,
+    FormConfig
     // InputTextArea
   },
   render,
@@ -472,10 +488,9 @@ export default {
       // }
     },
     // 接口存储当前筛选数据 记录 （保存后 可能会 更新 tabs 以及其他联动操作 todo...）
-    saveFilterSubmit: {
+    tabCreateSubmit: {
       type: Function
-      // eg: function (group) {
-      //   // group: searchGroup 组件实例
+      // eg: function (params) {
       // }
     },
     // 删除标签后的 额外操作(用于： 可能对searchParams 数据进行调整)
@@ -485,6 +500,14 @@ export default {
   },
   data () {
     const _this = this
+    const validaNamePass = (rule, value, callBack) => {
+      if (!value || !value.trim()) {
+        return callBack(new Error(t('adb.validate.validateEmptyTips', {
+          name: t('adb.tabs.tab')
+        })))
+      }
+      callBack()
+    }
     return {
       defaultForms: [],
       moreForms: [],
@@ -499,7 +522,28 @@ export default {
       },
       drawerListeners: {
         'update:visible': _this.drawerVisibleChange
-      }
+      },
+      tabCreate_visible: false,
+      tabCreate_data: {},
+      tabCreate_formConfig: {
+        showLabel: false,
+        showCancelBtn: true,
+        // cancelBtnText: 'adb.btn.deleteView',
+        // submitBtnText: 'adb.btn.save',
+        size: 'small'
+      },
+      tabCreate_forms: [
+        {
+          prop: 'tabName',
+          itemType: 'input',
+          rules: [
+            {
+              validator: validaNamePass,
+              trigger: 'blur'
+            }
+          ]
+        }
+      ]
       // AdSelectListeners: {
       //   'update:selected_label': label => {}
       // }
@@ -568,7 +612,14 @@ export default {
       },
       immediate: true
     },
-    '$i18n.locale': 'updateTagList'
+    '$i18n.locale': 'updateTagList',
+    tabCreate_visible(bool) {
+      if (!bool) {
+        const form = this.$refs.tab_formConfig
+        // form表单 重置
+        form && form.resetForm()
+      }
+    }
   },
   created() {
     window.searchGroup = this
@@ -839,11 +890,6 @@ export default {
       // 重置searchParams
       this.$emit('update:searchParams', new_searchParams)
     },
-    // 保存当前筛选搜索
-    group_saveFilterSubmit() {
-      console.error(' group_saveFilterSubmit')
-      this.saveFilterSubmit(this)
-    },
     // 清空更多
     async clearMoreHandler (keyOrItem) {
       // console.error(keyOrItem, 'key or item')
@@ -910,6 +956,15 @@ export default {
     settingVisibleChange (bool) {
       console.error(bool, 'settingVisibleChange')
       this.selectedSettingVisible = bool
+    },
+    tabCancel() {
+      this.tabCreate_visible = false
+      // this.tabCreate_data = {}
+    },
+    tabCreate(params) {
+      this.tabCreate_visible = false
+      this.tabCreateSubmit(params)
+      this.tabCreate_data = {}
     }
   }
 }
@@ -1023,7 +1078,7 @@ export default {
     v-model="searchParams" // 方式2
     tagsVisible 是否展示 多选标签 展示
     :selectedSettingSubmit="selectedSettingSubmit" // (group, dialog) => { you want to do (是否允许修改 快捷forms 的提交操作) }
-    :saveFilterSubmit="saveFilterSubmit" 接口存储当前筛选数据 // (group) => { you want to do }
+    :tabCreateSubmit="tabCreateSubmit" 接口存储当前筛选数据 // () => { you want to do }
     :deleteTag="deleteTag" 删除标签后的额外操作 // (form, newSearchParams) => { you want to do }
 />
 */
