@@ -163,7 +163,7 @@ export default {
   },
   methods: {
     initCheckedOptions() {
-      const checkedOptions = this.value || []
+      const checkedOptions = JSON.parse(JSON.stringify(this.value || []))
       this.getCheckedOptions(checkedOptions)
     },
     visibleChange(bool = false) {
