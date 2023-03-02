@@ -58,13 +58,15 @@ export default {
     }
   },
   render() {
-    const { level, t, emitter, move, $slots } = this
+    const { level, t, emitter, onStart, onEnd, move, $slots } = this
     return <Draggable
       class='ad-draggable-nest'
       options={this.dragOptions}
       list={this.list}
       value={this.value}
       onInput={emitter}
+      onStart={onStart}
+      onEnd={onEnd}
       move={move}>
       {/* type="transition" name="flip-list" */}
       <transition-group>
@@ -127,6 +129,14 @@ export default {
     emitter(value) {
       // console.error(value, 'emitter')
       this.$emit('input', value)
+    },
+    onStart(e) {
+      // console.error(e, 'onStart')
+      this.$emit('start', e)
+    },
+    onEnd(e) {
+      // console.error(e, 'onEnd')
+      this.$emit('end', e)
     }
   }
 }
