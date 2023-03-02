@@ -63,6 +63,11 @@ export default {
       // '1-3d': '1-3天'
       // // filterOrder: '已选'
     },
+    tabs: {
+      tab: '标签',
+      all: '全部',
+      tabSetting: '标签设置'
+    },
     columnsPop: {
       title: '选择需要在列表展示的列',
       selected: '已选',
@@ -96,10 +101,6 @@ export default {
       editSuccess: '编辑成功',
       CopiedSuccessfully: '复制成功!',
       CopyFailure: '复制失败'
-    },
-    tabs: {
-      tab: '标签',
-      tabSetting: '标签设置'
     }
   }
 }

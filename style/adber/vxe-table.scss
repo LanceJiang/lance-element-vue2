@@ -24,6 +24,10 @@
     height: 100%;
     z-index: 9999;
     background: rgba(0, 0, 0, 0.05);
+    .el-loading-spinner {
+      transform: translate(0, -50%);
+      margin: 0;
+    }
   }
   .tableBody {
     flex: 1;
