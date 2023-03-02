@@ -75,6 +75,8 @@
     "gulp-autoprefixer": "^6.0.0",
     "gulp-cssmin": "^0.2.0",
     "gulp-sass": "^4.0.2",
+    "graphql": "^15.5.1",
+    "graphql-request": "^3.4.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "sass": "1.26.2",
