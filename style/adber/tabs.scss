@@ -1,0 +1,79 @@
+@import '../variables.scss';
+// tabs 样式
+.#{$prefix}tabs {
+  &-wrap {
+    position: relative;
+    display: flex;
+    //background: red;
+    .tab-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 2px;
+      padding: 0 16px;
+      min-width: max-content;
+      height: 40px;
+      border-radius: 6px 6px 0 0;
+      background: $ad-border-color_3;
+      color: $ad-color_4;
+      font-size: 16px;
+       cursor: pointer;
+      &.disabled {
+        .dragEl {
+          cursor: not-allowed;
+        }
+      }
+      &.active {
+        color: $ad-color-primary;
+        background-color: #fff;
+      }
+      .dragEl {
+        cursor: grab;
+      }
+      &__name {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+      }
+      .ad-icon {
+        margin-left: 6px;
+        color: $ad-color_3;
+      }
+      .edit-icon {
+      }
+    }
+    .tabLoading {
+      position: absolute;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.05);
+      .el-loading-spinner {
+        transform: translate(0, -50%);
+        margin: 0;
+      }
+    }
+    .local_draggable-wrap {
+      & > span {
+        display: flex;
+        overflow-x: auto;
+      }
+    }
+  }
+  &_popover {
+    &_formConfig {
+      .footer {
+        border-top: 0;
+        padding-top: 0;
+        //margin-top: -8px;
+      }
+    }
+    &_footer {
+      padding-top: 0;
+    }
+  }
+}

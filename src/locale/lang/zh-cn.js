@@ -11,7 +11,8 @@ export default {
       confirm: '确认',
       save: '保存',
       cancel: '取消',
-      reset: '重置'
+      reset: '重置',
+      deleteView: '删除页签'
       // clear: '清空'
     },
     selectAll: '全选',
@@ -61,6 +62,11 @@ export default {
       // '0-1d': '0-1天',
       // '1-3d': '1-3天'
       // // filterOrder: '已选'
+    },
+    tabs: {
+      tab: '标签',
+      all: '全部',
+      tabSetting: '标签设置'
     },
     columnsPop: {
       title: '选择需要在列表展示的列',

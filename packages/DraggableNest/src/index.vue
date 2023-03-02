@@ -33,6 +33,10 @@ export default {
         children?: Option[] // 同上配置
       }[] */
     },
+    options: {
+      type: Object,
+      default: () => ({})
+    },
     // todo: 扩展预设 设置定位(置顶/底)
     setFixed: {
       type: Function,
@@ -54,16 +58,15 @@ export default {
     }
   },
   render() {
-    const { level, t, emitter, move, $slots } = this
+    const { level, t, emitter, onStart, onEnd, move, $slots } = this
     return <Draggable
       class='ad-draggable-nest'
-      props={this.dragOptions}
-      animation={280}
-      ghost-class='ghost'
-      chosen-class='chosen'
+      options={this.dragOptions}
       list={this.list}
       value={this.value}
       onInput={emitter}
+      onStart={onStart}
+      onEnd={onEnd}
       move={move}>
       {/* type="transition" name="flip-list" */}
       <transition-group>
@@ -100,18 +103,20 @@ export default {
   },
   data() {
     return {
-      dragOptions: {
-        animation: 280,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost',
-        chosenClass: 'chosen'
-      }
     }
   },
   computed: {
     realValue() {
       return this.value ? this.value : this.list
+    },
+    dragOptions() {
+      return Object.assign({
+        animation: 280,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost',
+        chosenClass: 'chosen'
+      }, this.options)
     }
   },
   // created() {
@@ -124,6 +129,14 @@ export default {
     emitter(value) {
       // console.error(value, 'emitter')
       this.$emit('input', value)
+    },
+    onStart(e) {
+      // console.error(e, 'onStart')
+      this.$emit('start', e)
+    },
+    onEnd(e) {
+      // console.error(e, 'onEnd')
+      this.$emit('end', e)
     }
   }
 }

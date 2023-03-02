@@ -11,7 +11,8 @@ export default {
       confirm: 'Confirm',
       save: 'Save',
       cancel: 'Cancel',
-      reset: 'Reset'
+      reset: 'Reset',
+      deleteView: 'Delete View'
       // clear: 'Clear'
     },
     selectAll: 'Select All',
@@ -61,6 +62,11 @@ export default {
       // '0-1d': '0-1d',
       // '1-3d': '1-3d'
       // // filterOrder: 'Filter Order'
+    },
+    tabs: {
+      tab: 'Tab',
+      all: 'All',
+      tabSetting: 'Tab Setting'
     },
     columnsPop: {
       title: 'Select option to display on the table',

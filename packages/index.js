@@ -63,6 +63,7 @@ import Popover from './Popover'
 import CustomRender from './CustomRender'
 import SearchGroup from './SearchGroup'
 import SearchFilterDrawer from './SearchFilterDrawer'
+import Tabs from './Tabs'
 // pdf 预览
 // import PdfPreview from './PdfPreview'
 
@@ -90,7 +91,8 @@ const components = [
   Popover,
   CustomRender,
   SearchGroup,
-  SearchFilterDrawer
+  SearchFilterDrawer,
+  Tabs
   // PdfPreview // todo 暂不做公用组件打包（pdfjsWorker.js 引入有问题 后续再说）暂时建议 src 引入 或者以该组件作为参考
   // BarCode
 ]

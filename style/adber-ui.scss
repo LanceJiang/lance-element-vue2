@@ -13,6 +13,7 @@
 @import "adber/searchGroup.scss";
 @import "adber/select.scss";
 @import "adber/dropdown.scss";
+@import "adber/tabs.scss";
 
 /* --------adber-ui 组件内部样式 End-------- */
 
@@ -45,11 +46,17 @@
 
 // 带搜索icon 的input
 .#{$prefix}input-search {
+  min-width: 60px;
   flex: 1;
   margin-right: 12px;
+  .el-input__suffix {
+    top: 1px;
+    height: calc(100% - 2px);
+  }
   .el-input__icon {
     cursor: pointer;
     color: $ad-color_1;
+    background: #fff;
     &:hover {
       color: $ad-color-primary;
     }

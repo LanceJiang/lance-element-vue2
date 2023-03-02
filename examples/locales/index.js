@@ -41,25 +41,9 @@ const messages = {
   }
 }
 
-export const getLocale = () => {
-  const cookieLanguage = 'zh'
-  if (cookieLanguage) {
-    document.documentElement.lang = cookieLanguage
-    return cookieLanguage
-  }
-  const language = navigator.language.toLowerCase()
-  const locales = Object.keys(messages)
-  for (const locale of locales) {
-    if (language.indexOf(locale) > -1) {
-      return locale
-    }
-  }
-
-  return 'en'
-}
 // init i18n
 const i18n = new VueI18n({
-  locale: getLocale(),
+  locale: 'en',
   messages,
   silentTranslationWarn: true
 })
