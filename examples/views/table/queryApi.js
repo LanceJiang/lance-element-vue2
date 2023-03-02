@@ -42,34 +42,50 @@ export const getTableConfig = (input) => {
     setTimeout(() => {
       // 模拟数据
       const res = {
-        /* t_label: String, // 多语言关键key
-        label?: String, // 若不存在t_label 可使用 label
-        [valueKey]: String, // valueKey 用于 作为唯一值鉴定用 todo delete
-        checked: Boolean, // 是否选中 todo delete
-        disabled?: Boolean, // disabled 的不允许删除 todo delete
-        fixed?: Boolean || String, // disabled 的不允许删除 (disabled -> fixed)
-        children?: Option[] // 同上配置 */
-        columns: [{
-          prop: 'action',
-          t_label: 'adb.table.action',
-          fixed: 'right' // boolean string
-        }, {
-          prop: 'priceValue',
-          label: 'slotPrice'
-          // fixed: true // boolean string
-        }, {
-          prop: 'orderNo',
-          t_label: 'outboundOrder.table.orderNo'
-          // fixed: true // boolean string
-        }, { // 模拟 columns被调整后 label 被更改的字段 (校验 数据是否会转换为新值)
-          prop: 'local_user',
-          t_label: 'outboundOrder.table.userOld'
-          // fixed: true // boolean string
-        }, {
-          prop: 'orderNo2',
-          t_label: 'outboundOrder.table.orderNo2'
-          // fixed: true // boolean string
-        }]
+        path: '/shipments/history',
+        search: '?selectedView=active&saved_search_id=2323836698791',
+        tabs: [
+          ...Array.from({ length: 20 }).map((_, i) => {
+            return {
+              key: 'oms_test_001',
+              id: `b8b778c${i}`,
+              name: 'test-name_' + i, // tabName
+              // searchParams
+              filters: {
+                pattern: `input 搜索_${i}`,
+                input: `testInput_${i}`
+              },
+              /* t_label: String, // 多语言关键key
+              label?: String, // 若不存在t_label 可使用 label
+              [valueKey]: String, // valueKey 用于 作为唯一值鉴定用 todo delete
+              checked: Boolean, // 是否选中 todo delete
+              disabled?: Boolean, // disabled 的不允许删除 todo delete
+              fixed?: Boolean || String, // disabled 的不允许删除 (disabled -> fixed)
+              children?: Option[] // 同上配置 */
+              columns: [{
+                prop: 'action',
+                t_label: 'adb.table.action',
+                fixed: 'right' // boolean string
+              }, {
+                prop: 'priceValue',
+                label: 'slotPrice'
+                // fixed: true // boolean string
+              }, {
+                prop: 'orderNo',
+                t_label: 'outboundOrder.table.orderNo'
+                // fixed: true // boolean string
+              }, { // 模拟 columns被调整后 label 被更改的字段 (校验 数据是否会转换为新值)
+                prop: 'local_user',
+                t_label: 'outboundOrder.table.userOld'
+                // fixed: true // boolean string
+              }, {
+                prop: 'orderNo2',
+                t_label: 'outboundOrder.table.orderNo2'
+                // fixed: true // boolean string
+              }]
+            }
+          })
+        ]
       }
       resolve(res)
     }, 1000 * Math.random())

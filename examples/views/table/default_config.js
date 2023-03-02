@@ -1,8 +1,9 @@
-import { getOrders, getOrdersCount, getTableConfig } from '@/views/table/queryApi'
+import { getOrders, getOrdersCount } from '@/views/table/queryApi'
 // import { cellSlot_price } from './testSlots.jsx'
 // import { cellSlot_price } from 'adber-ui/src/utils/cellSlots.vue'
 // import { cellSlot_price } from 'adber-ui/packages/sys_cellSlots'
 import { cellSlot_price } from 'adber-ui/packages/sys_cellSlots/index.jsx'
+import tabsMixin from './tabsMixin'
 // import { cellSlot_price } from '@/../src/utils/cellSlots.vue'
 
 const tPrefix = 'outboundOrder.table.'
@@ -14,7 +15,7 @@ const tPrefix = 'outboundOrder.table.'
  */
 const slot_user = (scope, h) => {
   // $rowIndex 指 vxeTable Cell  $index 指 elTable Cell
-  if (scope.$rowIndex === 0 || scope.$index === 0) console.error(scope, 'slot_user scope 第一条数据')
+  // if (scope.$rowIndex === 0 || scope.$index === 0) console.error(scope, 'slot_user scope 第一条数据') // todo
   const { row, column } = scope
   return [<div style={'background: #f0f;'}>slot:default <br/><el-button>row[column.property]: {row[column.property]}</el-button>   </div>]
 }
@@ -130,22 +131,22 @@ export const defaultCheckedOptions = [userConfig] // columns.map((v) => v).rever
 // 搜索的表单配置 示例
 // 表单对象值
 export const formParams = {
-  render: 'testXXX',
-  others: '',
-  pattern: 'input 搜索',
-  input: 'testInput',
-  adSelect: '选项1',
-  adSelectMore: '选项2',
-  adSelectMultiple: ['选项3'],
-  adSelectMultipleMore: ['选项4'],
-  radio: 0,
-  inputMore: 'inputMore_init',
-  dateRange: ['11/10/2022', '11/25/2022'],
-  dateRangeMore: [],
-  datePickerMore: '11/25/2022',
-  adSelect_icon: 3
-  // datePickerMore: '2022-11-25'
-  // inputNumber: undefined
+  // render: 'testXXX',
+  // others: '',
+  // pattern: 'input 搜索',
+  // input: 'testInput',
+  // adSelect: '选项1',
+  // adSelectMore: '选项2',
+  // adSelectMultiple: ['选项3'],
+  // adSelectMultipleMore: ['选项4'],
+  // radio: 0,
+  // inputMore: 'inputMore_init',
+  // dateRange: ['11/10/2022', '11/25/2022'],
+  // dateRangeMore: [],
+  // datePickerMore: '11/25/2022',
+  // adSelect_icon: 3
+  // // datePickerMore: '2022-11-25'
+  // // inputNumber: undefined
 }
 // 表单配置类目
 export const formOptions = {
@@ -427,6 +428,7 @@ export const formOptions = {
 }
 
 export const tableBaseMixin = {
+  mixins: [tabsMixin],
   data() {
     return {
       formParams,
@@ -569,91 +571,7 @@ export const tableBaseMixin = {
           ],
           is_button: true
         }
-      ],
-      localTabsListData: [
-        {
-          id: 'b8b778c8-358a-4a5c-9efc-8d78d6de879aaa',
-          name: 'localTab1',
-          path: '/shipments/history',
-          search: '?selectedView=active&saved_search_id=2323836698791',
-          filter: [
-            {
-              key: 'saved_search_id1',
-              value: '1111',
-              form: {}
-            }
-          ],
-          columns: [
-            {
-              prop: 'brand1',
-              width: ''
-            }
-          ],
-          isLocal: true
-        }
-      ],
-      remoteTabsList: [
-        {
-          id: 'b8b778c8-358a-4a5c-9efc-8d78d6de879e',
-          name: 'test-name1',
-          path: '/shipments/history',
-          search: '?selectedView=active&saved_search_id=2323836698791',
-          filter: [
-            {
-              key: 'saved_search_id1',
-              value: '1111',
-              form: {}
-            }
-          ],
-          columns: [
-            {
-              prop: 'brand1',
-              width: ''
-            }
-          ]
-        },
-        {
-          id: 'b8b778c8-358a-4a5c-9efc-8d78d6de879a',
-          name: 'test-name2',
-          path: '/shipments/history',
-          search: '?selectedView=active&saved_search_id=2323836698791',
-          filter: [
-            {
-              key: 'saved_search_id2',
-              value: '22222',
-              form: {}
-            }
-          ],
-          columns: [
-            {
-              prop: 'brand2',
-              width: ''
-            }
-          ]
-
-        },
-        {
-          id: 'b8b778c8-358a-4a5c-9efc-8d78d6de879b',
-          name: 'test-name3',
-          path: '/shipments/history',
-          search: '?selectedView=active&saved_search_id=2323836698791',
-          filter: [
-            {
-              key: 'saved_search_id2',
-              value: '3333',
-              form: {}
-            }
-          ],
-          columns: [
-            {
-              prop: 'brand3',
-              width: ''
-            }
-          ]
-
-        }
-      ],
-      localTabsList: []
+      ]
     }
   },
   computed: {
@@ -691,8 +609,8 @@ export const tableBaseMixin = {
   created() {
     window.test = this
     this.queryTableConfig()
-    this.updateParams()
-    this.getTabs()
+    // 是否请求接口根据相关业务确定 todo...
+    // this.updateParams()
     // this.queryList()
   },
   methods: {
@@ -715,37 +633,7 @@ export const tableBaseMixin = {
         ...this.formParams
       }
     },
-    // table配置请求
-    queryTableConfig() {
-      // 可能存在多个 table 配置 此处制作一个进行模拟
-      return getTableConfig().then((res) => {
-        // 对失效的 配置做剔除 todo
-        let checkedOptions = res.columns
-        const { columns, defaultCheckedOptions } = this.curColumnsConfig
-        /** defaultCheckedOptions 必须与columns 配置修改做 同步更新 */
-        if (!Array.isArray(checkedOptions) || !checkedOptions.length) {
-          checkedOptions = defaultCheckedOptions
-        }
-        // 对之前接口存储的 checkedOptions 做过滤更新（必要的处理）
-        for (let i = 0; i < checkedOptions.length; i++) {
-          const option = checkedOptions[i]
-          const column = columns.find((_column) => option.prop === _column.prop)
-          if (!column) {
-            // 删除上次保存的无效column配置
-            checkedOptions.splice(i, 1)
-            i--
-          } else if (option.t_label !== column.t_label) {
-            // 以columns的配置 更新最新 t_label 保证 ColumnsPopover 展示的选中值 和 最新的columns 名称一致
-            option.t_label = column.t_label
-          }
-        }
-        // this.checkedOptions = res.columns
-        this.checkedOptions = checkedOptions
-
-        // todo searchForms todo....
-      })
-    },
-    // 修改 快捷forms 的提交操作
+    // 修改 快捷筛选forms 的提交操作
     selectedSettingSubmit(group, dialog) {
       // group: searchGroup 组件实例
       // dialog: 配置快捷forms 弹窗实例
@@ -778,11 +666,6 @@ export const tableBaseMixin = {
         group.selectedSettingVisibleChange(false)
       }, 500)
     },
-    // 接口存储当前筛选数据 为tab
-    saveFilterSubmit(group) {
-      console.error('group, searchParams, saveFilterSubmit todo...', group, JSON.stringify(this.formParams))
-      this.$message.error('保存一个新的 tab  && 提交接口 相关交互 等做对应的模块在说')
-    },
     // 列表请求
     queryList() {
       this.options.loading = true
@@ -811,14 +694,6 @@ export const tableBaseMixin = {
         searchParams.others = ''
         // searchParams.render = 'render reset.........'
       }
-    },
-    getTabs() {
-      this.localTabsList =
-        [...this.localTabsListData, ...this.remoteTabsList]
-    },
-    updateTabs(newTabsList) {
-      console.log('newTabsList: ', newTabsList)
-      // TODO 发送请求保存到远程
     }
   }
 }
