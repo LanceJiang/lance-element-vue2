@@ -1,6 +1,14 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
-    <AdTabs v-model="localTabsList" @updateTabs="updateTabs" @clickTab="queryList"/>
+    <AdTabs
+      v-model="localTabsList"
+      :activeTabId.sync="activeTabId"
+      :loading='tabLoading'
+      @switch="switchTab"
+      @sort="tabSort"
+      @edit="tabEdit"
+      @delete="tabDelete"
+    />
     <AdTable
       class="local_table"
       :searchParams.sync="searchParams"
@@ -11,6 +19,7 @@
       :checkedOptions.sync="checkedOptions"
       :columnsConfig="curColumnsConfig"
       @sortChange='testSortChange'
+      @update:checkedOptions="updateCheckedOptions"
     >
       <template #toolLeft>
 <!--        <AdSearchGroup/>-->
@@ -19,7 +28,7 @@
           v-bind="formOptions"
           v-model="formParams"
           :selectedSettingSubmit="selectedSettingSubmit"
-          :saveFilterSubmit="saveFilterSubmit"
+          :tabCreateSubmit="tabCreate"
           :deleteTag="deleteTag">
           <template #prepend>
             <el-input

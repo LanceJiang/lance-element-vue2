@@ -19,7 +19,7 @@
           v-bind="formOptions"
           v-model="formParams"
           :selectedSettingSubmit="selectedSettingSubmit"
-          :saveFilterSubmit="saveFilterSubmit"
+          :tabCreateSubmit="tabCreate"
           :deleteTag="deleteTag">
           <template #prepend>
             <el-input
@@ -185,6 +185,9 @@ export default {
     // columns.find(v => v.prop === 'local_user').slots.default = (scope, h) => {
     //   return [<div style={'background: #f0f; height: 68px; overflow: hidden;'}>slot_user 函数渲染 slot:default <el-button>button</el-button>   </div>]
     // }
+  },
+  created() {
+    this.updateParams()
   },
   methods: {
   }
