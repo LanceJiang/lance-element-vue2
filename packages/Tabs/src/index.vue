@@ -59,13 +59,13 @@ const render = function (h) {
 
       <DraggableNest
         class='local_draggable-wrap'
-        v-model={this.localTabsList}
+        v-model={this.list}
         onInput={this.tabsSort}
         move={onMove}
         onStart={this.onStart}
         options={this.dragOptions}
       >
-        {this.localTabsList.map((item, index) => {
+        {this.list.map((item, index) => {
           return tagItemRender(item, index)
         })}
       </DraggableNest>
@@ -104,7 +104,7 @@ export default {
     const _this = this
 
     const validaNamePass = (rule, value, callBack) => {
-      const findItem = _this.localTabsList.find(
+      const findItem = _this.list.find(
         (item) => item?.tabName?.toLocaleLowerCase() === value?.toLocaleLowerCase?.()
       )
       if (!value || !value.trim()) {
@@ -126,7 +126,7 @@ export default {
         // filter: '.ignore-elements'
       },
       setVisible: false,
-      localTabsList: [],
+      list: [],
       localActiveTabId: 0,
       forms: [
         {
@@ -158,10 +158,10 @@ export default {
   watch: {
     value: {
       handler(newVal, oldVal) {
-        this.localTabsList = [...(newVal || [])]
+        this.list = [...(newVal || [])]
         // if (!this.activeTabId) {
         //   console.error('!this.activeTabId', 'value...')
-        //   this.changeActiveId(this.localTabsList[0]?.id)
+        //   this.changeActiveId(this.list[0]?.id)
         // }
         // JSON.parse(JSON.stringify(newVal || []))
       },
@@ -172,7 +172,7 @@ export default {
         // console.warn('activeTabId watch', id)
         if (id && this.localActiveTabId !== id) {
           // id在tabs列表存在再触发
-          if (this.localTabsList.find(v => v.id === id)) {
+          if (this.list.find(v => v.id === id)) {
             this.changeActiveId(id)
           }
         }
@@ -181,7 +181,7 @@ export default {
   },
   methods: {
     changeActiveId(id) {
-      const tab = this.localTabsList.find(v => v.id === id)
+      const tab = this.list.find(v => v.id === id)
       // console.warn('changeActiveId id tab', id, tab)
       if (tab) {
         this.switchTab(tab)
@@ -233,7 +233,7 @@ export default {
     },
     // 排序
     tabsSort(tabs) {
-      // const index = this.localTabsList.findIndex(v => v.id === this.localActiveTabId)
+      // const index = this.list.findIndex(v => v.id === this.localActiveTabId)
       // console.log(tabs, 'tabsSort tabs....., index')
       this.$emit('input', tabs)
       this.$emit('sort', tabs)

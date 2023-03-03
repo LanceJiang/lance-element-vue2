@@ -3,6 +3,22 @@
 .#{$prefix}search-group {
   &-wrap {
     // 外壳样式
+    //position: relative;
+  }
+  &__loading {
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.05);
+    .el-loading-spinner {
+      transform: translate(0, -50%);
+      margin: 0;
+    }
   }
   &-tags {
     position: relative;
@@ -92,9 +108,13 @@
     }
   }
   &-main {
+    position: relative;
     display: flex;
     /* justify-content: space-between; */
     align-items: center;
+    //.local_button-group {
+    //  position: relative;
+    //}
   }
 }
 // 保存/清除 样式放置 在 toolLeft 内部
