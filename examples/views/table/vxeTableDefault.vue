@@ -18,8 +18,8 @@
         <ad-search-group
           v-bind="formOptions"
           v-model="formParams"
-          :selectedSettingSubmit="selectedSettingSubmit"
-          :tabCreateSubmit="tabCreate"
+          :selectedSettingSubmit="tabs_selectedSettingSubmit"
+          :tabCreateSubmit="tabs_tabCreate"
           :deleteTag="deleteTag">
           <template #prepend>
             <el-input
