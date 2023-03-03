@@ -1,16 +1,17 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
     <AdTabs
-      v-model="localTabsList"
-      :activeTabId.sync="activeTabId"
-      :loading='tabLoading'
-      @switch="switchTab"
-      @sort="tabSort"
-      @edit="tabEdit"
-      @delete="tabDelete"
+      v-model="tabs_list"
+      :activeTabId.sync="tabs_activeId"
+      :loading='tabs_loading'
+      @switch="tabs_switchTab"
+      @sort="tabs_tabSort"
+      @edit="tabs_tabEdit"
+      @delete="tabs_tabDelete"
     />
+
     <AdTable
-      class="local_table"
+      class="local_table tabs_content-wrap"
       :searchParams.sync="searchParams"
       :list="localList"
       :total="total"
@@ -19,7 +20,7 @@
       :checkedOptions.sync="checkedOptions"
       :columnsConfig="curColumnsConfig"
       @sortChange='testSortChange'
-      @update:checkedOptions="updateCheckedOptions"
+      @update:checkedOptions="tabs_updateCheckedOptions"
     >
       <template #toolLeft>
 <!--        <AdSearchGroup/>-->
@@ -27,8 +28,9 @@
           class="local_search-group-wrap"
           v-bind="formOptions"
           v-model="formParams"
-          :selectedSettingSubmit="selectedSettingSubmit"
-          :tabCreateSubmit="tabCreate"
+          :loading='tabs_loading'
+          :selectedSettingSubmit="tabs_selectedSettingSubmit"
+          :tabCreateSubmit="tabs_tabCreate"
           :deleteTag="deleteTag">
           <template #prepend>
             <el-input
@@ -123,18 +125,32 @@ export default {
     // columns.find(v => v.prop === 'local_user').slots.default = (scope, h) => {
     //   return [<div style={'background: #f0f;'}>slot_user 函数渲染 slot:default </div>]
     // }
+  },
+  created() {
+    // this.tabs_key = 'ui_tableDefault_0'
   }
 }
 </script>
 
 <style scoped lang="scss">
 .pageWrap {
-  padding-top: 12px;
+  //padding-top: 12px;
+  padding: 12px 12px 0 12px;
   overflow: auto;
+  background-color: #f5f6f7;
 }
 // 其他样式
 .local_table {
-  padding: 0 12px;
+  //padding: 0 12px;
+  box-shadow: 0 0 6px 4px rgb(145 159 175 / 6%);
+  border-top: 1px solid #eaedf0;
+  border-radius: 6px 6px 0 0;
+  background-color: #fff;
+  padding: 16px 16px 0 16px;
+  &.tabs_content-wrap {
+    border-top: 0;
+    border-radius: 0;
+  }
   // 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整1 eg:
   /*&::v-deep {
     .ad-column-wrap {

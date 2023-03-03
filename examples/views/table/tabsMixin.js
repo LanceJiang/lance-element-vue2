@@ -18,8 +18,13 @@ const nodesTransfer = (nodes = [], isJsonParse = true) => {
     }
   }
   nodes.map((v) => {
+    // 目前仅该两个字段 有实际作用
+    // columns: [{prop: string, fixed: bool||string,...}, ...]
     v.columns = transfer(v.columns)
+    // filters: {key: value,...}
     v.filters = transfer(v.filters)
+    // querySettings: [prop, ...]
+    v.querySettings = transfer(v.querySettings)
   })
   return nodes
 }
@@ -63,48 +68,67 @@ export const query_savedSearchUpdate = (query) => {
 export const query_savedSearchDelete = (ids) => {
   return graphQLClientBff.request(savedSearchDelete, { ids })
 }
-// 默认all 类型columns
-const defaultAllTab = {
+// 默认all类型tab配置
+const tabs_defaultAllTab = {
   // 非api存储的数据 id以 local_XXX 作为本地存储判断依据
   id: 'local_all',
   tabName: 'adb.tabs.all', // 多语言转换
-  // name: 'All',
-  // 不允许删除 不允许排序
-  disabled: true,
   // 多语言切换
   i18n: true,
+  // name: 'All',
+  // 不允许删除 不允许排序
+  disabled: true, // 对标 isLocked
   filters: {},
-  columns: []
+  columns: [],
+  querySettings: []
 }
-// 判断是否本地固定存储
-const isLocalTab = (tabId) => tabId.toString().indexOf('local_') === 0
+
+/***
+ * 注意:
+ * tabs mixins 相关方法 和 数据 添加tab_前缀以区分(若有特殊情况在单独页重新覆盖默认mixin)
+ */
 export default {
   data() {
     return {
-      // 每个table应用的tabsKey 必须唯一!!!!
+      // 每个table应用的tabs_key 必须唯一!!!!
       // key 规则: `${应用前缀}_${page菜单描述}_${版本号}` eg: 'bill_clients-invoice_1'
-      tabsKey: 'only',
-      localTabsList: [JSON.parse(JSON.stringify(defaultAllTab))],
-      tabLoading: false,
-      activeTabId: undefined
+      tabs_key: 'only',
+      // 默认的快捷筛选表单项 [prop, prop1, ...]
+      tabs_defaultSettings: [],
+      // 重置搜索的props [prop, prop1, ...]
+      tabs_extraFilterProps: [],
+      // tabs列表
+      tabs_list: [JSON.parse(JSON.stringify(tabs_defaultAllTab))],
+      // tabs加载loading
+      tabs_loading: false,
+      // tabs当前活跃id
+      tabs_activeId: undefined
     }
   },
   methods: {
+    // 判断是否本地固定存储
+    tabs_isLocalTab(tabId) {
+      return tabId.toString().indexOf('local_') === 0
+    },
+    // 获取searchGroup组件快捷方式prop字段
+    tabs_getQuerySettings(fastForms = this.formOptions.forms) {
+      return (fastForms || []).filter(v => !v.isMore).map(v => v.prop)
+    },
     // table配置请求
-    queryTableConfig() {
+    tabs_queryTableConfig() {
       // 可能存在多个 table 配置 此处制作一个进行模拟
-      this.tabLoading = true
+      this.tabs_loading = true
       // return getTableConfig()
       return query_savedSearches({
-        // keys: ['唯一keytest__e'],
-        keys: [this.tabsKey] // zt_ oms   pms_  sys_menu_index
+        keys: [this.tabs_key]
       })
         .then((tabs) => {
           console.error('接口请求....', tabs)
           const filterForms = this.formOptions.forms
           // const { columns, defaultCheckedOptions } = this.curColumnsConfig;
           tabs.forEach((v) => {
-            // 解析必须是{} todo...
+            // 对锁定的tab 禁用排序
+            v.disabled = v.isLocked ?? false
             // 1. 处理tabs相关搜索保存
             // 对失效的filters 进行过滤保证接口不报错
             // filters 结构: {key: value}
@@ -121,192 +145,291 @@ export default {
             // 2. 处理columns相关配置更新
             // columns 结构: [{prop: string, ...}, ...]
             v.columns = v.columns || []
+
+            // 3. querySettings: [prop, ...]
+            v.querySettings = v.querySettings || []
           })
-          const allTabIdx = tabs.findIndex(v => v.tabName === defaultAllTab.tabName)
+          const allTabIdx = tabs.findIndex(v => v.tabName === tabs_defaultAllTab.tabName)
           // 未保存过All类型 添加默认All类型
           if (allTabIdx === -1) {
-            tabs.unshift(JSON.parse(JSON.stringify(defaultAllTab)))
+            tabs.unshift(JSON.parse(JSON.stringify(tabs_defaultAllTab)))
           } else {
             // 保存过的All 加上多语言配置
             const item = tabs[allTabIdx]
             item.disabled = true
             item.i18n = true
           }
-          this.localTabsList = tabs
+          this.tabs_list = tabs
           // 选中触发(默认上次存储)
-          this.activeTabId = this.activeTabId || tabs[0].id
+          this.tabs_activeId = this.tabs_activeId || tabs[0].id
         })
         .finally(() => {
-          this.tabLoading = false
+          this.tabs_loading = false
         })
     },
     // tab编辑
-    tabEdit(opts) {
-      console.log('tabEdit: opts', opts)
+    tabs_tabEdit(opts) {
+      console.log('tabs_tabEdit: opts', opts)
       const { tab, params } = opts
       const id = tab.id
-      const idx = this.localTabsList.findIndex((v) => v.id === id)
-      if (idx > -1) {
-        this.localTabsList[idx].tabName = params.tabName
-      }
+      // const idx = this.tabs_list.findIndex((v) => v.id === id)
+      // // if (idx > -1) {
+      // //   this.tabs_list[idx].tabName = params.tabName
+      // // }
       const query = {
-        // key: '唯一keytest__e',
-        key: this.tabsKey,
+        // 唯一标识key
+        key: this.tabs_key,
         id,
         // 名称
         tabName: params.tabName,
-        // // 序列号 todo(是否有问题)
-        // tabIndex: this.localTabsList.length,
+        // // 序列号
+        // tabIndex: idx,
         // 列表columns 保存
         columns: this.checkedOptions, // prop, fixed 目前仅该两个字段
         // 搜索筛选 保存
-        filters: this.formParams
+        filters: this.formParams,
+        // 快捷formProp 保存
+        querySettings: this.tabs_getQuerySettings()
+        // 锁定
+        // isLocked: tab.disabled ?? false
       }
-      this.tabLoading = true
+      this.tabs_loading = true
       query_savedSearchUpdate(query)
         .then((tab) => {
-          // this.queryTableConfig()
-          const idx = this.localTabsList.findIndex((v) => v.id === tab.id)
+          // this.tabs_queryTableConfig()
+          const idx = this.tabs_list.findIndex((v) => v.id === tab.id)
           if (idx > -1) {
-            this.localTabsList[idx].tabName = params.tabName
+            this.tabs_list[idx].tabName = params.tabName
           }
         })
         .finally(() => {
-          this.tabLoading = false
+          this.tabs_loading = false
         })
     },
-    // 更新当前tab的自定义列(自带filter更新)
-    updateCheckedOptions(columns) {
-      console.error(columns, 'checkedOptionsChange columns')
+    // tab删除
+    tabs_tabDelete(opts) {
+      console.log('tabs_tabDelete: opts', opts)
+      const { tab } = opts
+      const id = tab.id
+      // const idx = this.tabs_list.findIndex(v => v.id === id)
+      // if (idx > -1) {
+      //   this.tabs_list.splice(idx, 1)
+      // }
+      console.error(opts, id, 'tabs_tabDelete 完成 调用接口提交 删除')
+      query_savedSearchDelete([id])
+        .then((res) => {
+          console.error(res, 'res delete.... boolean')
+          // this.tabs_list.push(tab);
+          // this.tabs_activeId = tab.id;
+        })
+        .finally(() => {
+          this.tabs_loading = false
+        })
+    },
+    // tab创建: 通过个性化的筛选条件 存储当前筛选数据 创建tab
+    tabs_tabCreate(params) {
+      const query = {
+        // 每table类型唯一标识key
+        key: this.tabs_key,
+        // // 唯一键
+        // id,
+        // tab名称
+        tabName: params.tabName,
+        // 排序号
+        tabIndex: this.tabs_list.length,
+        // 列表columns 保存
+        columns: this.checkedOptions, // prop, fixed 目前仅该两个字段
+        // 搜索筛选 保存
+        filters: this.formParams,
+        // 快捷formProp 保存
+        querySettings: this.tabs_getQuerySettings(),
+        // 锁定
+        isLocked: false
+      }
+      this.tabs_loading = true
+      query_savedSearchCreate(query)
+        .then((tab) => {
+          this.tabs_list.push(tab)
+          this.tabs_activeId = tab.id
+        })
+        .finally(() => {
+          this.tabs_loading = false
+        })
+    },
+    // 切换当前选中tab
+    tabs_switchTab(tab) {
+      console.warn('switch tab 成功', tab)
+      // 设置searchParams相关参数 触发 queryList
+      // eg: 修改formParams 触发 updateParams
 
-      const id = this.activeTabId
-      const idx = this.localTabsList.findIndex((v) => v.id === id)
+      // 切换tab 1.重置快捷搜索项
+      this.tabs_updateFilterForms(tab.querySettings)
+      // 切换tab 2.重置筛选条件
+      this.formParams = this.tabs_getCurParams(tab.filters)
+      // 切换tab 3.切换显示列
+      this.checkedOptions = this.tabs_getFormatCheckedOptions(tab.columns)
+    },
+    // tabs排序
+    tabs_tabSort(tabs) {
+      console.warn('tabs_tabSort tabs 调用接口更新 tabs', tabs)
+      const tabs_isLocalTab = this.tabs_isLocalTab
+      // 过滤掉非存在接口上的tabId 进行排序
+      const ids = tabs.filter((v) => !tabs_isLocalTab(v.id)).map(v => v.id)
+      this.tabs_loading = true
+      query_savedSearchTabIndexUpdate(ids)
+        .then((tabs) => {
+          this.$message.success(this.$t('adb.message.editSuccess'))
+          // console.error(tabs, 'tabs....')
+          // this.tabs_list.push(tab);
+          // this.tabs_activeId = tab.id;
+        })
+        .finally(() => {
+          this.tabs_loading = false
+        })
+    },
+    // 更新当前tab配置(create||edit)
+    tabs_updateCurTabConfig(params = {}) {
+      // console.error('tabs_updateCurTabConfig')
+      const id = this.tabs_activeId
+      const idx = this.tabs_list.findIndex((v) => v.id === id)
       if (idx > -1) {
-        const tab = this.localTabsList[idx]
-        const query = {
-          // key: '唯一keytest__e',
-          key: this.tabsKey,
+        const tab = this.tabs_list[idx]
+        const query = Object.assign({
+          // 每table类型唯一标识key
+          key: this.tabs_key,
+          // 唯一键
           id,
-          // 名称
+          // tab名称
           tabName: tab.tabName || 'new Tab',
-          // // 序列号
-          tabIndex: idx, // || this.localTabsList.length,
+          // 排序号
+          tabIndex: idx,
           // 列表columns 保存
-          // columns: this.checkedOptions, // prop, fixed 目前仅该两个字段
-          columns, // prop, fixed 目前仅该两个字段 // (columns和checkedOptions是同数据)
+          columns: this.checkedOptions, // prop, fixed 目前仅该两个字段
           // 搜索筛选 保存
-          filters: this.formParams
-        }
+          filters: this.formParams,
+          // 快捷formProp 保存
+          querySettings: this.tabs_getQuerySettings(),
+          // 锁定
+          isLocked: tab.disabled ?? false
+        }, params)
         // 判断是否是本地tab: 进行创建
-        const isCreate = isLocalTab(id) // id.toString().indexOf('local_') === 0
+        const isCreate = this.tabs_isLocalTab(id)
         let queryFn = query_savedSearchUpdate
         if (isCreate) {
           queryFn = query_savedSearchCreate
           delete query.id
         }
         // 如果是 All类型 filter清空 不做存储
-        if (tab.tabName === defaultAllTab.tabName) {
+        if (tab.tabName === tabs_defaultAllTab.tabName) {
           query.filters = {}
         }
-        this.tabLoading = true
-        queryFn(query)
+        this.tabs_loading = true
+        return queryFn(query)
           .then((tab) => {
+            this.$message.success(this.$t(`adb.message.${isCreate ? 'addSuccess' : 'editSuccess'}`))
             // 编辑columns因为存在新创建的问题 通过tabName 来确定
-            const idx = this.localTabsList.findIndex(
+            const idx = this.tabs_list.findIndex(
               (v) => v.tabName === tab.tabName
             )
             if (idx > -1) {
               // 如果是 All类型 对All进行替换重置
-              if (tab.tabName === defaultAllTab.tabName) {
+              if (tab.tabName === tabs_defaultAllTab.tabName) {
                 tab.disabled = true
                 tab.i18n = true
               }
-              // isLocalTab
               // 保证新建类型tab选中跟踪正确(存在create类型)
-              this.activeTabId = tab.id
-              this.localTabsList.splice(idx, 1, tab)
+              this.tabs_activeId = tab.id
+              // 更新 当前tab
+              this.tabs_list.splice(idx, 1, tab)
+              // // 更新 重置快捷搜索项
+              // this.tabs_updateFilterForms(tab.querySettings)
             }
+            return tab
           })
           .finally(() => {
-            this.tabLoading = false
+            this.tabs_loading = false
           })
       }
+      // eslint-disable-next-line prefer-promise-reject-errors
+      return Promise.reject('not found the tab')
     },
-    // tab删除
-    tabDelete(opts) {
-      console.log('tabDelete: opts', opts)
-      const { tab } = opts
-      const id = tab.id
-      // const idx = this.localTabsList.findIndex(v => v.id === id)
-      // if (idx > -1) {
-      //   this.localTabsList.splice(idx, 1)
-      // }
-      console.error(opts, id, 'tabDelete 完成 调用接口提交 删除')
-      query_savedSearchDelete([id])
-        .then((res) => {
-          console.error(res, 'res delete.... boolean')
-          // this.localTabsList.push(tab);
-          // this.activeTabId = tab.id;
-        })
-        .finally(() => {
-          this.tabLoading = false
-        })
+    // 更新当前tab的自定义列(自带filter更新)
+    tabs_updateCheckedOptions(columns) {
+      console.error(columns, 'tabs_updateCheckedOptions columns')
+      return this.tabs_updateCurTabConfig({
+        columns
+      })
     },
-    // tab创建: 通过个性化的筛选条件 存储当前筛选数据 创建tab
-    tabCreate(params) {
-      console.error(
-        'params, searchParams, tabCreate(tabCreateSubmit) todo...',
-        params,
-        JSON.stringify(this.formParams)
-      )
-      // todo  创建完成需要新的id 需要等待接口返回...
-      // const tab = {
-      //   tabName: params.tabName,
-      //   filter: this.formParams,
-      //   id: `local_${+new Date()}`,
-      // };
-      const query = {
-        // key: '唯一keytest__e',
-        key: this.tabsKey,
-        // 名称
-        tabName: params.tabName,
-        // 序列号 todo(是否有问题)
-        tabIndex: this.localTabsList.length,
-        // 列表columns 保存
-        columns: this.checkedOptions, // prop, fixed 目前仅该两个字段
-        // 搜索筛选 保存
-        filters: this.formParams
+    // 更新快捷搜索表单项
+    tabs_updateQuerySettings(fastForms = []) {
+      console.error(fastForms, 'tabs_updateQuerySettings fastForms')
+      return this.tabs_updateCurTabConfig({
+        // 快捷formProp 保存
+        querySettings: this.tabs_getQuerySettings(fastForms)
+      })
+    },
+    // 修改 快捷筛选forms 的提交操作
+    tabs_selectedSettingSubmit(group, dialog) {
+      // group: searchGroup 组件实例
+      // dialog: 配置快捷forms 弹窗实例
+      dialog.submitLoading = true
+      const fastForms = JSON.parse(JSON.stringify(dialog.checkedOptions))
+      fastForms.forEach((v) => {
+        v.isMore = false
+      })
+      this.tabs_updateQuerySettings(fastForms).then(tab => {
+        // 重置 formOptions.forms
+        this.tabs_updateFilterForms(tab.querySettings)
+        dialog.submitLoading = false
+        group.selectedSettingVisibleChange(false)
+      }).catch(() => {
+        dialog.submitLoading = false
+      })
+    },
+    // 更新当前tab的筛选快捷表单项
+    tabs_updateFilterForms(tab_querySettings = []) {
+      let querySettings = tab_querySettings
+      if (!Array.isArray(querySettings) || !querySettings.length) {
+        querySettings = this.tabs_defaultSettings
       }
-      this.tabLoading = true
-      query_savedSearchCreate(query)
-        .then((tab) => {
-          this.localTabsList.push(tab)
-          this.activeTabId = tab.id
-        })
-        .finally(() => {
-          this.tabLoading = false
-        })
+      const moreForms = this.formOptions.forms
+      moreForms.forEach(v => {
+        v.isMore = true
+      })
+      const defaultForms = querySettings.reduce((items, prop) => {
+        const idx = moreForms.findIndex(v => v.prop === prop)
+        if (idx > -1) {
+          // forms 内删除 确定的快捷方式
+          const [item] = moreForms.splice(idx, 1)
+          item.isMore = false
+          // defaultForms 内添加 该item
+          items.push(item)
+        }
+        return items
+      }, [])
+      // 重置 formOptions.forms
+      this.formOptions.forms = defaultForms.concat(moreForms)
     },
-    // 切换当前选中tab
-    switchTab(tab) {
-      console.warn('switch tab 模拟交互成功', tab)
-      // 设置searchParams相关参数 触发 queryList
-      // eg: 修改formParams 触发 updateParams
-      const filters = tab.filters
-      const formKeys = Object.keys(filters)
-      const curParams = formKeys.reduce((obj, key) => {
-        obj[key] = filters[key]
+    // 获取当前tab的搜索筛选值变更
+    tabs_getCurParams(tab_filters = {}) {
+      const filters = tab_filters
+      const curParams = this.formOptions.forms.reduce((obj, v) => {
+        const key = v.prop
+        obj[key] = filters[key] ?? undefined
         return obj
       }, {})
-      // 切换筛选条件
-      this.formParams = curParams
-      // 切换显示列
-      this.checkedOptions = this.getFormatCheckedOptions(tab.columns)
+      // fix: 切换筛选重置 searchGroupForms 以外的值 保证更改对应prop的表单 自动触发搜索
+      if (Array.isArray(this.tabs_extraFilterProps) && this.tabs_extraFilterProps.length) {
+        this.tabs_extraFilterProps.map(prop => {
+          curParams[prop] = undefined
+        })
+      }
+      return curParams
     },
-    // 得到优化后的自定义列
-    getFormatCheckedOptions(checkedOptions = []) {
+    // 获取优化后的自定义列
+    tabs_getFormatCheckedOptions(checkedOptions = []) {
       const { columns, defaultCheckedOptions } = this.curColumnsConfig
-      // 2. 处理columns相关配置更新(可能需要再切换tab单独做存储 todo...)
+      // 2. 处理columns相关配置更新
       /** defaultCheckedOptions 必须与columns 配置修改做 同步更新 */
       if (!Array.isArray(checkedOptions) || !checkedOptions.length) {
         checkedOptions = defaultCheckedOptions || []
@@ -327,22 +450,6 @@ export default {
         }
       }
       return checkedOptions
-    },
-    // tabs排序
-    tabSort(tabs) {
-      console.warn('tabSort tabs 调用接口更新 tabs', tabs)
-      // 过滤掉非存在接口上的tabId 进行排序
-      const ids = tabs.filter((v) => !isLocalTab(v.id)).map(v => v.id)
-      this.tabLoading = true
-      query_savedSearchTabIndexUpdate(ids)
-        .then((tabs) => {
-          console.error(tabs, 'tabs....')
-          // this.localTabsList.push(tab);
-          // this.activeTabId = tab.id;
-        })
-        .finally(() => {
-          this.tabLoading = false
-        })
     }
   }
 }

@@ -131,14 +131,16 @@ export const transactionBff = gql`
 // tabs item字段
 const tab = `
   id
-  brandId
-  userId
+  #brandId
+  #userId
   tabName
   tabIndex
   name
   key
   columns
   filters
+  isLocked
+  querySettings
 `
 // tabs 列表请求
 export const savedSearches = gql`
@@ -171,6 +173,8 @@ export const savedSearchCreate = gql`
     $key: String! = ""
     $columns: String = ""
     $filters: String = ""
+    $querySettings: String = ""
+    $isLocked: Boolean! = false
   ) {
     savedSearchCreate(
       tabName: $tabName
@@ -179,6 +183,8 @@ export const savedSearchCreate = gql`
       key: $key
       columns: $columns
       filters: $filters
+      querySettings: $querySettings
+      isLocked: $isLocked
     ) {
       ${tab}
     }
@@ -195,6 +201,8 @@ export const savedSearchUpdate = gql`
     $key: String!
     $columns: String
     $filters: String
+    $querySettings: String
+    $isLocked: Boolean! = false
   ) {
     savedSearchUpdate(
       id: $id
@@ -204,6 +212,8 @@ export const savedSearchUpdate = gql`
       key: $key
       columns: $columns
       filters: $filters
+      querySettings: $querySettings
+      isLocked: $isLocked
     ) {
       ${tab}
     }
