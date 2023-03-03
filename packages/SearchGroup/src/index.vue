@@ -15,7 +15,6 @@ const isVNode = el => el?.constructor?.name === 'VNode'
 const render = function(h) {
   // const _this = this
   const { defaultForms, moreForms, searchParams, more_searchParams, tagList, local_deleteTag, drawerIsExpand, getFormLabelValue, selectedSettingSubmit, tabCreateSubmit } = this
-  let warpClass = 'ad-search-group-wrap'
   const itemRender = (item, searchObj, isMore = false) => {
     const { prop, itemType, itemWidth, options, change, itemStyle = '', placeholder, t_placeholder, ...formOthers } = item
     const _options = options || []
@@ -266,10 +265,10 @@ const render = function(h) {
   const moreFormsFlag = moreForms.filter(v => v.visible !== false).length
 
   // const slot_prepend = this.$slots.prepend
-  return <div class={warpClass}>
+  return <div class="ad-search-group-wrap">
     <div class="ad-search-group-main">
       {this.$slots.prepend}
-      <el-button-group>
+      <el-button-group class='local_button-group'>
         {
           defaultForms.filter(item => item.visible !== false).map((item, idx) => {
             return <Popover ref={`popover_${item.prop}`} key={item.prop + idx} popperClass="ad-popover--select" placement="bottom">
@@ -290,6 +289,11 @@ const render = function(h) {
           </span> : ''
         }
       </el-button-group>
+      {this.loading ? <div
+        class='ad-search-group__loading'
+        v-loading={true}
+        element-loading-spinner='el-icon-loading'
+      /> : '' }
     </div>
     {/* 更多标签 start */ }
     <div v-show={tagList.length > 0 || this.$slots.extreaTags} class="ad-search-group-tags">
@@ -469,6 +473,10 @@ export default {
     tagsVisible: {
       type: Boolean,
       default: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
     },
     // 是否允许修改 快捷forms 的提交操作
     selectedSettingSubmit: {

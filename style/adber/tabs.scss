@@ -4,6 +4,7 @@
   &-wrap {
     position: relative;
     display: flex;
+    z-index: 1;
     //background: red;
     .tab-item {
       display: flex;
@@ -17,7 +18,16 @@
       background: $ad-border-color_3;
       color: $ad-color_4;
       font-size: 16px;
-       cursor: pointer;
+      cursor: pointer;
+      &:hover {
+        .dragEl {
+          transition: all 0.3s ease-in-out;
+          visibility: visible;
+          margin-left: 4px;
+          margin-right: -8px;
+          width: 1em;
+        }
+      }
       &.disabled {
         .dragEl {
           cursor: not-allowed;
@@ -29,6 +39,10 @@
       }
       .dragEl {
         cursor: grab;
+        visibility: hidden;
+        width: 0;
+        //margin-left: -8px;
+        //margin-right: -8px;
       }
       &__name {
         font-size: 14px;
@@ -36,10 +50,10 @@
         line-height: 20px;
       }
       .ad-icon {
-        margin-left: 6px;
         color: $ad-color_3;
       }
       .edit-icon {
+        margin-left: 6px;
       }
     }
     .tabLoading {
