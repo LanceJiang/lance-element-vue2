@@ -31,7 +31,7 @@ export default {
       filterSelected: '已选',
       clearAllFilters: '清除过滤条件',
       saveFilter: '保存过滤条件',
-      clearAll: '清空所有条件并保存',
+      clearAll: '清除所有筛选项',
       startDate: '开始日期',
       endDate: '结束日期',
       selectDate: '选择日期'

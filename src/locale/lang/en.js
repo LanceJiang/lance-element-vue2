@@ -31,7 +31,7 @@ export default {
       filterSelected: 'Filter Selected',
       clearAllFilters: 'Clear All Filters',
       saveFilter: 'Save Filter',
-      clearAll: 'Clear All Filters And Save',
+      clearAll: 'Clear All Filters',
       startDate: 'Start Date',
       endDate: 'End Date',
       selectDate: 'Select Date'

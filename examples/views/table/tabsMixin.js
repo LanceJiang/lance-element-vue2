@@ -90,32 +90,47 @@ const tabs_defaultAllTab = {
 export default {
   data() {
     return {
-      // 每个table应用的tabs_key 必须唯一!!!!
-      // key 规则: `${应用前缀}_${page菜单描述}_${版本号}` eg: 'bill_clients-invoice_1'
+      /**
+       * 每个table应用的tabs_key 必须唯一!!!!
+       * key 规则: `${应用前缀}_${page菜单描述}_${版本号}` eg: 'bill_clients-invoice_1'
+       */
       tabs_key: 'only',
-      // 默认的快捷筛选表单项 [prop, prop1, ...]
+      /**
+       * 默认的快捷筛选表单项 [prop, prop1, ...]
+       */
       tabs_defaultSettings: [],
-      // 重置搜索的props [prop, prop1, ...]
+      /**
+       * 重置搜索的props [prop, prop1, ...]
+       *    ：tabs_filterParams 除tabs_filterForms以外 需要注册的prop 集合
+       */
       tabs_extraFilterProps: [],
-      // tabs列表
-      tabs_list: [JSON.parse(JSON.stringify(tabs_defaultAllTab))],
-      // tabs加载loading
-      tabs_loading: false,
-      // tabs当前活跃id
-      tabs_activeId: undefined,
-      // table Columns配置对象
+      /***
+       * table Columns配置对象
+       */
       tabs_columnsConfig: {
         // 1.所有的 columns 配置源
         columns: []
         // 2.默认展示配置(数据类型同columns)
         // defaultCheckedOptions: []
       },
-      // 选中的tab columns
+      /***
+       * 选中的tab columns
+       */
       tabs_checkedColumns: [],
-      // 筛选搜索对象
+      /***
+       * 筛选搜索对象
+       */
       tabs_filterParams: {},
-      // 相关搜索表单配置类目数组
-      tabs_filterForms: []
+      /***
+       * 相关搜索表单配置类目数组
+       */
+      tabs_filterForms: [],
+      // tabs列表
+      tabs_list: [JSON.parse(JSON.stringify(tabs_defaultAllTab))],
+      // tabs加载loading
+      tabs_loading: false,
+      // tabs当前活跃id
+      tabs_activeId: undefined
     }
   },
   methods: {
@@ -384,16 +399,19 @@ export default {
     },
     // 更新当前tab的筛选快捷表单项
     tabs_updateFilterForms(tab_querySettings = []) {
+      const moreForms = this.tabs_filterForms
+      // // 避免tabs共用,部分tab querySettings未配置导致filterForms 延用上个tab的配置
+      // const moreForms = this.get_tabs_filterForms()
       let querySettings = tab_querySettings
-      if (!Array.isArray(querySettings) || !querySettings.length) {
+      // 若querySettings无数据 或 不存在filterForms的快捷key 使用默认setting配置
+      if (!Array.isArray(querySettings) || !querySettings.length || moreForms.every(v => !querySettings.includes(v.prop))) {
         querySettings = this.tabs_defaultSettings
       }
-      // const moreForms = this.tabs_filterForms
-      // 避免tabs共用,部分tab querySettings未配置导致filterForms 延用上个tab的配置
-      const moreForms = this.get_tabs_filterForms()
+      // 默认为drawer配置
       moreForms.forEach(v => {
         v.isMore = true
       })
+      // 筛选出快捷配置
       const defaultForms = querySettings.reduce((items, prop) => {
         const idx = moreForms.findIndex(v => v.prop === prop)
         if (idx > -1) {
@@ -407,7 +425,6 @@ export default {
       }, [])
       // 重置 tabs_filterForms
       this.tabs_filterForms = defaultForms.concat(moreForms)
-      // this.tabs_filterForms.splice(0, 0)
     },
     // 获取当前tab的搜索筛选值变更
     tabs_getCurParams(tab_filters = {}) {
@@ -431,7 +448,7 @@ export default {
       // 2. 处理columns相关配置更新
       /** defaultCheckedOptions 必须与columns 配置修改做 同步更新 */
       if (!Array.isArray(checkedOptions) || !checkedOptions.length) {
-        checkedOptions = defaultCheckedOptions || []
+        checkedOptions = defaultCheckedOptions || JSON.parse(JSON.stringify(columns)) || []
       }
       // 对之前接口存储的 checkedOptions 做过滤更新（必要的处理）
       for (let i = 0; i < checkedOptions.length; i++) {
