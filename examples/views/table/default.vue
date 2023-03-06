@@ -17,17 +17,17 @@
       :total="total"
       :options="options"
       :columns="localColumns"
-      :checkedOptions.sync="checkedOptions"
-      :columnsConfig="curColumnsConfig"
+      :checkedOptions.sync="tabs_checkedColumns"
+      :columnsConfig="tabs_columnsConfig"
       @sortChange='testSortChange'
-      @update:checkedOptions="tabs_updateCheckedOptions"
+      @update:checkedOptions="tabs_updateCheckedColumns"
     >
       <template #toolLeft>
 <!--        <AdSearchGroup/>-->
         <ad-search-group
           class="local_search-group-wrap"
-          v-bind="formOptions"
-          v-model="formParams"
+          :forms="tabs_filterForms"
+          v-model="tabs_filterParams"
           :loading='tabs_loading'
           :selectedSettingSubmit="tabs_selectedSettingSubmit"
           :tabCreateSubmit="tabs_tabCreate"
@@ -35,7 +35,7 @@
           <template #prepend>
             <el-input
               class="ad-input-search"
-              v-model="formParams.pattern"
+              v-model="tabs_filterParams.pattern"
               size="medium"
               :placeholder="$t('outboundOrder.filter.pattern.placeholder')"
               clearable

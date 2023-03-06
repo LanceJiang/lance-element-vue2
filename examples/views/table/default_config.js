@@ -108,8 +108,8 @@ export const columns = [
   }
 ]
 
-// 初始化 checkedOptions (用于 接口还没获取到 之前保存的columns 配置)
-export const checkedOptions = columns.map((v) => v)
+// 初始化 tabs_checkedColumns (用于 接口还没获取到 之前保存的columns 配置)
+export const tabs_checkedColumns = columns.map((v) => v)
 
 const iconOptions = [
   { label: 'ad-insurance_grey', value: 2, icon: 'ad-insurance', color: '#C6CDD5' },
@@ -130,7 +130,7 @@ export const defaultCheckedOptions = [userConfig] // columns.map((v) => v).rever
 
 // 搜索的表单配置 示例
 // 表单对象值
-export const formParams = {
+export const tabs_filterParams = {
   // render: 'testXXX',
   // others: '',
   // pattern: 'input 搜索',
@@ -148,193 +148,192 @@ export const formParams = {
   // // datePickerMore: '2022-11-25'
   // // inputNumber: undefined
 }
-// 表单配置类目
-export const formOptions = {
-  forms: [
-    {
-      visible: true, // 只要不为false 就是 展示
-      isMore: false, // 只要不为true 就是 默认展示
-      prop: 'input', // 提交的 params 的字段
-      label: 'input', // label 标签
-      itemType: 'input' // form-item 类型
-      // prepend: 'Http://', // 额外form-item配置
-      // append: '.com' // 额外form-item配置
-      // placeholder: '请输入input..............' // 额外form-item配置
+// 筛选表单配置类目
+export const get_tabs_filterForms = () => [
+  {
+    visible: true, // 只要不为false 就是 展示
+    isMore: false, // 只要不为true 就是 默认展示
+    prop: 'input', // 提交的 params 的字段
+    label: 'input', // label 标签
+    itemType: 'input' // form-item 类型
+    // prepend: 'Http://', // 额外form-item配置
+    // append: '.com' // 额外form-item配置
+    // placeholder: '请输入input..............' // 额外form-item配置
+  },
+  {
+    // visible: true, // 只要不为false 就是 展示
+    // isMore: true, // 只要不为true 就是 默认展示
+    prop: 'adSelect_icon', // 提交的 params 的字段
+    label: 'adSelect_icon', // label 标签
+    itemType: 'adSelect', // form-item 类型
+    options: iconOptions,
+    slotOption(h, { option, label }) {
+      // console.error(option, label, 'option, label')
+      const style = `color: ${option.color}`
+      return <ad-icon icon-class={option.icon} style={style}></ad-icon>
     },
-    {
-      // visible: true, // 只要不为false 就是 展示
-      // isMore: true, // 只要不为true 就是 默认展示
-      prop: 'adSelect_icon', // 提交的 params 的字段
-      label: 'adSelect_icon', // label 标签
-      itemType: 'adSelect', // form-item 类型
-      options: iconOptions,
-      slotOption(h, { option, label }) {
-        // console.error(option, label, 'option, label')
+    // 渲染选中的特殊展示
+    tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+      // console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
+      // 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
+      const iconValue = searchParams['adSelect_icon']
+      let showValue = ''
+      let tag = ''
+      if (iconValue) {
+        const option = icon_configObj[iconValue]
         const style = `color: ${option.color}`
-        return <ad-icon icon-class={option.icon} style={style}></ad-icon>
-      },
-      // 渲染选中的特殊展示
-      tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
-        // console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
-        // 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
-        const iconValue = searchParams['adSelect_icon']
-        let showValue = ''
-        let tag = ''
-        if (iconValue) {
-          const option = icon_configObj[iconValue]
-          const style = `color: ${option.color}`
-          showValue = <ad-icon icon-class={option.icon} style={style}></ad-icon>
-          // isMore请求 无需生成 tag
-          if (isMore) return { showValue }
-          tag = <el-tag disable-transitions>
-            {transLabel}：
-            {showValue ? <span class="el-tag__label">{showValue}</span> : ''}
-            <i class='icon-delete' onClick={deleteFn} />
-          </el-tag>
-        }
-        return {
-          showValue,
-          tag
-        }
+        showValue = <ad-icon icon-class={option.icon} style={style}></ad-icon>
+        // isMore请求 无需生成 tag
+        if (isMore) return { showValue }
+        tag = <el-tag disable-transitions>
+          {transLabel}：
+          {showValue ? <span class="el-tag__label">{showValue}</span> : ''}
+          <i class='icon-delete' onClick={deleteFn} />
+        </el-tag>
       }
-    },
-    {
-      visible: true, // 只要不为false 就是 展示
-      isMore: true, // 只要不为true 就是 默认展示
-      prop: 'inputMore', // 提交的 params 的字段
-      label: 'inputMore', // label 标签
-      itemType: 'input' // form-item 类型
-      // prepend: 'Http://', // 额外form-item配置
-      // append: '.com' // 额外form-item配置
-    },
-    {
-      // visible: true, // 只要不为false 就是 展示
-      // isMore: true, // 只要不为true 就是 默认展示
-      prop: 'adSelect', // 提交的 params 的字段
-      label: 'adSelect', // label 标签
-      itemType: 'adSelect', // form-item 类型
-      labelKey: 'label_1',
-      valueKey: 'value_1',
-      options: Array.from({ length: 20 }).map((_, i) => {
-        return {
-          value_1: '选项' + i,
-          label_1: 'adSelect单选' + i
-        }
-      }),
-      // slot template（$scopedSlots）  方式1
-      slotOption: 'adSelectSlot'
-      // slot function 方式2
-      // slotOption(h, { option, label }) {
-      //   return label + '_____'
-      // }
-    },
-    {
-      // visible: true, // 只要不为false 就是 展示
-      isMore: true, // 只要不为true 就是 默认展示
-      prop: 'adSelectMore', // 提交的 params 的字段
-      label: 'adSelectMore', // label 标签
-      itemType: 'adSelect', // form-item 类型
-      labelKey: 'label_1',
-      valueKey: 'value_1',
-      options: Array.from({ length: 20 }).map((_, i) => {
-        return {
-          value_1: '选项' + i,
-          label_1: 'adSelectMore单选' + i
-        }
-      })
-    },
-    {
-      // visible: true, // 只要不为false 就是 展示
-      // isMore: true, // 只要不为true 就是 默认展示
-      prop: 'adSelectMultiple', // 提交的 params 的字段
-      label: 'adSelectMultiple', // label 标签
-      itemType: 'adSelect', // form-item 类型
-      multiple: true,
-      labelKey: 'label_1',
-      valueKey: 'value_1',
-      options: Array.from({ length: 20 }).map((_, i) => {
-        return {
-          value_1: '选项' + i,
-          label_1: 'adSelect多选' + i
-        }
-      })
-    },
-    {
-      // visible: true, // 只要不为false 就是 展示
-      isMore: true, // 只要不为true 就是 默认展示
-      prop: 'adSelectMultipleMore', // 提交的 params 的字段
-      label: 'adSelectMultipleMore', // label 标签
-      itemType: 'adSelect', // form-item 类型
-      multiple: true,
-      labelKey: 'label_1',
-      valueKey: 'value_1',
-      options: Array.from({ length: 20 }).map((_, i) => {
-        return {
-          value_1: '选项' + i,
-          label_1: 'adSelectMore多选' + i
-        }
-      })
-    },
-    {
-      visible: true, // 只要不为false 就是 展示
-      isMore: false, // 只要不为true 就是 默认展示
-      prop: 'dateRange', // 提交的 params 的字段
-      label: 'dateRange', // label 标签
-      itemType: 'datePicker', // form-item 类型
-      type: 'daterange', // form-item 类型
-      change(params, options, isMore) {
-        // // 模拟针对 change 事件 对 其他formItem 进行调整 (success) to do...
-        // that.searchParams2.rangePicker = undefined // 测试only
-        console.log(params, options, isMore, 'value, options, isMore')
+      return {
+        showValue,
+        tag
       }
-    },
-    {
-      visible: true, // 只要不为false 就是 展示
-      isMore: true, // 只要不为true 就是 默认展示
-      prop: 'dateRangeMore', // 提交的 params 的字段
-      label: 'dateRangeMore', // label 标签
-      itemType: 'datePicker', // form-item 类型
-      // type: 'daterange', // form-item 类型
-      type: 'datetimerange',
-      valueFormat: 'yyyy-MM-dd HH:mm:ss', // 提交 数据
-      format: 'MM/dd/yyyy HH:mm:ss' // label 展示
-    },
-    {
-      visible: true, // 只要不为false 就是 展示
-      isMore: false, // 只要不为true 就是 默认展示
-      prop: 'datePicker', // 提交的 params 的字段
-      label: 'datePicker', // label 标签
-      itemType: 'datePicker' // form-item 类型
-    },
-    {
-      visible: true, // 只要不为false 就是 展示
-      isMore: true, // 只要不为true 就是 默认展示
-      prop: 'datePickerMore', // 提交的 params 的字段
-      label: 'datePickerMore', // label 标签
-      // valueFormat: 'yyyy-MM-dd', // 提交 数据
-      // format: 'MM/dd/yyyy', // label 展示
-      itemType: 'datePicker' // form-item 类型
-    },
-    {
-      visible: true, // 只要不为false 就是 展示
-      isMore: false, // 只要不为true 就是 默认展示
-      prop: 'inputNumber', // 提交的 params 的字段
-      label: 'inputNumber', // label 标签
-      itemType: 'inputNumber', // form-item 类型
-      prefix: '展示前缀',
-      suffix: '展示后缀',
-      change: (val) => {
-        console.log('inputNumber   change.....', val)
+    }
+  },
+  {
+    visible: true, // 只要不为false 就是 展示
+    isMore: true, // 只要不为true 就是 默认展示
+    prop: 'inputMore', // 提交的 params 的字段
+    label: 'inputMore', // label 标签
+    itemType: 'input' // form-item 类型
+    // prepend: 'Http://', // 额外form-item配置
+    // append: '.com' // 额外form-item配置
+  },
+  {
+    // visible: true, // 只要不为false 就是 展示
+    // isMore: true, // 只要不为true 就是 默认展示
+    prop: 'adSelect', // 提交的 params 的字段
+    label: 'adSelect', // label 标签
+    itemType: 'adSelect', // form-item 类型
+    labelKey: 'label_1',
+    valueKey: 'value_1',
+    options: Array.from({ length: 20 }).map((_, i) => {
+      return {
+        value_1: '选项' + i,
+        label_1: 'adSelect单选' + i
       }
-    },
-    {
-      visible: true, // 只要不为false 就是 展示
-      isMore: true, // 只要不为true 就是 默认展示
-      prop: 'inputNumberMore', // 提交的 params 的字段
-      label: 'inputNumberMore', // label 标签
-      itemType: 'inputNumber' // form-item 类型
-    },
-    /* {
+    }),
+    // slot template（$scopedSlots）  方式1
+    slotOption: 'adSelectSlot'
+    // slot function 方式2
+    // slotOption(h, { option, label }) {
+    //   return label + '_____'
+    // }
+  },
+  {
+    // visible: true, // 只要不为false 就是 展示
+    isMore: true, // 只要不为true 就是 默认展示
+    prop: 'adSelectMore', // 提交的 params 的字段
+    label: 'adSelectMore', // label 标签
+    itemType: 'adSelect', // form-item 类型
+    labelKey: 'label_1',
+    valueKey: 'value_1',
+    options: Array.from({ length: 20 }).map((_, i) => {
+      return {
+        value_1: '选项' + i,
+        label_1: 'adSelectMore单选' + i
+      }
+    })
+  },
+  {
+    // visible: true, // 只要不为false 就是 展示
+    // isMore: true, // 只要不为true 就是 默认展示
+    prop: 'adSelectMultiple', // 提交的 params 的字段
+    label: 'adSelectMultiple', // label 标签
+    itemType: 'adSelect', // form-item 类型
+    multiple: true,
+    labelKey: 'label_1',
+    valueKey: 'value_1',
+    options: Array.from({ length: 20 }).map((_, i) => {
+      return {
+        value_1: '选项' + i,
+        label_1: 'adSelect多选' + i
+      }
+    })
+  },
+  {
+    // visible: true, // 只要不为false 就是 展示
+    isMore: true, // 只要不为true 就是 默认展示
+    prop: 'adSelectMultipleMore', // 提交的 params 的字段
+    label: 'adSelectMultipleMore', // label 标签
+    itemType: 'adSelect', // form-item 类型
+    multiple: true,
+    labelKey: 'label_1',
+    valueKey: 'value_1',
+    options: Array.from({ length: 20 }).map((_, i) => {
+      return {
+        value_1: '选项' + i,
+        label_1: 'adSelectMore多选' + i
+      }
+    })
+  },
+  {
+    visible: true, // 只要不为false 就是 展示
+    isMore: false, // 只要不为true 就是 默认展示
+    prop: 'dateRange', // 提交的 params 的字段
+    label: 'dateRange', // label 标签
+    itemType: 'datePicker', // form-item 类型
+    type: 'daterange', // form-item 类型
+    change(params, options, isMore) {
+      // // 模拟针对 change 事件 对 其他formItem 进行调整 (success) to do...
+      // that.searchParams2.rangePicker = undefined // 测试only
+      console.log(params, options, isMore, 'value, options, isMore')
+    }
+  },
+  {
+    visible: true, // 只要不为false 就是 展示
+    isMore: true, // 只要不为true 就是 默认展示
+    prop: 'dateRangeMore', // 提交的 params 的字段
+    label: 'dateRangeMore', // label 标签
+    itemType: 'datePicker', // form-item 类型
+    // type: 'daterange', // form-item 类型
+    type: 'datetimerange',
+    valueFormat: 'yyyy-MM-dd HH:mm:ss', // 提交 数据
+    format: 'MM/dd/yyyy HH:mm:ss' // label 展示
+  },
+  {
+    visible: true, // 只要不为false 就是 展示
+    isMore: false, // 只要不为true 就是 默认展示
+    prop: 'datePicker', // 提交的 params 的字段
+    label: 'datePicker', // label 标签
+    itemType: 'datePicker' // form-item 类型
+  },
+  {
+    visible: true, // 只要不为false 就是 展示
+    isMore: true, // 只要不为true 就是 默认展示
+    prop: 'datePickerMore', // 提交的 params 的字段
+    label: 'datePickerMore', // label 标签
+    // valueFormat: 'yyyy-MM-dd', // 提交 数据
+    // format: 'MM/dd/yyyy', // label 展示
+    itemType: 'datePicker' // form-item 类型
+  },
+  {
+    visible: true, // 只要不为false 就是 展示
+    isMore: false, // 只要不为true 就是 默认展示
+    prop: 'inputNumber', // 提交的 params 的字段
+    label: 'inputNumber', // label 标签
+    itemType: 'inputNumber', // form-item 类型
+    prefix: '展示前缀',
+    suffix: '展示后缀',
+    change: (val) => {
+      console.log('inputNumber   change.....', val)
+    }
+  },
+  {
+    visible: true, // 只要不为false 就是 展示
+    isMore: true, // 只要不为true 就是 默认展示
+    prop: 'inputNumberMore', // 提交的 params 的字段
+    label: 'inputNumberMore', // label 标签
+    itemType: 'inputNumber' // form-item 类型
+  },
+  /* {
       // visible: true, // 只要不为false 就是 展示
       // isMore: true, // 只要不为true 就是 默认展示
       prop: 'select', // 提交的 params 的字段
@@ -345,73 +344,73 @@ export const formOptions = {
         { value: 1, label: '小四' }
       ]
     }, */
-    {
-      prop: 'radio',
-      label: 'radio',
-      itemType: 'radio',
-      // itemType: 'adSelect', // form-item 类型
-      // filterable: true,
-      // multiple: true,
-      options: [
-        { value: 0, label: '未结算' },
-        { value: 1, label: '已结算' },
-        { value: 2, label: '全部' }
-      ],
-      change: (val) => {
-        console.log('radio   change.....', val)
-      }
+  {
+    prop: 'radio',
+    label: 'radio',
+    itemType: 'radio',
+    // itemType: 'adSelect', // form-item 类型
+    // filterable: true,
+    // multiple: true,
+    options: [
+      { value: 0, label: '未结算' },
+      { value: 1, label: '已结算' },
+      { value: 2, label: '全部' }
+    ],
+    change: (val) => {
+      console.log('radio   change.....', val)
+    }
+  },
+  {
+    isMore: true, // 只要不为true 就是 默认展示
+    prop: 'radioMore',
+    label: 'radioMore',
+    itemType: 'radio',
+    options: [
+      { value: 10, label: '1未结算' },
+      { value: 11, label: '1已结算' },
+      { value: 12, label: '1全部' }
+    ],
+    change: (val) => {
+      console.log('radio   change.....', val)
+    }
+  },
+  { // 可用于特殊场合中 tagList 需要结合tagRender 做支持
+    prop: 'render',
+    label: '自定义Render',
+    itemType: 'render',
+    render: (h, extendsParams) => {
+      const { form, params } = extendsParams
+      // console.error(params, 'params')
+      return <div style="background: #f0f;">
+        <el-input value={params[form.prop]} on-input={(e) => (params[form.prop] = e)} placeholder="placeholder render"/>
+        <el-input value={params.others} on-input={(e) => (params.others = e)} placeholder="placeholder others"/>
+      </div>
     },
-    {
-      isMore: true, // 只要不为true 就是 默认展示
-      prop: 'radioMore',
-      label: 'radioMore',
-      itemType: 'radio',
-      options: [
-        { value: 10, label: '1未结算' },
-        { value: 11, label: '1已结算' },
-        { value: 12, label: '1全部' }
-      ],
-      change: (val) => {
-        console.log('radio   change.....', val)
+    tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+      // 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
+      // console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
+      const render = searchParams['render'] || ''
+      const others = searchParams['others']
+      let showValue = render ? `render: ${render}` : ''
+      if (others) {
+        showValue += (showValue ? ' -and- ' : '') + `others: ${others}`
       }
-    },
-    { // 可用于特殊场合中 tagList 需要结合tagRender 做支持
-      prop: 'render',
-      label: '自定义Render',
-      itemType: 'render',
-      render: (h, extendsParams) => {
-        const { form, params } = extendsParams
-        // console.error(params, 'params')
-        return <div style="background: #f0f;">
-          <el-input value={params[form.prop]} on-input={(e) => (params[form.prop] = e)} placeholder="placeholder render"/>
-          <el-input value={params.others} on-input={(e) => (params.others = e)} placeholder="placeholder others"/>
-        </div>
-      },
-      tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
-        // 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
-        // console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
-        const render = searchParams['render'] || ''
-        const others = searchParams['others']
-        let showValue = render ? `render: ${render}` : ''
-        if (others) {
-          showValue += (showValue ? ' -and- ' : '') + `others: ${others}`
-        }
-        let tag = ''
-        if (showValue) {
-          tag = <el-tag disable-transitions>
-            {transLabel}：
-            {showValue ? <span class="el-tag__label" title={showValue}>{showValue}</span> : ''}
-            {/* {others ? [' others：', <span class="el-tag__label">{showValue}</span>] : ''} */}
-            <i class="icon-delete" onClick={deleteFn} />
-          </el-tag>
-        }
-        return {
-          showValue,
-          tag
-        }
+      let tag = ''
+      if (showValue) {
+        tag = <el-tag disable-transitions>
+          {transLabel}：
+          {showValue ? <span class="el-tag__label" title={showValue}>{showValue}</span> : ''}
+          {/* {others ? [' others：', <span class="el-tag__label">{showValue}</span>] : ''} */}
+          <i class="icon-delete" onClick={deleteFn} />
+        </el-tag>
+      }
+      return {
+        showValue,
+        tag
       }
     }
-    /* {
+  }
+  /* {
       // isMore: true, // 只要不为true 就是 默认展示
       prop: 'inputNumberRange', // 若不添加 propStart  propEnd 自动变为 `${prop}Start` `${prop}End`
       // propStart: 'inputNumberRange_start',
@@ -424,16 +423,17 @@ export const formOptions = {
         console.log(params, _options, isMore, propKey, 'params, _options, isMore, propKey')
       }
     } */
-  ]
-}
-// 默认存储的快捷搜索prop 对标:querySettings
-export const tabs_defaultSettings = formOptions.forms.filter(v => !v.isMore).map(v => v.prop)
+]
+
 export const tableBaseMixin = {
   mixins: [tabsMixin],
   data() {
+    const tabs_filterForms = get_tabs_filterForms()
+    // 默认存储的快捷搜索prop 对标:querySettings
+    const tabs_defaultSettings = tabs_filterForms.filter(v => !v.isMore).map(v => v.prop)
     return {
-      formParams,
-      formOptions,
+      tabs_filterParams,
+      tabs_filterForms,
       tabs_defaultSettings,
       searchParams: {
         page: 1,
@@ -449,13 +449,13 @@ export const tableBaseMixin = {
       },
       dropdownList: ['PickingList', 'PackingList'],
       // 列配置对象
-      curColumnsConfig: {
+      tabs_columnsConfig: {
         // 所有的 columns 配置
         columns,
         // 默认展示配置
         defaultCheckedOptions
       },
-      checkedOptions: JSON.parse(JSON.stringify(checkedOptions)),
+      tabs_checkedColumns: JSON.parse(JSON.stringify(tabs_checkedColumns)),
       tabs_extraFilterProps: ['pattern'],
       // todo  后续 对于新增的搜索类型可能有需要参照用到 (后续去 delete)
       filterOptions: [
@@ -583,11 +583,11 @@ export const tableBaseMixin = {
       return this.list
     },
     localColumns() {
-      // 为保险起见 拿到接口的配置数据 需要过滤 已失效的配置项 [checkedOptions]
-      const { checkedOptions } = this
-      const columns = this.curColumnsConfig.columns
-      if (!checkedOptions.length) return columns
-      return checkedOptions.map((v) => {
+      // 为保险起见 拿到接口的配置数据 需要过滤 已失效的配置项 [tabs_checkedColumns]
+      const { tabs_checkedColumns } = this
+      const columns = this.tabs_columnsConfig.columns
+      if (!tabs_checkedColumns.length) return columns
+      return tabs_checkedColumns.map((v) => {
         const cur = columns.find((column) => column.prop === v.prop)
         if (cur) {
           const fixedFlag = cur.fixed
@@ -606,8 +606,8 @@ export const tableBaseMixin = {
       // searchParams 变更 重新做请求
       this.queryList()
     },
-    // 更新formParams
-    formParams: 'updateParams'
+    // 更新tabs_filterParams
+    tabs_filterParams: 'updateParams'
   },
   created() {
     window.test = this
@@ -618,15 +618,16 @@ export const tableBaseMixin = {
     // this.queryList()
   },
   methods: {
+    get_tabs_filterForms,
     testSortChange(sortParams) {
       // 默认会更新 searchParams 有额外处理 在此添加
       console.error(sortParams, 'testSortChange sortParams')
     },
     updateParams() {
-      console.error(JSON.stringify(this.formParams), 'updateParams  去请求接口 todo....')
+      console.error(JSON.stringify(this.tabs_filterParams), 'updateParams  去请求接口 todo....')
       this.searchParams = {
         ...this.searchParams,
-        ...this.formParams,
+        ...this.tabs_filterParams,
         page: 1
       }
     },
@@ -635,7 +636,7 @@ export const tableBaseMixin = {
       // console.error('getRequestParams', e)
       return {
         ...this.searchParams,
-        ...this.formParams
+        ...this.tabs_filterParams
       }
     },
     // 列表请求

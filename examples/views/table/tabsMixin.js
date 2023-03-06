@@ -31,9 +31,9 @@ const nodesTransfer = (nodes = [], isJsonParse = true) => {
 export const query_savedSearches = (query) => {
   return graphQLClientBff.request(savedSearches, { query }).then((res) => {
     const nodes = res.savedSearches?.nodes || []
-    console.error('test start', JSON.stringify(nodes))
+    console.log('test start', JSON.stringify(nodes))
     nodesTransfer(nodes)
-    console.error('test end', nodes)
+    console.warn('test end', nodes)
     return nodes
   })
 }
@@ -102,7 +102,20 @@ export default {
       // tabs加载loading
       tabs_loading: false,
       // tabs当前活跃id
-      tabs_activeId: undefined
+      tabs_activeId: undefined,
+      // table Columns配置对象
+      tabs_columnsConfig: {
+        // 1.所有的 columns 配置源
+        columns: []
+        // 2.默认展示配置(数据类型同columns)
+        // defaultCheckedOptions: []
+      },
+      // 选中的tab columns
+      tabs_checkedColumns: [],
+      // 筛选搜索对象
+      tabs_filterParams: {},
+      // 相关搜索表单配置类目数组
+      tabs_filterForms: []
     }
   },
   methods: {
@@ -111,21 +124,18 @@ export default {
       return tabId.toString().indexOf('local_') === 0
     },
     // 获取searchGroup组件快捷方式prop字段
-    tabs_getQuerySettings(fastForms = this.formOptions.forms) {
+    tabs_getQuerySettings(fastForms = this.tabs_filterForms) {
       return (fastForms || []).filter(v => !v.isMore).map(v => v.prop)
     },
     // table配置请求
     tabs_queryTableConfig() {
-      // 可能存在多个 table 配置 此处制作一个进行模拟
       this.tabs_loading = true
       // return getTableConfig()
       return query_savedSearches({
         keys: [this.tabs_key]
       })
         .then((tabs) => {
-          console.error('接口请求....', tabs)
-          const filterForms = this.formOptions.forms
-          // const { columns, defaultCheckedOptions } = this.curColumnsConfig;
+          const filterForms = this.tabs_filterForms
           tabs.forEach((v) => {
             // 对锁定的tab 禁用排序
             v.disabled = v.isLocked ?? false
@@ -149,6 +159,7 @@ export default {
             // 3. querySettings: [prop, ...]
             v.querySettings = v.querySettings || []
           })
+          // 查询All类型tab
           const allTabIdx = tabs.findIndex(v => v.tabName === tabs_defaultAllTab.tabName)
           // 未保存过All类型 添加默认All类型
           if (allTabIdx === -1) {
@@ -173,9 +184,6 @@ export default {
       const { tab, params } = opts
       const id = tab.id
       // const idx = this.tabs_list.findIndex((v) => v.id === id)
-      // // if (idx > -1) {
-      // //   this.tabs_list[idx].tabName = params.tabName
-      // // }
       const query = {
         // 唯一标识key
         key: this.tabs_key,
@@ -185,9 +193,9 @@ export default {
         // // 序列号
         // tabIndex: idx,
         // 列表columns 保存
-        columns: this.checkedOptions, // prop, fixed 目前仅该两个字段
+        columns: this.tabs_checkedColumns, // prop, fixed 目前仅该两个字段
         // 搜索筛选 保存
-        filters: this.formParams,
+        filters: this.tabs_filterParams,
         // 快捷formProp 保存
         querySettings: this.tabs_getQuerySettings()
         // 锁定
@@ -211,16 +219,9 @@ export default {
       console.log('tabs_tabDelete: opts', opts)
       const { tab } = opts
       const id = tab.id
-      // const idx = this.tabs_list.findIndex(v => v.id === id)
-      // if (idx > -1) {
-      //   this.tabs_list.splice(idx, 1)
-      // }
-      console.error(opts, id, 'tabs_tabDelete 完成 调用接口提交 删除')
       query_savedSearchDelete([id])
         .then((res) => {
-          console.error(res, 'res delete.... boolean')
-          // this.tabs_list.push(tab);
-          // this.tabs_activeId = tab.id;
+          // console.error(res, 'res delete.... boolean')
         })
         .finally(() => {
           this.tabs_loading = false
@@ -238,9 +239,9 @@ export default {
         // 排序号
         tabIndex: this.tabs_list.length,
         // 列表columns 保存
-        columns: this.checkedOptions, // prop, fixed 目前仅该两个字段
+        columns: this.tabs_checkedColumns, // prop, fixed 目前仅该两个字段
         // 搜索筛选 保存
-        filters: this.formParams,
+        filters: this.tabs_filterParams,
         // 快捷formProp 保存
         querySettings: this.tabs_getQuerySettings(),
         // 锁定
@@ -260,14 +261,14 @@ export default {
     tabs_switchTab(tab) {
       console.warn('switch tab 成功', tab)
       // 设置searchParams相关参数 触发 queryList
-      // eg: 修改formParams 触发 updateParams
+      // eg: 修改tabs_filterParams 触发 updateParams
 
       // 切换tab 1.重置快捷搜索项
       this.tabs_updateFilterForms(tab.querySettings)
       // 切换tab 2.重置筛选条件
-      this.formParams = this.tabs_getCurParams(tab.filters)
+      this.tabs_filterParams = this.tabs_getCurParams(tab.filters)
       // 切换tab 3.切换显示列
-      this.checkedOptions = this.tabs_getFormatCheckedOptions(tab.columns)
+      this.tabs_checkedColumns = this.tabs_getFormatCheckedOptions(tab.columns)
     },
     // tabs排序
     tabs_tabSort(tabs) {
@@ -279,9 +280,6 @@ export default {
       query_savedSearchTabIndexUpdate(ids)
         .then((tabs) => {
           this.$message.success(this.$t('adb.message.editSuccess'))
-          // console.error(tabs, 'tabs....')
-          // this.tabs_list.push(tab);
-          // this.tabs_activeId = tab.id;
         })
         .finally(() => {
           this.tabs_loading = false
@@ -289,7 +287,6 @@ export default {
     },
     // 更新当前tab配置(create||edit)
     tabs_updateCurTabConfig(params = {}) {
-      // console.error('tabs_updateCurTabConfig')
       const id = this.tabs_activeId
       const idx = this.tabs_list.findIndex((v) => v.id === id)
       if (idx > -1) {
@@ -304,9 +301,9 @@ export default {
           // 排序号
           tabIndex: idx,
           // 列表columns 保存
-          columns: this.checkedOptions, // prop, fixed 目前仅该两个字段
+          columns: this.tabs_checkedColumns, // prop, fixed 目前仅该两个字段
           // 搜索筛选 保存
-          filters: this.formParams,
+          filters: this.tabs_filterParams,
           // 快捷formProp 保存
           querySettings: this.tabs_getQuerySettings(),
           // 锁定
@@ -354,18 +351,18 @@ export default {
       return Promise.reject('not found the tab')
     },
     // 更新当前tab的自定义列(自带filter更新)
-    tabs_updateCheckedOptions(columns) {
-      console.error(columns, 'tabs_updateCheckedOptions columns')
+    tabs_updateCheckedColumns(columns) {
+      console.error(columns, 'tabs_updateCheckedColumns columns')
       return this.tabs_updateCurTabConfig({
         columns
       })
     },
     // 更新快捷搜索表单项
-    tabs_updateQuerySettings(fastForms = []) {
-      console.error(fastForms, 'tabs_updateQuerySettings fastForms')
+    tabs_updateQuerySettings(querySettings = []) {
+      console.error(querySettings, 'tabs_updateQuerySettings fastForms')
       return this.tabs_updateCurTabConfig({
         // 快捷formProp 保存
-        querySettings: this.tabs_getQuerySettings(fastForms)
+        querySettings
       })
     },
     // 修改 快捷筛选forms 的提交操作
@@ -373,14 +370,13 @@ export default {
       // group: searchGroup 组件实例
       // dialog: 配置快捷forms 弹窗实例
       dialog.submitLoading = true
-      const fastForms = JSON.parse(JSON.stringify(dialog.checkedOptions))
-      fastForms.forEach((v) => {
-        v.isMore = false
-      })
-      this.tabs_updateQuerySettings(fastForms).then(tab => {
-        // 重置 formOptions.forms
+      // [prop, prop, ...]
+      // const querySettings = dialog.checkedOptions.map(v => v.prop)
+      const querySettings = [...dialog.checkedList]
+      this.tabs_updateQuerySettings(querySettings).then(tab => {
+        // 重置 tabs_filterForms
         this.tabs_updateFilterForms(tab.querySettings)
-        dialog.submitLoading = false
+        // dialog.submitLoading = false
         group.selectedSettingVisibleChange(false)
       }).catch(() => {
         dialog.submitLoading = false
@@ -392,7 +388,9 @@ export default {
       if (!Array.isArray(querySettings) || !querySettings.length) {
         querySettings = this.tabs_defaultSettings
       }
-      const moreForms = this.formOptions.forms
+      // const moreForms = this.tabs_filterForms
+      // 避免tabs共用,部分tab querySettings未配置导致filterForms 延用上个tab的配置
+      const moreForms = this.get_tabs_filterForms()
       moreForms.forEach(v => {
         v.isMore = true
       })
@@ -407,13 +405,14 @@ export default {
         }
         return items
       }, [])
-      // 重置 formOptions.forms
-      this.formOptions.forms = defaultForms.concat(moreForms)
+      // 重置 tabs_filterForms
+      this.tabs_filterForms = defaultForms.concat(moreForms)
+      // this.tabs_filterForms.splice(0, 0)
     },
     // 获取当前tab的搜索筛选值变更
     tabs_getCurParams(tab_filters = {}) {
       const filters = tab_filters
-      const curParams = this.formOptions.forms.reduce((obj, v) => {
+      const curParams = this.tabs_filterForms.reduce((obj, v) => {
         const key = v.prop
         obj[key] = filters[key] ?? undefined
         return obj
@@ -428,7 +427,7 @@ export default {
     },
     // 获取优化后的自定义列
     tabs_getFormatCheckedOptions(checkedOptions = []) {
-      const { columns, defaultCheckedOptions } = this.curColumnsConfig
+      const { columns, defaultCheckedOptions } = this.tabs_columnsConfig
       // 2. 处理columns相关配置更新
       /** defaultCheckedOptions 必须与columns 配置修改做 同步更新 */
       if (!Array.isArray(checkedOptions) || !checkedOptions.length) {
