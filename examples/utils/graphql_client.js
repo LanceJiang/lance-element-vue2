@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request'
 // import { getToken } from '@/utils/auth'
 const getToken = () => {
-  return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InphY2suemh1QDRwbC5wbHVzIiwidXNlcklkIjozLCJicmFuZFVzZXJJZCI6OCwiYnJhbmRJZCI6Miwibmlja25hbWUiOiJ6YWNrLnpodSIsInJvbGVJZCI6MiwiaWF0IjoxNjc3ODI2NjYwLCJleHAiOjE2Nzc5MTMwNjB9.Ryf-roLhOh9YupL3eSyyLIsiNhG0lwxsUm9QTZRHSM4'
+  return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InphY2suemh1QDRwbC5wbHVzIiwidXNlcklkIjozLCJicmFuZFVzZXJJZCI6OCwiYnJhbmRJZCI6Miwibmlja25hbWUiOiJ6YWNrLnpodSIsInJvbGVJZCI6MiwiaWF0IjoxNjc4MDY2NzM2LCJleHAiOjE2NzgxNTMxMzZ9.wek4WB6TySmYjPBlceieuz4TFBh-5nbGOkhj8ZPucZI'
 }
 const endpoint = {
   bff: process.env.VUE_APP_BFF_API_GRAPHQL_URL || 'https://api-bff.stage.shipber.com/graphql'

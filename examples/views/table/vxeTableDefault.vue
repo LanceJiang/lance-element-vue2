@@ -9,22 +9,22 @@
       :options="options"
       :tableOptions="tableOptions"
       :columns="localColumns"
-      :checkedOptions.sync="checkedOptions"
-      :columnsConfig="curColumnsConfig"
+      :checkedOptions.sync="tabs_checkedColumns"
+      :columnsConfig="tabs_columnsConfig"
       @sortChange='testSortChange'
     >
       <template #toolLeft>
 <!--        <AdSearchGroup/>-->
         <ad-search-group
-          v-bind="formOptions"
-          v-model="formParams"
+          :forms="tabs_filterForms"
+          v-model="tabs_filterParams"
           :selectedSettingSubmit="tabs_selectedSettingSubmit"
           :tabCreateSubmit="tabs_tabCreate"
           :deleteTag="deleteTag">
           <template #prepend>
             <el-input
               class="ad-input-search"
-              v-model="formParams.pattern"
+              v-model="tabs_filterParams.pattern"
               size="medium"
               :placeholder="$t('outboundOrder.filter.pattern.placeholder')"
               clearable
@@ -124,11 +124,11 @@ export default {
   },
   computed: {
     localColumns() {
-      // 为保险起见 拿到接口的配置数据 需要过滤 已失效的配置项 [checkedOptions]
-      const { checkedOptions } = this
-      const columns = this.curColumnsConfig.columns
-      if (!checkedOptions.length) return columns
-      return checkedOptions.map((v) => {
+      // 为保险起见 拿到接口的配置数据 需要过滤 已失效的配置项 [tabs_checkedColumns]
+      const { tabs_checkedColumns } = this
+      const columns = this.tabs_columnsConfig.columns
+      if (!tabs_checkedColumns.length) return columns
+      return tabs_checkedColumns.map((v) => {
         const cur = columns.find((column) => column.prop === v.prop)
         if (cur) {
           const fixedFlag = cur.fixed
@@ -147,7 +147,7 @@ export default {
           visible: false
         }
       })
-      const visibleColumns = checkedOptions.map((v) => {
+      const visibleColumns = tabs_checkedColumns.map((v) => {
         const index = columns.findIndex((column) => column.prop === v.prop)
         if (index > -1) {
           const cur = columns[index]
