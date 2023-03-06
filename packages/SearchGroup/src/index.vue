@@ -14,7 +14,7 @@ import { queryTypeOf } from '@adber/adber-ui/src/utils'
 const isVNode = el => el?.constructor?.name === 'VNode'
 const render = function(h) {
   // const _this = this
-  const { defaultForms, moreForms, searchParams, more_searchParams, tagList, local_deleteTag, drawerIsExpand, getFormLabelValue, selectedSettingSubmit, tabCreateSubmit } = this
+  const { defaultForms, moreForms, searchParams, more_searchParams, tagList, local_deleteTag, drawerIsExpand, getFormLabelValue, selectedSettingSubmit, tabCreateSubmit, selectedSettingVisible } = this
   const itemRender = (item, searchObj, isMore = false) => {
     const { prop, itemType, itemWidth, options, change, itemStyle = '', placeholder, t_placeholder, ...formOthers } = item
     const _options = options || []
@@ -389,7 +389,7 @@ const render = function(h) {
         {
           selectedSettingSubmit && <i
             class="el-icon-setting action ml-8"
-            onClick={this.settingVisibleChange.bind(null, true)}
+            onClick={this.selectedSettingVisibleChange.bind(null, true)}
           />
         }
       </template>
@@ -425,8 +425,8 @@ const render = function(h) {
     </SearchFilterDrawer>
     { /* 修改快捷forms搜索弹窗 */ }
     {
-      selectedSettingSubmit && <SelectedItemsSortDialog
-        visible={this.selectedSettingVisible}
+      selectedSettingSubmit && selectedSettingVisible && <SelectedItemsSortDialog
+        visible={selectedSettingVisible}
         value={this.defaultForms}
         options={this.forms}
         on={this.selectedSettingListeners}
@@ -486,8 +486,8 @@ export default {
       //   // dialog: 配置快捷forms 弹窗实例
       //   /* dialog.submitLoading = true
       //      setTimeout(() => {
-      //        // todo
       //        console.warn('checkedOptions', dialog.checkedOptions)
+      //        注意:操作checkedOptions 不能直接修改里面的数据
       //        dialog.submitLoading = false
       //        // dialog.visibleChange(false)
       //        this.$message.success(t('adb.message.editSuccess'))
@@ -593,7 +593,7 @@ export default {
         // 对forms 根据 isMore 判断 进行分类
         const defaultForms = []
         const moreForms = []
-        // const adSelectTags = {}
+        const adSelectTags = {}
         this.forms.map(form => {
           if (form.isMore) {
             moreForms.push(form)
@@ -601,22 +601,23 @@ export default {
           } else {
             defaultForms.push(form)
           }
-          // if (form.itemType === 'adSelect') {
-          //   adSelectTags[form.prop] = this.adSelectTags[form.prop] || undefined
-          // }
+          if (form.itemType === 'adSelect') {
+            adSelectTags[form.prop] = undefined
+          }
         })
         this.defaultForms = defaultForms
         this.moreForms = moreForms
         this.moreFormKeys = moreForms.reduce((keys, form) => {
           return keys.concat(this.queryItemTypeKey(form))
         }, [])
+        // 初始化 adSelectTags相关数据 key
+        this.adSelectTags = adSelectTags
         // 避免updateTagList初始化 刷新两次的问题
         if (this.canUpdateTagList) {
           this.$nextTick(this.updateTagList)
         } else {
           this.canUpdateTagList = true
         }
-        // this.adSelectTags = adSelectTags
         // this.more_searchParamsReset()
       },
       immediate: true
@@ -649,10 +650,12 @@ export default {
     })
   },
   methods: {
+    // 配置 SearchItems 快捷展示 弹窗
     selectedSettingVisibleChange(bool) {
       this.selectedSettingVisible = bool
     },
     drawerVisibleChange (bool) {
+      // console.log('drawerVisibleChange', bool)
       if (bool) {
         this.moreReset()
       }
@@ -660,17 +663,6 @@ export default {
     },
     group_selectedSettingSubmit(dialog) {
       this.selectedSettingSubmit(this, dialog)
-      /* dialog.submitLoading = true
-      setTimeout(() => {
-        // todo
-        console.warn('...... checkedOptions', dialog.checkedOptions)
-        dialog.submitLoading = false
-        // dialog.visibleChange(false)
-        console.error()
-        this.defaultForms = dialog.checkedOptions // JSON.parse(JSON.stringify(dialog.checkedOptions))
-        this.$message.success(t('adb.message.editSuccess'))
-        this.selectedSettingVisibleChange(false)
-      }, 500) */
     },
     queryItemTypeKey(item) {
       const { prop, itemType } = item
@@ -960,11 +952,6 @@ export default {
       this.adSelectTags[item.prop] = label
       this.$forceUpdate()
       // this.updateTagList()
-    },
-    // 配置 SearchItems 快捷展示
-    settingVisibleChange (bool) {
-      console.error(bool, 'settingVisibleChange')
-      this.selectedSettingVisible = bool
     },
     tabCancel() {
       this.tabCreate_visible = false
