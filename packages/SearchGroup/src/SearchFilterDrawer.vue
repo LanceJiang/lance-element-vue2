@@ -1,6 +1,7 @@
 <template>
   <el-drawer
     :visible="visible"
+    v-on='$listeners'
     @update:visible="visibleChange"
     :withHeader="false"
     class="ad-filter-drawer"

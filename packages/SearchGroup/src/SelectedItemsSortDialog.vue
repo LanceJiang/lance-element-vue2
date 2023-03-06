@@ -127,7 +127,7 @@ export default {
         // 接口请求 然后 处理...
         childComp.submitLoading = true
         setTimeout(() => {
-          console.warn('todo...... checkedOptions', childComp.checkedOptions)
+          console.warn('todo...... checkedList or checkedOptions', childComp.checkedList, childComp.checkedOptions)
           childComp.submitLoading = false
           childComp.visibleChange(false)
         }, 500)
@@ -158,13 +158,14 @@ export default {
       // 每次展示使用保存的选中值
       if (bool) {
         this.initCheckedOptions()
+      } else {
+        this.submitLoading = false
       }
     }
   },
   methods: {
     initCheckedOptions() {
-      const checkedOptions = JSON.parse(JSON.stringify(this.value || []))
-      this.getCheckedOptions(checkedOptions)
+      this.getCheckedOptions(this.value || [])
     },
     visibleChange(bool = false) {
       this.$emit('update:visible', bool)
