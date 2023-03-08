@@ -52,7 +52,7 @@ export default {
     }
   },
   render(h) {
-    const { isEdit, forms, params, local_formConfig, itemStyle } = this
+    const { isEdit, realForms, params, local_formConfig, itemStyle } = this
     const {
       showLabel,
       size,
@@ -324,12 +324,15 @@ export default {
         props={{ ...form_config, size, model: params }}
       >
         <el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`} gutter={gutter}>
-          {forms.map((form, idx) => {
-            const { span: _span, t_label, label, ...others } = form
+          {realForms.map((form, idx) => {
+            const { span: _span, t_label, label, scopedSlots, ...others } = form
             const _label = t_label ? t(t_label) : label
             return (
               <el-col key={idx} span={_span ?? span}>
-                <el-form-item props={{ ...others, label: _label }}>{itemRender(form)}</el-form-item>
+                <el-form-item
+                  props={{ ...others, label: _label }}
+                  scopedSlots={scopedSlots}
+                >{itemRender(form)}</el-form-item>
               </el-col>
             )
           })}
@@ -406,6 +409,19 @@ export default {
         ...defaultConfig,
         ...this.formConfig
       }
+    },
+    // forms本地连接数据优化
+    realForms() {
+      const get_slot_label = this.get_slot_label
+      return this.forms.map(form => {
+        const scopedSlots = {}
+        // label 插槽 本地记录
+        scopedSlots.label = form.slotLabel ? get_slot_label(form.slotLabel) : undefined
+        return {
+          ...form,
+          scopedSlots
+        }
+      })
     }
   },
   watch: {
@@ -418,6 +434,15 @@ export default {
     }
   },
   methods: {
+    get_slot_label(slotOption) {
+      if (!slotOption) return
+      if (typeof slotOption === 'string') {
+        return this.$scopedSlots[slotOption]
+      } else {
+        // fn
+        return () => slotOption(this.$createElement)
+      }
+    },
     changeFormData(formData, isInit) {
       const { forms } = this
       const params = {}
