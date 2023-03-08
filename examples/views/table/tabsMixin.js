@@ -85,7 +85,7 @@ const tabs_defaultAllTab = {
 
 /***
  * 注意:
- * tabs mixins 相关方法 和 数据 添加tab_前缀以区分(若有特殊情况在单独页重新覆盖默认mixin)
+ * tabs mixins 相关方法 和 数据 添加tabs_前缀以区分(若有特殊情况在单独页重新覆盖默认mixin)
  */
 export default {
   data() {
@@ -386,8 +386,7 @@ export default {
       // dialog: 配置快捷forms 弹窗实例
       dialog.submitLoading = true
       // [prop, prop, ...]
-      // const querySettings = dialog.checkedOptions.map(v => v.prop)
-      const querySettings = [...dialog.checkedList]
+      const querySettings = dialog.checkedOptions.map(v => v.prop)
       this.tabs_updateQuerySettings(querySettings).then(tab => {
         // 重置 tabs_filterForms
         this.tabs_updateFilterForms(tab.querySettings)

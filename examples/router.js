@@ -64,6 +64,18 @@ export default new Router({
         name: 'others-Default',
         component: () => import(/* webpackChunkName: "others" */ './views/others/index.vue')
       }]
+    },
+    {
+      path: '/test',
+      name: '测试',
+      component: Layout,
+      redirect: '/index',
+      // 前缀 others-
+      children: [{
+        path: 'index',
+        name: 'test-Default',
+        component: () => import(/* webpackChunkName: "test" */ './views/test/index.vue')
+      }]
     }
   ]
 })

@@ -13,6 +13,9 @@
         <template #adSelectSlot="{option, label}">
           <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
         </template>
+        <template #adSelect_label='{option, label}'>
+          <div style="background: #A0AAB7; display: flex">{{label}}  <span style='margin-left: auto'>{{ 'option.value_1' }}</span></div>
+        </template>
       </AdFormConfig>
     </div>
 
@@ -58,6 +61,9 @@
         :formData="formData"
         @submit="formSubmit"
       >
+        <template #adSelect_label>
+          <div style="background: #A0AAB7; display: flex">{{'label'}}  <span style='margin-left: auto'>{{ 'custom: template' }}</span></div>
+        </template>
         <template #adSelectSlot="{option, label}">
           <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
         </template>
@@ -94,6 +100,12 @@ export default {
               label_1: '黄金糕' + i
             }
           }),
+          // template 支持
+          // slotLabel: 'adSelect_label',
+          // render 支持
+          slotLabel(h) {
+            return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ 'custom: fn' }</span></span>
+          },
           slotOption: 'adSelectSlot',
           popperAppendToBody: true
           // change: _this.serviceChange
