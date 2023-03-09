@@ -13,8 +13,8 @@
         <template #adSelectSlot="{option, label}">
           <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
         </template>
-        <template #adSelect_label='{option, label}'>
-          <div style="background: #A0AAB7; display: flex">{{label}}  <span style='margin-left: auto'>{{ 'option.value_1' }}</span></div>
+        <template #adSelect_label>
+          <span style='background: #0f0;display: flex'>label custom: template<span style='margin-left: auto; background: #00f; color: #fff'>{{'custom: template'}}</span></span>
         </template>
       </AdFormConfig>
     </div>
@@ -61,13 +61,11 @@
         :formData="formData"
         @submit="formSubmit"
       >
-        <template #adSelect_label>
-          <div style="background: #A0AAB7; display: flex">{{'label'}}  <span style='margin-left: auto'>{{ 'custom: template' }}</span></div>
-        </template>
         <template #adSelectSlot="{option, label}">
           <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
         </template>
       </AdFormConfigDialog>
+      <el-form-item></el-form-item>
     </div>
   </div>
 </template>
@@ -89,7 +87,7 @@ export default {
         // select
         {
           prop: 'adSelect', // 提交的 params 的字段
-          label: 'adSelect', // label 标签
+          // label: 'adSelect', // label 标签
           itemType: 'adSelect', // form-item 类型
           labelKey: 'label_1',
           valueKey: 'value_1',
@@ -101,11 +99,11 @@ export default {
             }
           }),
           // template 支持
-          // slotLabel: 'adSelect_label',
-          // render 支持
-          slotLabel(h) {
-            return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ 'custom: fn' }</span></span>
-          },
+          slotLabel: 'adSelect_label',
+          // // render 支持
+          // slotLabel(h) {
+          //   return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ 'custom: fn' }</span></span>
+          // },
           slotOption: 'adSelectSlot',
           popperAppendToBody: true
           // change: _this.serviceChange

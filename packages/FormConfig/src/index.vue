@@ -52,7 +52,7 @@ export default {
     }
   },
   render(h) {
-    const { isEdit, realForms, params, local_formConfig, itemStyle } = this
+    const { isEdit, forms, params, local_formConfig, itemStyle } = this
     const {
       showLabel,
       size,
@@ -316,7 +316,7 @@ export default {
         </div>
       )
     }
-
+    const get_formSlotLabel = this.get_formSlotLabel
     return (
       <el-form
         ref="baseForm"
@@ -324,15 +324,18 @@ export default {
         props={{ ...form_config, size, model: params }}
       >
         <el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`} gutter={gutter}>
-          {realForms.map((form, idx) => {
-            const { span: _span, t_label, label, scopedSlots, ...others } = form
+          {forms.map((form, idx) => {
+            const { span: _span, t_label, label, ...others } = form
+            const slot_label = get_formSlotLabel(form.slotLabel)
             const _label = t_label ? t(t_label) : label
             return (
               <el-col key={idx} span={_span ?? span}>
                 <el-form-item
                   props={{ ...others, label: _label }}
-                  scopedSlots={scopedSlots}
-                >{itemRender(form)}</el-form-item>
+                >
+                  {slot_label && <template slot='label'>{slot_label}</template>}
+                  {itemRender(form)}
+                </el-form-item>
               </el-col>
             )
           })}
@@ -409,19 +412,6 @@ export default {
         ...defaultConfig,
         ...this.formConfig
       }
-    },
-    // forms本地连接数据优化
-    realForms() {
-      const get_slot_label = this.get_slot_label
-      return this.forms.map(form => {
-        const scopedSlots = {}
-        // label 插槽 本地记录
-        scopedSlots.label = form.slotLabel ? get_slot_label(form.slotLabel) : undefined
-        return {
-          ...form,
-          scopedSlots
-        }
-      })
     }
   },
   watch: {
@@ -434,13 +424,15 @@ export default {
     }
   },
   methods: {
-    get_slot_label(slotOption) {
+    get_formSlotLabel(slotOption) {
       if (!slotOption) return
       if (typeof slotOption === 'string') {
-        return this.$scopedSlots[slotOption]
+        // return this.$scopedSlots[slotOption]
+        return this.$slots[slotOption]
       } else {
         // fn
-        return () => slotOption(this.$createElement)
+        // return () => slotOption(this.$createElement)
+        return slotOption(this.$createElement)
       }
     },
     changeFormData(formData, isInit) {
