@@ -6,7 +6,7 @@ import DraggableNest from '@adber/adber-ui/packages/DraggableNest'
 import FormConfig from '@adber/adber-ui/packages/FormConfig'
 
 const render = function (h) {
-  const { switchTab, activeTab, onMove } = this
+  const { switchTab, onMove } = this
 
   // 渲染页签
   const tagItemRender = (tab, index) => {
@@ -24,15 +24,26 @@ const render = function (h) {
             slot="reference"
             icon-class="ad-edit"
           />
-          <FormConfig
-            class='ad-tabs_popover_formConfig'
-            formData={activeTab}
-            formConfig={this.formConfig}
-            forms={this.forms}
-            onSubmit={this.tabEdit}
-            onCancel={this.tabDelete.bind(null, tab, index)}
+          <div
+            v-loading={this.loading}
+            element-loading-spinner='el-icon-loading'
+            class='el-form el-form--label-top ad-form-config ad-form-config--small ad-tabs_popover_formConfig'
           >
-          </FormConfig>
+            <el-input v-model={this.local_tabName} size='small' style='margin-bottom: 16px;'/>
+            <div class='footer'>
+              <el-button class='cancel-button' onClick={this.tabDelete.bind(null, tab, index)}>
+                {t('adb.btn.deleteView')}
+              </el-button>
+              <div class='right-actions'>
+                <el-button
+                  class='submit-button'
+                  type='primary'
+                  onClick={this.tabEdit}>
+                  {t('adb.btn.save')}
+                </el-button>
+              </div>
+            </div>
+          </div>
         </Popover>
       )
     }
@@ -101,24 +112,6 @@ export default {
   // mixins: [Locale],
   render,
   data() {
-    const _this = this
-
-    const validaNamePass = (rule, value, callBack) => {
-      const findItem = _this.list.find(
-        (item) => item?.tabName?.toLocaleLowerCase() === value?.toLocaleLowerCase?.()
-      )
-      if (!value || !value.trim()) {
-        return callBack(new Error(t('adb.validate.validateEmptyTips', {
-          name: t('adb.tabs.tab')
-        })))
-      }
-      if (findItem && findItem.tabName !== this.value) {
-        return callBack(new Error(t('adb.validate.validateAlreadyExists', {
-          name: t('adb.tabs.tab')
-        })))
-      }
-      callBack()
-    }
     return {
       dragOptions: {
         handle: '.dragEl'
@@ -128,31 +121,13 @@ export default {
       setVisible: false,
       list: [],
       localActiveTabId: 0,
-      forms: [
-        {
-          prop: 'tabName',
-          itemType: 'input',
-          rules: [
-            {
-              validator: validaNamePass,
-              trigger: 'change'
-            }
-          ]
-        }
-      ],
-      formConfig: {
-        showLabel: false,
-        showCancelBtn: true,
-        cancelBtnText: 'adb.btn.deleteView',
-        submitBtnText: 'adb.btn.save',
-        size: 'small'
-      },
       activeTab: {
         tabName: ''
         // id: '',
         // filter: {},
         // columns: [{prop:'',...}],
-      }
+      },
+      local_tabName: ''
     }
   },
   watch: {
@@ -194,6 +169,7 @@ export default {
     switchTab(tab) {
       if (this.localActiveTabId === tab.id) return
       this.activeTab = tab
+      this.local_tabName = tab.tabName || ''
       this.localActiveTabId = tab.id
       this.$emit('update:activeTabId', tab.id)
       this.$emit('switch', tab)
@@ -212,23 +188,29 @@ export default {
     // 删除标签
     tabDelete(tab, index) {
       // console.warn('tabDelete ', tab, index)
-      this.value.splice(index, 1)
-      const len = this.value.length
-      if (len > 0) {
-        const next_idx = (index > 0 ? index : 1) - 1
-        // 默认删除后 往前走一个, 若删除一个往后走一个
-        this.changeActiveId(this.value[next_idx]?.id)
+      const callback = () => {
+        this.value.splice(index, 1)
+        const len = this.value.length
+        if (len > 0) {
+          const next_idx = (index > 0 ? index : 1) - 1
+          // 默认删除后 往前走一个, 若删除一个往后走一个
+          this.changeActiveId(this.value[next_idx]?.id)
+          this.setVisible = false
+        }
       }
       this.$emit('delete', {
-        tab
+        tab,
+        callback
       })
     },
-    tabEdit(params) {
+    tabEdit() {
       // console.error(params, 'test..... submit')
-      this.setVisible = false
+      // this.setVisible = false
       this.$emit('edit', {
         tab: this.activeTab,
-        params
+        tabName: this.local_tabName,
+        tabsRef: this
+        // local_tabName(当前输入的tabName), setVisible(关闭弹窗), list(tabs列表)
       })
     },
     // 排序

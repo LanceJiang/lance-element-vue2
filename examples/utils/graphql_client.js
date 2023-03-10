@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request'
 // import { getToken } from '@/utils/auth'
 const getToken = () => {
-  return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InphY2suemh1QDRwbC5wbHVzIiwidXNlcklkIjozLCJicmFuZFVzZXJJZCI6OCwiYnJhbmRJZCI6Miwibmlja25hbWUiOiJ6YWNrLnpodSIsInJvbGVJZCI6MiwiaWF0IjoxNjc4MDY2NzM2LCJleHAiOjE2NzgxNTMxMzZ9.wek4WB6TySmYjPBlceieuz4TFBh-5nbGOkhj8ZPucZI'
+  return JSON.parse(localStorage.getItem('shipber_Token'))
 }
 const endpoint = {
   bff: process.env.VUE_APP_BFF_API_GRAPHQL_URL || 'https://api-bff.stage.shipber.com/graphql'

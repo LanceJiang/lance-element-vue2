@@ -31,9 +31,9 @@ const nodesTransfer = (nodes = [], isJsonParse = true) => {
 export const query_savedSearches = (query) => {
   return graphQLClientBff.request(savedSearches, { query }).then((res) => {
     const nodes = res.savedSearches?.nodes || []
-    console.log('test start', JSON.stringify(nodes))
+    // console.log('test start', JSON.stringify(nodes))
     nodesTransfer(nodes)
-    console.warn('test end', nodes)
+    // console.warn('test end', nodes)
     return nodes
   })
 }
@@ -42,9 +42,9 @@ export const query_savedSearchTabIndexUpdate = (ids) => {
     .request(savedSearchTabIndexUpdate, { ids })
     .then((res) => {
       const nodes = res.savedSearchTabIndexUpdate?.nodes || []
-      console.error('test start', JSON.stringify(nodes))
+      // console.error('test start', JSON.stringify(nodes))
       nodesTransfer(nodes)
-      console.error('test end', nodes)
+      // console.error('test end', nodes)
       return nodes
     })
 }
@@ -150,23 +150,30 @@ export default {
         keys: [this.tabs_key]
       })
         .then((tabs) => {
-          const filterForms = this.tabs_filterForms
+          // const filterForms = this.tabs_filterForms
+          // const tabs_queryItemTypeKeys = this.tabs_queryItemTypeKeys
           tabs.forEach((v) => {
             // 对锁定的tab 禁用排序
             v.disabled = v.isLocked ?? false
             // 1. 处理tabs相关搜索保存
-            // 对失效的filters 进行过滤保证接口不报错
+            v.filters = v.filters || {}
+            /* // 对失效的filters 进行过滤保证接口不报错
             // filters 结构: {key: value}
-            const filters = v.filters || {}
+            /!* const filters = v.filters || {}
+            console.error(JSON.stringify(v.filters), 'filter start')
             v.filters = Object.keys(filters).reduce((obj, key) => {
               const item = filterForms.find((v) => v.prop === key)
               if (item) {
+                // 根据itemType 类型获取对应的form 获取其 prop集合
+                const keys = tabs_queryItemTypeKeys(item)
+                console.log(filters, 'filters keys', keys)
                 // 项目中 搜索项列表存在的prop 进行校正赋值
-                obj[key] = filters[key]
+                keys.map(key => {
+                  obj[key] = filters[key]
+                })
               }
               return obj
-            }, {})
-
+            }, {}) *!/ */
             // 2. 处理columns相关配置更新
             // columns 结构: [{prop: string, ...}, ...]
             v.columns = v.columns || []
@@ -189,14 +196,43 @@ export default {
           // 选中触发(默认上次存储)
           this.tabs_activeId = this.tabs_activeId || tabs[0].id
         })
+        .catch((e) => {
+          this.$message.error(e?.response?.errors?.[0].message || 'Error')
+        })
         .finally(() => {
           this.tabs_loading = false
         })
     },
+    // tabName本地校验
+    tabs_validateTabNameError(tabName = '', tabs = this.tabs_list) {
+      const findItem = tabs.find(
+        (item) => item?.tabName?.toLocaleLowerCase() === tabName?.toLocaleLowerCase?.()
+      )
+      if (!tabName || !tabName.trim()) {
+        return this.$t('adb.validate.validateEmptyTips', {
+          name: this.$t('adb.tabs.tab')
+        })
+      }
+      if (findItem) {
+        return this.$t('adb.validate.validateAlreadyExists', {
+          name: this.$t('adb.tabs.tab')
+        })
+      }
+    },
     // tab编辑
     tabs_tabEdit(opts) {
-      console.log('tabs_tabEdit: opts', opts)
-      const { tab, params } = opts
+      // console.log('tabs_tabEdit: opts', opts)
+      const {
+        tab,
+        tabsRef
+      } = opts
+      if (!tabsRef) return
+      const tabName = tabsRef.local_tabName
+      const msg = this.tabs_validateTabNameError(tabName)
+      if (msg) {
+        return this.$message.warning(msg)
+      }
+      // const { tab, params } = opts
       const id = tab.id
       // const idx = this.tabs_list.findIndex((v) => v.id === id)
       const query = {
@@ -204,7 +240,7 @@ export default {
         key: this.tabs_key,
         id,
         // 名称
-        tabName: params.tabName,
+        tabName,
         // // 序列号
         // tabIndex: idx,
         // 列表columns 保存
@@ -222,8 +258,12 @@ export default {
           // this.tabs_queryTableConfig()
           const idx = this.tabs_list.findIndex((v) => v.id === tab.id)
           if (idx > -1) {
-            this.tabs_list[idx].tabName = params.tabName
+            this.tabs_list[idx].tabName = tabName
           }
+          tabsRef.setVisible = false
+        })
+        .catch((e) => {
+          this.$message.error(e?.response?.errors?.[0].message || 'Error')
         })
         .finally(() => {
           this.tabs_loading = false
@@ -231,26 +271,37 @@ export default {
     },
     // tab删除
     tabs_tabDelete(opts) {
-      console.log('tabs_tabDelete: opts', opts)
-      const { tab } = opts
+      // console.log('tabs_tabDelete: opts', opts)
+      const { tab, callback = () => {} } = opts
       const id = tab.id
+      this.tabs_loading = true
       query_savedSearchDelete([id])
         .then((res) => {
           // console.error(res, 'res delete.... boolean')
+          callback()
+        })
+        .catch((e) => {
+          this.$message.error(e?.response?.errors?.[0].message || 'Error')
         })
         .finally(() => {
           this.tabs_loading = false
         })
     },
     // tab创建: 通过个性化的筛选条件 存储当前筛选数据 创建tab
-    tabs_tabCreate(params) {
+    tabs_tabCreate(opts) {
+      const { tabName, groupRef } = opts
+      if (!groupRef) return
+      const msg = this.tabs_validateTabNameError(tabName)
+      if (msg) {
+        return this.$message.warning(msg)
+      }
       const query = {
         // 每table类型唯一标识key
         key: this.tabs_key,
         // // 唯一键
         // id,
         // tab名称
-        tabName: params.tabName,
+        tabName,
         // 排序号
         tabIndex: this.tabs_list.length,
         // 列表columns 保存
@@ -267,6 +318,10 @@ export default {
         .then((tab) => {
           this.tabs_list.push(tab)
           this.tabs_activeId = tab.id
+          groupRef.tabCreate_visible = false
+        })
+        .catch((e) => {
+          this.$message.error(e?.response?.errors?.[0].message || 'Error')
         })
         .finally(() => {
           this.tabs_loading = false
@@ -274,7 +329,7 @@ export default {
     },
     // 切换当前选中tab
     tabs_switchTab(tab) {
-      console.warn('switch tab 成功', tab)
+      // console.warn('switch tab 成功', tab)
       // 设置searchParams相关参数 触发 queryList
       // eg: 修改tabs_filterParams 触发 updateParams
 
@@ -287,7 +342,7 @@ export default {
     },
     // tabs排序
     tabs_tabSort(tabs) {
-      console.warn('tabs_tabSort tabs 调用接口更新 tabs', tabs)
+      // console.warn('tabs_tabSort tabs 调用接口更新 tabs', tabs)
       const tabs_isLocalTab = this.tabs_isLocalTab
       // 过滤掉非存在接口上的tabId 进行排序
       const ids = tabs.filter((v) => !tabs_isLocalTab(v.id)).map(v => v.id)
@@ -295,6 +350,9 @@ export default {
       query_savedSearchTabIndexUpdate(ids)
         .then((tabs) => {
           this.$message.success(this.$t('adb.message.editSuccess'))
+        })
+        .catch((e) => {
+          this.$message.error(e?.response?.errors?.[0].message || 'Error')
         })
         .finally(() => {
           this.tabs_loading = false
@@ -358,6 +416,9 @@ export default {
             }
             return tab
           })
+          .catch((e) => {
+            this.$message.error(e?.response?.errors?.[0].message || 'Error')
+          })
           .finally(() => {
             this.tabs_loading = false
           })
@@ -367,14 +428,14 @@ export default {
     },
     // 更新当前tab的自定义列(自带filter更新)
     tabs_updateCheckedColumns(columns) {
-      console.error(columns, 'tabs_updateCheckedColumns columns')
+      // console.error(columns, 'tabs_updateCheckedColumns columns')
       return this.tabs_updateCurTabConfig({
         columns
       })
     },
     // 更新快捷搜索表单项
     tabs_updateQuerySettings(querySettings = []) {
-      console.error(querySettings, 'tabs_updateQuerySettings fastForms')
+      // console.error(querySettings, 'tabs_updateQuerySettings fastForms')
       return this.tabs_updateCurTabConfig({
         // 快捷formProp 保存
         querySettings
@@ -425,12 +486,36 @@ export default {
       // 重置 tabs_filterForms
       this.tabs_filterForms = defaultForms.concat(moreForms)
     },
+    tabs_queryItemTypeKeys(item) {
+      const { prop, itemType } = item
+      switch (itemType) {
+        case 'render':
+          /** !!! 暂不对render类型 进行更多标签处理 todo */
+          return []
+        // 对Number区间进行特殊处理
+        case 'inputNumberRange':
+          const propStart = item.propStart || `${prop}Start`
+          const propEnd = item.propEnd || `${prop}End`
+          return [propStart, propEnd]
+        case 'adSelect':
+        case 'select':
+        case 'radio':
+        case 'datePicker':
+        case 'inputNumber':
+        case 'input':
+        default:
+          return [prop]
+      }
+    },
     // 获取当前tab的搜索筛选值变更
     tabs_getCurParams(tab_filters = {}) {
       const filters = tab_filters
+      const tabs_queryItemTypeKeys = this.tabs_queryItemTypeKeys
       const curParams = this.tabs_filterForms.reduce((obj, v) => {
-        const key = v.prop
-        obj[key] = filters[key] ?? undefined
+        const keys = tabs_queryItemTypeKeys(v)
+        keys.map(key => {
+          obj[key] = filters[key] ?? undefined
+        })
         return obj
       }, {})
       // fix: 切换筛选重置 searchGroupForms 以外的值 保证更改对应prop的表单 自动触发搜索

@@ -41,7 +41,6 @@
           @cancel="changeVisible"
         >
           <template #adSelectSlot="{option, label}">
-            {{$log(label, 'label')}}
             <div style="background: #00f;">{{label}} + {{ option.value_1 }}</div>
           </template>
         </AdFormConfig>
@@ -65,7 +64,6 @@
           <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
         </template>
       </AdFormConfigDialog>
-      <el-form-item></el-form-item>
     </div>
   </div>
 </template>
@@ -81,7 +79,8 @@ export default {
     // const _this = this
     return {
       formData: {
-        test1_select: 'test1_2'
+        test1_select: 'test1_2',
+        input: 'ssssssss'
       },
       forms: [
         // select
@@ -99,11 +98,11 @@ export default {
             }
           }),
           // template 支持
-          slotLabel: 'adSelect_label',
-          // // render 支持
-          // slotLabel(h) {
-          //   return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ 'custom: fn' }</span></span>
-          // },
+          // slotLabel: 'adSelect_label',
+          // render 支持
+          slotLabel(h) {
+            return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ 'custom: fn' }</span></span>
+          },
           slotOption: 'adSelectSlot',
           popperAppendToBody: true
           // change: _this.serviceChange
@@ -315,7 +314,28 @@ export default {
         {
           prop: 'input',
           label: 'input',
-          itemType: 'input'
+          itemType: 'input',
+          // onKeyUp: {
+          on: {
+            // keyup: (e) => {
+            //   console.error(e, 'xxxx')
+            // },
+            // keypress: (e) => {
+            //   console.error(e, 'keypress')
+            // },
+            // keypress__enter: (e) => {
+            //   console.error(e, 'keypress__enter')
+            // },
+            blur: (e) => {
+              console.error(e, 'blur')
+            },
+            input: (e) => {
+              console.error(e, 'input')
+            },
+            focus(e) {
+              console.error(e, 'focus')
+            }
+          }
         }
       ],
       formConfig: {
