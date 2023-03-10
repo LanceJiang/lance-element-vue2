@@ -80,6 +80,7 @@ export default {
         size: _size,
         placeholder,
         t_placeholder,
+        on: form_on,
         ...formOthers
       } = form
       const _options = options || []
@@ -89,6 +90,7 @@ export default {
       if (disabled === undefined) {
         disabled = isEdit === false
       }
+      const Ons = form_on || {}
       // 优化后的 change事件
       const formatterChange = async () => {
         if (change) {
@@ -127,6 +129,7 @@ export default {
             isPopover={formOthers.isPopover ?? true}
             popperAppendToBody={formOthers.popperAppendToBody ?? true}
             onChange={formatterChange}
+            on={Ons}
             size={_size ?? size}
             placeholder={_placeholder}
             style={_itemStyle}
@@ -147,6 +150,7 @@ export default {
               props={formOthers}
               v-model={params[prop]}
               onChange={formatterChange}
+              on={Ons}
               style={_itemStyle}
               disabled={disabled}
               size={_size ?? size}
@@ -165,6 +169,7 @@ export default {
               disabled={disabled}
               size={_size ?? size}
               onChange={formatterChange}
+              on={Ons}
               style={_itemStyle}
             >
               {_options.map((option, optionIndex) => {
@@ -197,6 +202,7 @@ export default {
               props={formOthers}
               v-model={params[prop]}
               onChange={formatterChange}
+              on={Ons}
               style={_itemStyle}
               disabled={disabled}
               size={_size ?? size}
@@ -214,6 +220,7 @@ export default {
               attrs={formOthers}
               v-model={params[prop]}
               onChange={formatterChange}
+              on={Ons}
               style={_itemStyle}
               disabled={disabled}
               placeholder={_placeholder}
@@ -230,6 +237,7 @@ export default {
               props={formOthers}
               v-model={params}
               onChange={(e, propKey) => change && change(params, _options, params, propKey)}
+              on={Ons}
               style={_itemStyle}
               disabled={disabled}
               placeholder={_placeholder}
@@ -261,6 +269,7 @@ export default {
               }}
               v-model={params[prop]}
               onChange={formatterChange}
+              on={Ons}
               style={_itemStyle}
               disabled={disabled}
               size={_size ?? size}
@@ -274,6 +283,7 @@ export default {
               v-model={params[prop]}
               size={_size ?? size}
               onChange={formatterChange}
+              on={Ons}
               disabled={disabled}
             />
           )
@@ -287,6 +297,7 @@ export default {
               v-model={params[prop]}
               size={_size ?? size}
               onChange={formatterChange}
+              on={Ons}
               disabled={disabled}
               placeholder={_placeholder}
               style={_itemStyle}

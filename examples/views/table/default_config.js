@@ -161,6 +161,16 @@ export const get_tabs_filterForms = () => [
     // placeholder: '请输入input..............' // 额外form-item配置
   },
   {
+    visible: true, // 只要不为false 就是 展示
+    isMore: false, // 只要不为true 就是 默认展示
+    prop: 'inputNumberRange', // 提交的 params 的字段
+    label: 'inputNumberRange', // label 标签
+    itemType: 'inputNumberRange' // form-item 类型
+    // prepend: 'Http://', // 额外form-item配置
+    // append: '.com' // 额外form-item配置
+    // placeholder: '请输入input..............' // 额外form-item配置
+  },
+  {
     // visible: true, // 只要不为false 就是 展示
     // isMore: true, // 只要不为true 就是 默认展示
     prop: 'adSelect_icon', // 提交的 params 的字段

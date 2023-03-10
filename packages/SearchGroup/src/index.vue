@@ -6,7 +6,6 @@ import InputNumber from '@adber/adber-ui/packages/InputNumber'
 import InputNumberRange from '@adber/adber-ui/packages/InputNumberRange'
 import Icon from '@adber/adber-ui/packages/Icon'
 import AdSelect from '@adber/adber-ui/packages/Select'
-import FormConfig from '@adber/adber-ui/packages/FormConfig'
 import SearchFilterDrawer from './SearchFilterDrawer'
 import SelectedItemsSortDialog from './SelectedItemsSortDialog'
 import { renderSelectOption } from '@adber/adber-ui/src/utils/slotsUtils'
@@ -352,15 +351,26 @@ const render = function(h) {
                   <Icon icon-class="ad-save"/>
                 </el-button>
               </el-tooltip>
-              <FormConfig
-                ref='tab_formConfig'
-                class='ad-tabs_popover_formConfig'
-                formData={this.tabCreate_data}
-                formConfig={this.tabCreate_formConfig}
-                forms={this.tabCreate_forms}
-                onSubmit={this.tabCreate}
-                onCancel={this.tabCancel}
-              />
+              <div
+                v-loading={this.loading}
+                element-loading-spinner='el-icon-loading'
+                class='el-form el-form--label-top ad-form-config ad-form-config--small ad-tabs_popover_formConfig'
+              >
+                <el-input v-model={this.tabCreate_tabName} size='small' style='margin-bottom: 16px;' />
+                <div class='footer'>
+                  <el-button class='cancel-button' onClick={this.tabCancel}>
+                    {t('adb.btn.cancel')}
+                  </el-button>
+                  <div class='right-actions'>
+                    <el-button
+                      class='submit-button'
+                      type='primary'
+                      onClick={this.tabCreate}>
+                      {t('adb.btn.save')}
+                    </el-button>
+                  </div>
+                </div>
+              </div>
             </Popover>,
             <span class="line">|</span>
           ]
@@ -448,8 +458,7 @@ export default {
     Icon,
     SearchFilterDrawer,
     SelectedItemsSortDialog,
-    AdSelect,
-    FormConfig
+    AdSelect
     // InputTextArea
   },
   render,
@@ -509,14 +518,14 @@ export default {
   },
   data () {
     const _this = this
-    const validaNamePass = (rule, value, callBack) => {
+    /* const validaNamePass = (rule, value, callBack) => {
       if (!value || !value.trim()) {
         return callBack(new Error(t('adb.validate.validateEmptyTips', {
           name: t('adb.tabs.tab')
         })))
       }
       callBack()
-    }
+    } */
     return {
       defaultForms: [],
       moreForms: [],
@@ -533,26 +542,8 @@ export default {
         'update:visible': _this.drawerVisibleChange
       },
       tabCreate_visible: false,
-      tabCreate_data: {},
-      tabCreate_formConfig: {
-        showLabel: false,
-        showCancelBtn: true,
-        // cancelBtnText: 'adb.btn.deleteView',
-        // submitBtnText: 'adb.btn.save',
-        size: 'small'
-      },
-      tabCreate_forms: [
-        {
-          prop: 'tabName',
-          itemType: 'input',
-          rules: [
-            {
-              validator: validaNamePass,
-              trigger: 'blur'
-            }
-          ]
-        }
-      ]
+      tabCreate_tabName: ''
+
       // AdSelectListeners: {
       //   'update:selected_label': label => {}
       // }
@@ -625,9 +616,7 @@ export default {
     '$i18n.locale': 'updateTagList',
     tabCreate_visible(bool) {
       if (!bool) {
-        const form = this.$refs.tab_formConfig
-        // form表单 重置
-        form && form.resetForm()
+        this.tabCreate_tabName = ''
       }
     }
   },
@@ -955,12 +944,15 @@ export default {
     },
     tabCancel() {
       this.tabCreate_visible = false
-      // this.tabCreate_data = {}
+      // this.tabCreate_tabName = ''
     },
-    tabCreate(params) {
-      this.tabCreate_visible = false
-      this.tabCreateSubmit(params)
-      this.tabCreate_data = {}
+    tabCreate() {
+      this.tabCreateSubmit({
+        tabName: this.tabCreate_tabName,
+        groupRef: this
+        // tabCreate_visible(关闭弹窗),
+      })
+      // this.tabCreate_tabName = ''
     }
   }
 }
