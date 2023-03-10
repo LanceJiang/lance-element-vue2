@@ -13,7 +13,7 @@ export default {
     }
   },
   render () {
-    const { prefix, suffix, prop, controlsPosition, placeholder, ...props } = this.$attrs
+    const { prefix, suffix, prop, controlsPosition, placeholder, max = 999999999999999, ...props } = this.$attrs
     const { inputNumberSize, value } = this
     const $slots = this.$slots
     const onEvents = this.$listeners
@@ -26,6 +26,7 @@ export default {
      `}>
       {$slots.prefix || _prefix}
       <el-input-number
+        max={max}
         props={{ ...props }}
         size={inputNumberSize}
         controlsPosition={controlsPosition || 'right'}
