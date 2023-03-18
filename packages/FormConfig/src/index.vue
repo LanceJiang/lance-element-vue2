@@ -27,7 +27,7 @@ export default {
       //   options: Array,
       //   valueKey: String,
       //   labelKey: String,
-      //   format: Function, // 提交前的数据修改
+      //   formValueFormat: Function, // 提交前的数据修改
       //   rules: Array
       //   render?: function(h, { form, params }) { JSX || createElement } // itemType === 'render' 专用
       //   i18n: Boolean 多语言装换
@@ -359,19 +359,19 @@ export default {
   },
   data() {
     const { forms, formData } = this.$props
-    const formats = {}
+    const formValueFormats = {}
     const params = this.changeFormData(formData, true)
-    // 遍历 集成format对象
+    // 遍历 集成formValueFormat对象
     forms.forEach((v) => {
-      const { prop, format } = v
-      if (format) {
-        formats[prop] = format
+      const { prop, formValueFormat } = v
+      if (formValueFormat) {
+        formValueFormats[prop] = formValueFormat
       }
     })
 
     return {
       params,
-      formats
+      formValueFormats
     }
   },
   computed: {
@@ -518,12 +518,12 @@ export default {
     },
     getParams(callback, unValidate = false) {
       const _getParams = () => {
-        const { params, formats, forms } = this
+        const { params, formValueFormats, forms } = this
         const formattedForm = {} // 最后提交后台使用的params对象
         forms.forEach((form) => {
           const key = form.prop
           if (key) {
-            // 对应的form 内部设置有 formats 函数的值做提交前的最后操作 fn(value, key)
+            // 对应的form 内部设置有 formValueFormats 函数的值做提交前的最后操作 fn(value, key)
             /* if (form.itemType === 'dateRange' && form.propStart) {
               // 含有propStart 表示拆分出来
               const { propStart } = form // || key + 'Start'
@@ -532,7 +532,7 @@ export default {
               formattedForm[propStart] = startDate
               formattedForm[propEnd] = endDate
             } else { */
-            formattedForm[key] = formats[key] ? formats[key](params, key) : params[key]
+            formattedForm[key] = formValueFormats[key] ? formValueFormats[key](params, key) : params[key]
             // }
           }
           // 对含有 其他prop的数据 赋值

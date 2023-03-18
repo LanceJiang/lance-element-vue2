@@ -292,7 +292,9 @@ export default {
           label: 'date(date-picker)',
           // t_label: `${prefix}test6`,
           itemType: 'datePicker',
-          placeholder: '请输入date'
+          placeholder: '请输入date',
+          valueFormat: 'yyyy-MM-dd',
+          format: 'MM/dd/yyyy'
         },
         // dateRange
         {
@@ -302,7 +304,9 @@ export default {
           // propEnd: 'dateRangeEnd',
           // t_label: `${prefix}test7`,
           itemType: 'datePicker',
-          type: 'daterange'
+          type: 'daterange',
+          valueFormat: 'yyyy-MM-dd',
+          format: 'MM/dd/yyyy'
         },
         {
           prop: 'switch',
