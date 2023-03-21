@@ -87,6 +87,7 @@ export const columns = [
     label: 'slotPrice',
     // title: `${tPrefix}orderNo`,
     prop: 'priceValue',
+    align: 'right',
     minWidth: '240px',
     slots: {
       // default: cellSlot_price() // 默认 金额单位 currency, 再是 非 prop 的数据渲染
@@ -481,6 +482,7 @@ export const tableBaseMixin = {
           ],
           is_hide: true
         },
+        // 不需要 可以通过adSelect 进行 平替
         {
           label: 'Checkbox',
           key: 'Checkbox',
@@ -494,6 +496,7 @@ export const tableBaseMixin = {
             { label: 'STAMPS', value: '1' }
           ]
         },
+        // todo...
         {
           label: 'Amount Range',
           key: 'Amount',
@@ -513,6 +516,7 @@ export const tableBaseMixin = {
           }
         },
         {
+          // todo delete
           label: 'Picker',
           key: 'Picker',
           type: 'date-picker',
