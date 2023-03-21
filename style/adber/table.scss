@@ -155,6 +155,11 @@
     th {
       height: 41px;
       background: #F6FAFF;
+      &.is-right {
+        .cell {
+          justify-content: end;
+        }
+      }
       .cell {
         //font-size: 13px;
         font-weight: normal;
