@@ -12,7 +12,8 @@ export default {
       save: 'Save',
       cancel: 'Cancel',
       reset: 'Reset',
-      deleteView: 'Delete View'
+      deleteView: 'Delete View',
+      thinkAgain: 'Think Again'
       // clear: 'Clear'
     },
     selectAll: 'Select All',
