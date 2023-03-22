@@ -114,6 +114,13 @@
     }
   }
 }
+// $confirm 警示类型公用样式
+.#{$prefix}message-box--warn {
+  .el-message-box__btns button:last-child {
+    border-color: $ad-color-warning;
+    background: $ad-color-warning;
+  }
+}
 
 .#{$prefix}test {}
 /* --------引用 adber-ui 根据ui/产品 用于项目的默认样式 End-------- */
