@@ -1,18 +1,18 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
-import InputNumber from 'adber-ui/packages/InputNumber'
-import InputNumberRange from 'adber-ui/packages/InputNumberRange'
-import CustomRender from 'adber-ui/packages/CustomRender'
-import AdSelect from 'adber-ui/packages/Select'
-import { renderSelectOption } from 'adber-ui/src/utils/slotsUtils'
+import { t } from 'lance-element-vue2/src/locale'
+import InputNumber from 'lance-element-vue2/packages/InputNumber'
+import InputNumberRange from 'lance-element-vue2/packages/InputNumberRange'
+import CustomRender from 'lance-element-vue2/packages/CustomRender'
+import LeSelect from 'lance-element-vue2/packages/Select'
+import { renderSelectOption } from 'lance-element-vue2/src/utils/slotsUtils'
 
 export default {
-  name: 'AdFormConfig',
+  name: 'LeFormConfig',
   components: {
     CustomRender,
     InputNumber,
     InputNumberRange,
-    AdSelect
+    LeSelect
   },
   props: {
     forms: {
@@ -120,9 +120,9 @@ export default {
         })
       }
       switch (itemType) {
-        /* 自定义 adber 自定义Select */
+        /* 自定义 leer 自定义Select */
         case 'adSelect' :
-          return <AdSelect
+          return <LeSelect
             class={itemClass}
             v-model={params[prop]}
             props={formOthers}
@@ -135,7 +135,7 @@ export default {
             style={_itemStyle}
           >
             {render_selectOptions()}
-          </AdSelect>
+          </LeSelect>
         /* 自定义 render */
         case 'render' :
           return <CustomRender
@@ -253,12 +253,12 @@ export default {
           // 区间类型
           if (/range$/.test(form.type || '')) {
             dateOpts = Object.assign(dateOpts, {
-              startPlaceholder: t(form.startPlaceholder || 'adb.filter.startDate'),
-              endPlaceholder: t(form.endPlaceholder || 'adb.filter.endDate'),
+              startPlaceholder: t(form.startPlaceholder || 'le.filter.startDate'),
+              endPlaceholder: t(form.endPlaceholder || 'le.filter.endDate'),
               unlinkPanels: form.unlinkPanels ?? true // 双面板联动
             })
           } else {
-            dateOpts.placeholder = _placeholder || t('adb.filter.selectDate')
+            dateOpts.placeholder = _placeholder || t('le.filter.selectDate')
           }
           return (
             <el-date-picker
@@ -331,7 +331,7 @@ export default {
     return (
       <el-form
         ref="baseForm"
-        class={`ad-form-config ad-form-config--${size}`}
+        class={`le-form-config le-form-config--${size}`}
         props={{ ...form_config, size, model: params }}
       >
         <el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`} gutter={gutter}>
@@ -396,17 +396,17 @@ export default {
         // 是否展示 底部操作集合
         showFooter: true,
         // footer下的 提交按钮 描述
-        submitBtnText: 'adb.btn.confirm',
+        submitBtnText: 'le.btn.confirm',
         // footer下的 提交按钮loading
         submitLoading: false,
         // footer下的 取消按钮 是否显示
         showCancelBtn: true,
         // footer下的 取消按钮 text
-        cancelBtnText: 'adb.btn.cancel',
+        cancelBtnText: 'le.btn.cancel',
         // footer下的 重置按钮 是否显示
         showResetBtn: false,
         // footer下的 重置按钮 text
-        resetBtnText: 'adb.btn.reset',
+        resetBtnText: 'le.btn.reset',
 
         /**
          * element中的配置

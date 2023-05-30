@@ -1,4 +1,4 @@
-import { t } from 'adber-ui/src/locale'
+import { t } from 'lance-element-vue2/src/locale'
 export default {
   methods: {
     t(...args) {

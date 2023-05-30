@@ -2,7 +2,7 @@
  针对slot首次展示以前不做默认加载 (部分内容存在接口调用情况 会导致损耗过多)
  -->
 <template>
-  <span :class="['ad-popover-box', showPopper ? 'ad-popover-box--open' : 'ad-popover-box--close']">
+  <span :class="['le-popover-box', showPopper ? 'le-popover-box--open' : 'le-popover-box--close']">
     <transition :name="transition" @after-enter="handleAfterEnter" @after-leave="handleAfterLeave">
       <div
         v-show="!disabled && showPopper"
@@ -29,7 +29,7 @@ import { addClass, off, on, removeClass } from 'element-ui/src/utils/dom'
 import { generateId } from 'element-ui/src/utils/util'
 
 export default {
-  name: 'AdPopover',
+  name: 'LePopover',
 
   mixins: [Popper],
 
@@ -70,7 +70,7 @@ export default {
       default: 0
     },
     /**
-     * adber: 新增配置
+     * lance-element-vue: 新增配置
      */
     // (在需content内容需要加载接口的情况下 可能需要禁止，再打开的时候才需要触发)
     firstLoad: {

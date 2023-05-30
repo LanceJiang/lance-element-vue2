@@ -4,9 +4,9 @@
     v-on='$listeners'
     @update:visible="visibleChange"
     :withHeader="false"
-    class="ad-filter-drawer"
+    class="le-filter-drawer"
   >
-    <div class="ad-filter-drawer__header">
+    <div class="le-filter-drawer__header">
       <div class="title">
         <slot name="header">
           {{ t(title) }}
@@ -21,10 +21,10 @@
         <i class="el-icon-close" />
       </div>
     </div>
-    <div class="ad-filter-drawer__main">
+    <div class="le-filter-drawer__main">
       <slot/>
     </div>
-    <div v-if="$slots.footer" class="ad-filter-drawer__footer">
+    <div v-if="$slots.footer" class="le-filter-drawer__footer">
       <slot name="footer"/>
     </div>
     <!--  选中的 项 排序... -->
@@ -41,13 +41,13 @@
 </template>
 
 <script lang="jsx">
-// import { t } from 'adber-ui/src/locale'
-// import Icon from 'adber-ui/packages/Icon'
-import Locale from 'adber-ui/src/mixins/locale'
+// import { t } from 'lance-element-vue2/src/locale'
+// import Icon from 'lance-element-vue2/packages/Icon'
+import Locale from 'lance-element-vue2/src/mixins/locale'
 // import SelectedItemsSortDialog from './SelectedItemsSortDialog'
 
 export default {
-  name: 'AdSearchFilterDrawer',
+  name: 'LeSearchFilterDrawer',
   components: {
     // SelectedItemsSortDialog
     // Icon
@@ -64,7 +64,7 @@ export default {
     },
     title: {
       type: String,
-      default: 'adb.filter.filterLabel'
+      default: 'le.filter.filterLabel'
     }
   },
   // render,

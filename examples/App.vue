@@ -70,7 +70,7 @@ html,body {
   overflow: auto;
 }
 #app {
-  //font-family: $ad-family;
+  //font-family: $le-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   //text-align: center;
@@ -91,7 +91,7 @@ html,body {
     width: 3px;
     height: 16px;
     margin-right: 6px;
-    background: $ad-color-primary;
+    background: $le-color-primary;
   }
 }
 .page-select {

@@ -1,5 +1,5 @@
 @import "../variables.scss";
-// AdSelect 样式
+// LeSelect 样式
 .#{$prefix}select {
   // 非弹窗类型专用样式
   &--view {
@@ -58,7 +58,7 @@
       &.indeterminate {
         &::before {
           content: "\e80a";
-          color: $ad-color-primary;
+          color: $le-color-primary;
         }
       }
     }
@@ -68,7 +68,7 @@
       //left: 20px;
       left: 8px;
       transform: translateY(-50%);
-      font-family: "ad-iconfont";
+      font-family: "le-iconfont";
       content: "\e80d";
       font-size: 14px;
       font-weight: normal;
@@ -79,16 +79,16 @@
       height: 14px;
       line-height: 14px;
       background-color: #FFFFFF;
-      color: $ad-border-color_1;
+      color: $le-border-color_1;
       z-index: 1;
       transition: background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
-      //border: 1px solid $ad-border-color_1;
+      //border: 1px solid $le-border-color_1;
       border-radius: 50%;
     }
     &.selected {
       font-weight: normal;
       &::before {
-        color: $ad-color-primary;
+        color: $le-color-primary;
         content: "\e80c";
         //border: 0;
       }

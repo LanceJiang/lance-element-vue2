@@ -50,7 +50,7 @@ const renderPdfPage = (pdfViewerContainer, pdfDoc, pageNum, scale) => {
   })
 }
 export default {
-  name: 'AdPdfPreview',
+  name: 'LePdfPreview',
   props,
   data() {
     return {

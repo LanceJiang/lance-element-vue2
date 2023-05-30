@@ -1,8 +1,8 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
+import { t } from 'lance-element-vue2/src/locale'
 import InputNumber from './index'
 export default {
-  name: 'AdInputNumberRange',
+  name: 'LeInputNumberRange',
   components: {
     InputNumber
   },
@@ -37,12 +37,12 @@ export default {
     // 最小值多语言
     placeholderStart: {
       type: String,
-      default: 'adb.el.input.min'
+      default: 'le.el.input.min'
     },
     // 最大值多语言
     placeholderEnd: {
       type: String,
-      default: 'adb.el.input.max'
+      default: 'le.el.input.max'
     },
     // 自定义样式(最大值/最小值)
     itemStyle: {
@@ -72,12 +72,12 @@ export default {
     const _controlsPosition = controlsPosition || 'right'
     const $slots = this.$slots
 
-    const _prepend = prepend ? <span class='ad-input-number-range_addon prepend'>{prepend}</span> : ''
-    const _append = append ? <span class='ad-input-number-range_addon append'>{append}</span> : ''
-    return <div class={`ad-input-number-range ad-input-number-range--${inputNumberSize}`}>
+    const _prepend = prepend ? <span class='le-input-number-range_addon prepend'>{prepend}</span> : ''
+    const _append = append ? <span class='le-input-number-range_addon append'>{append}</span> : ''
+    return <div class={`le-input-number-range le-input-number-range--${inputNumberSize}`}>
       {$slots.prepend || _prepend}
       <InputNumber
-        class='ad-input-number-range_start'
+        class='le-input-number-range_start'
         attrs={props}
         min={min}
         max={params[local_propEnd] ?? max}
@@ -90,9 +90,9 @@ export default {
         onChange={this.onChangeStart}
         onBlur={(event) => this.$emit('blur', event, local_propStart)}
       />
-      <span class='ad-input-number-range_line'>-</span>
+      <span class='le-input-number-range_line'>-</span>
       <InputNumber
-        class='ad-input-number-range_end'
+        class='le-input-number-range_end'
         attrs={props}
         min={params[local_propStart] ?? min}
         max={max}

@@ -1,15 +1,15 @@
 <template>
-  <el-popover class="ad-column-wrap" popper-class="ad-column-popover" placement="bottom-end" v-model="visible">
-    <el-tooltip slot="reference" placement="top" :content="t('adb.column')">
+  <el-popover class="le-column-wrap" popper-class="le-column-popover" placement="bottom-end" v-model="visible">
+    <el-tooltip slot="reference" placement="top" :content="t('le.column')">
       <el-button type="default" class="icon-button column">
-        <Icon iconClass="ad-hide_column"/>
+        <Icon iconClass="le-hide_column"/>
       </el-button>
     </el-tooltip>
     <div class="columns-contents" v-loading="loading">
-      <div class="title">{{ t('adb.columnsPop.title') }}</div>
-      <div class="label">{{ t('adb.columnsPop.selected') }}</div>
+      <div class="title">{{ t('le.columnsPop.title') }}</div>
+      <div class="label">{{ t('le.columnsPop.selected') }}</div>
       <el-checkbox class="el-select-dropdown__item title" @change="onCheckAllChange" :indeterminate="indeterminate" v-model="checkAll">
-        {{ t('adb.selectAll') }}
+        {{ t('le.selectAll') }}
       </el-checkbox>
       <div class="divider"/>
       <el-scrollbar>
@@ -25,7 +25,7 @@
         </ul>
       </el-scrollbar>
       <div class="divider"/>
-      <div class="label">{{ t('adb.columnsPop.options') }}</div>
+      <div class="label">{{ t('le.columnsPop.options') }}</div>
       <el-scrollbar>
         <ul class="el-scrollbar__view el-select-dropdown__list">
           <el-checkbox-group :value="checkedList" @input="onChange">
@@ -46,24 +46,24 @@
       </el-scrollbar>
       <div class="footer">
         <el-button size="small" @click="handleReset">
-          {{ t('adb.btn.restore') }}
+          {{ t('le.btn.restore') }}
         </el-button>
         <el-button type="primary" size="small" @click="handleSubmit">
-          {{ t('adb.btn.save') }}
+          {{ t('le.btn.save') }}
         </el-button>
       </div>
     </div>
   </el-popover>
 </template>
 <script>
-import Icon from 'adber-ui/packages/Icon'
-import NoData from 'adber-ui/packages/NoData'
-import DraggableNest from 'adber-ui/packages/DraggableNest'
-import Locale from 'adber-ui/src/mixins/locale'
+import Icon from 'lance-element-vue2/packages/Icon'
+import NoData from 'lance-element-vue2/packages/NoData'
+import DraggableNest from 'lance-element-vue2/packages/DraggableNest'
+import Locale from 'lance-element-vue2/src/mixins/locale'
 
 // const API = {}
 export default {
-  name: 'AdTableColumnsPopover',
+  name: 'LeTableColumnsPopover',
   mixins: [Locale],
   components: {
     Icon,

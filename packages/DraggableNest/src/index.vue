@@ -1,10 +1,10 @@
 <script lang="jsx">
 import Draggable from 'vuedraggable'
-import Icon from 'adber-ui/packages/Icon'
-import Locale from 'adber-ui/src/mixins/locale'
+import Icon from 'lance-element-vue2/packages/Icon'
+import Locale from 'lance-element-vue2/src/mixins/locale'
 
 export default {
-  name: 'AdDraggableNest',
+  name: 'LeDraggableNest',
   mixins: [Locale],
   components: {
     Draggable,
@@ -60,7 +60,7 @@ export default {
   render() {
     const { level, t, emitter, onStart, onEnd, move, $slots } = this
     return <Draggable
-      class='ad-draggable-nest'
+      class='le-draggable-nest'
       options={this.dragOptions}
       list={this.list}
       value={this.value}
@@ -73,7 +73,7 @@ export default {
         {$slots.default || this.realValue.map((v, index) => {
           const _label = t(v.t_label || v.label)
           return <div
-            class="ad-draggable-nest-item"
+            class="le-draggable-nest-item"
             key={v.prop}
           >
             <div
@@ -82,14 +82,14 @@ export default {
             >
               <el-checkbox class={level !== 0 ? 'checkbox-hide' : ''} disabled={!!v.fixed || level !== 0} value={true} onInput={this.removeHandler.bind(null, v, index, this.realValue)} />
               <span class="label_txt" title={_label}>{ _label }</span>
-              <Icon class="dragEl" iconClass="ad-drag"/>
+              <Icon class="dragEl" iconClass="le-drag"/>
               {
                 /* (level === 0 && v._fixed) ? <span class='disabled_fixed' onClick={this.setFixed.bind(null, v, this.level)}>置{v._fixed === 'left' ? '底' : '顶'}</span>
                   : '' */
               }
             </div>
             {
-              (v.children || []).length ? <AdDraggableNest
+              (v.children || []).length ? <LeDraggableNest
                 move={move}
                 // removeHandler={this.removeHandler}
                 level={level + 1}

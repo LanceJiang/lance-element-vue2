@@ -1,7 +1,7 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
-import DraggableNest from 'adber-ui/packages/DraggableNest'
-import NoData from 'adber-ui/packages/NoData'
+import { t } from 'lance-element-vue2/src/locale'
+import DraggableNest from 'lance-element-vue2/packages/DraggableNest'
+import NoData from 'lance-element-vue2/packages/NoData'
 
 const render = function (h) {
   const { title, tips, visible, options, selectedMax, checkedList, checkedOptions, submitLoading } = this
@@ -12,16 +12,16 @@ const render = function (h) {
     title={t(title)}
     closeOnClickModal={false}
     append-to-body
-    custom-class="ad-dialog ad-selected-items-sort-dialog"
+    custom-class="le-dialog le-selected-items-sort-dialog"
     width="472px"
   >
     {/* 提示文字 */}
-    {slotTips || (tips && <div class="tips">{t('adb.filter.filtersSettingTips', {
+    {slotTips || (tips && <div class="tips">{t('le.filter.filtersSettingTips', {
       num: selectedMax
     })}</div>)}
     <div class="box-wrapper">
       <div class="box-left">
-        <div class="title">{ t('adb.filter.availableFilters') }</div>
+        <div class="title">{ t('le.filter.availableFilters') }</div>
         <el-scrollbar class="checkbox-wrapper">
           <el-checkbox-group
             value={checkedList}
@@ -42,7 +42,7 @@ const render = function (h) {
       </div>
       <div class="box-right">
         <div class="title">
-          {t('adb.filter.filterSelected')}
+          {t('le.filter.filterSelected')}
           <span class="txt">{checkedOptions.length}/{selectedMax}</span>
         </div>
         <DraggableNest
@@ -55,7 +55,7 @@ const render = function (h) {
     </div>
     <div slot="footer" class="footer">
       <el-button class="cancel-button" onClick={this.visibleChange.bind(null, false)}>
-        {t('adb.btn.cancel')}
+        {t('le.btn.cancel')}
       </el-button>
       <el-button
         class="submit-button"
@@ -64,14 +64,14 @@ const render = function (h) {
         loading={submitLoading}
         onClick={this.submit.bind(null, this)}
       >
-        {t('adb.btn.save')}
+        {t('le.btn.save')}
       </el-button>
     </div>
   </el-dialog>
 }
 
 export default {
-  name: 'AdSelectedItemsSortDialog',
+  name: 'LeSelectedItemsSortDialog',
   components: {
     DraggableNest,
     NoData
@@ -80,11 +80,11 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'adb.filter.arrangeFilters'
+      default: 'le.filter.arrangeFilters'
     },
     tips: {
       type: String,
-      default: 'adb.filter.arrangeFilters'
+      default: 'le.filter.arrangeFilters'
     },
     visible: {
       type: Boolean,

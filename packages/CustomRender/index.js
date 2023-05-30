@@ -1,6 +1,6 @@
 // 自定义渲染
 const Component = {
-  name: 'AdCustomRender',
+  name: 'LeCustomRender',
   props: {
     form: {
       required: true,

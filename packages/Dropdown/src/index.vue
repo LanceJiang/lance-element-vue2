@@ -1,6 +1,6 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
-import NoData from 'adber-ui/packages/NoData'
+import { t } from 'lance-element-vue2/src/locale'
+import NoData from 'lance-element-vue2/packages/NoData'
 
 const render = function(h) {
   const { visible, selectOption, modelValue, value, comp_Options } = this
@@ -23,16 +23,16 @@ const render = function(h) {
   showClear = showClear && this.clearable
   const scopedSlots_btn = this.$scopedSlots.btn
   return <el-dropdown
-    class={['ad-dropdown', visible ? 'ad-dropdown--open' : '']}
+    class={['le-dropdown', visible ? 'le-dropdown--open' : '']}
     props={this.$attrs}
     trigger={this.comp_trigger}
     on={on}
   >
-    {scopedSlots_btn ? scopedSlots_btn({ selectOption, showClear }) : <span class="ad-dropdown-link">
+    {scopedSlots_btn ? scopedSlots_btn({ selectOption, showClear }) : <span class="le-dropdown-link">
       {local_label}
       <i class={['action el-icon-arrow-down', showClear ? 'clear' : '']} onClick={this.actionClick}/>
     </span>}
-    <el-dropdown-menu slot="dropdown" class="ad-dropdown-menu" appendToBody={this.appendToBody}>
+    <el-dropdown-menu slot="dropdown" class="le-dropdown-menu" appendToBody={this.appendToBody}>
       {
         this.$slots.options || ((comp_Options && comp_Options.length) ? comp_Options.map(opt => {
           return <el-dropdown-item
@@ -48,7 +48,7 @@ const render = function(h) {
   </el-dropdown>
 }
 export default {
-  name: 'AdDropdown',
+  name: 'LeDropdown',
   components: {
     NoData
   },

@@ -1,17 +1,17 @@
 <template>
-  <div @click="$emit('click')" :class="['ad-no-data', size, isFull ? 'ad-no-data--full' : '']">
-    <Icon iconClass="ad-no_data" class="ad-no-data__img"/>
-    <div class="message" v-html="message || t('adb.noData')"/>
+  <div @click="$emit('click')" :class="['le-no-data', size, isFull ? 'le-no-data--full' : '']">
+    <Icon iconClass="le-no_data" class="le-no-data__img"/>
+    <div class="message" v-html="message || t('le.noData')"/>
     <!-- 额外处理 -->
     <slot name="extraContent"/>
   </div>
 </template>
 
 <script>
-import Icon from 'adber-ui/packages/Icon'
-import Locale from 'adber-ui/src/mixins/locale'
+import Icon from 'lance-element-vue2/packages/Icon'
+import Locale from 'lance-element-vue2/src/mixins/locale'
 export default {
-  name: 'AdNoData',
+  name: 'LeNoData',
   mixins: [Locale],
   props: {
     message: {

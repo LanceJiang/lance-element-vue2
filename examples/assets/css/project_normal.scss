@@ -1,18 +1,18 @@
 // 默认元素样式重置
-@import 'adber-ui/style/reset.scss';
+@import 'lance-element-vue2/style/reset.scss';
 // 涉及element-ui的全局样式主题设置
-@import 'adber-ui/style/element-variables.scss';
+@import 'lance-element-vue2/style/element-variables.scss';
 // 涉及element-ui的全局样式类改造&&新增修饰
-@import 'adber-ui/style/adber-element-ui.scss';
-// 涉及adber-ui的全局组件样式
-@import 'adber-ui/style/adber-ui.scss';
+@import 'lance-element-vue2/style/lance-element-ui.scss';
+// 涉及lance-element-vue2的全局组件样式
+@import 'lance-element-vue2/style/lance-element-vue2.scss';
 
 body {
-  font-family: $ad-family;
+  font-family: $le-family;
   font-size: 14px;
 }
-// adber 公用的iconfont class 类 为: ad-iconfont
-.ad-iconfont {
+// lance-element 公用的iconfont class 类 为: le-iconfont
+.le-iconfont {
   //font-size: 16px;
   font-size: inherit;
 }
@@ -42,7 +42,7 @@ body {
 
 // 全局滚动条样式
 ::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{border-radius:6px;background: $ad-bg-color_3;}
+::-webkit-scrollbar-track{border-radius:6px;background: $le-bg-color_3;}
 ::-webkit-scrollbar-track:hover{background-color:rgba(0,0,0,0.06);box-shadow:0 0 0 #fff inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset}
 ::-webkit-scrollbar-track:active{background-color:rgba(0,0,0,0.1)}
 ::-webkit-scrollbar-thumb{border-radius:6px;background-color:rgba(0,0,0,0.1);box-shadow:0 0 0 #fff inset,0 0 0 #fff inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset}

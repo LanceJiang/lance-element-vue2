@@ -15,8 +15,8 @@
       min-width: max-content;
       height: 40px;
       border-radius: 6px 6px 0 0;
-      background: $ad-border-color_3;
-      color: $ad-color_4;
+      background: $le-border-color_3;
+      color: $le-color_4;
       font-size: 16px;
       cursor: pointer;
       &:hover {
@@ -34,7 +34,7 @@
         }
       }
       &.active {
-        color: $ad-color-primary;
+        color: $le-color-primary;
         background-color: #fff;
       }
       .dragEl {
@@ -49,8 +49,8 @@
         font-weight: 500;
         line-height: 20px;
       }
-      .ad-icon {
-        color: $ad-color_3;
+      .le-icon {
+        color: $le-color_3;
       }
       .edit-icon {
         margin-left: 6px;

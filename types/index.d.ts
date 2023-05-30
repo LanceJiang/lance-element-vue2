@@ -1,3 +1,3 @@
-import * as AdberUI from './adber-ui'
-export * from './adber-ui'
-export default AdberUI
+import * as LanceElement from './lance-element-vue2'
+export * from './lance-element-vue2'
+export default LanceElement

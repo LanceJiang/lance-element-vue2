@@ -30,9 +30,9 @@ module.exports = {
       ],
       'plugins': [
         ['module-resolver', {
-          'root': ['adber-ui'],
+          'root': ['lance-element-vue2'],
           'alias': {
-            'adber-ui/src': 'adber-ui/lib'
+            'lance-element-vue2/src': 'lance-element-vue2/lib'
           }
         }]
       ]

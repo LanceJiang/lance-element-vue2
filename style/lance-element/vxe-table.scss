@@ -78,7 +78,7 @@
           //background: #bbb;
           width: 1px;
           height: 100%;
-          background: $ad-border-color_3;
+          background: $le-border-color_3;
         }
       }
       //.vxe-loading.is--visible {
@@ -105,7 +105,7 @@
           text-overflow: ellipsis;
           white-space: nowrap;
         }
-        .ad-iconfont {
+        .le-iconfont {
           margin-left: .2em;
           //margin-left: 6px;
           font-size: 14px;
@@ -139,25 +139,25 @@
         //background-color: #f6f6f6;
         background-color: #F6FAFF;
         height: 40px;
-        color: $ad-color_1;
+        color: $le-color_1;
         font-weight: normal;
         //vxe-header--column
         .vxe-cell {
           height: 100%;
         }
         &.col--checkbox {
-          border-right: 1px solid $ad-border-color_3;
+          border-right: 1px solid $le-border-color_3;
         }
       }
       // hover
       .vxe-body--row.row--hover {
-        background-color: $ad-hover-color_1;
+        background-color: $le-hover-color_1;
         //background-color: rgba(0, 123, 252, 0.1);
       }
       // 选中
       .vxe-body--row.row--current {
         //background-color: rgba(0, 123, 252, 0.16);
-        background-color: $ad-hover-color_2;
+        background-color: $le-hover-color_2;
       }
 
       .sub_row_bgc{
@@ -186,9 +186,9 @@
         padding-right: 12px;
         line-height: 30px;
         //color: rgba(0, 0, 0, .45);
-        color: $ad-color_3;
+        color: $le-color_3;
         span {
-          color: $ad-color-primary;
+          color: $le-color-primary;
           font-weight: 600;
           padding: 0 3px;
         }
@@ -251,7 +251,7 @@
       // 兼容 treeConfig  > ( > ) iconfont icon-minus_square
       //transform: translateY(-2px);
       &:hover {
-        color: $ad-color-primary;
+        color: $le-color-primary;
       }
     }
     .vxe-table--empty-placeholder {
@@ -271,7 +271,7 @@
       // 高亮文字样式 （类 超链接）
       /*.el-dropdown-link  {
         cursor: pointer;
-        color: $ad-color-primary;
+        color: $le-color-primary;
       }*/
     }
   }

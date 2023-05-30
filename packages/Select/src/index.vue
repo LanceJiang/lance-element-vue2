@@ -1,7 +1,7 @@
 <template>
   <div
-    class="el-select ad-select"
-    :class="[selectSize ? 'el-select--' + selectSize : '', !isPopover ? 'ad-select--view' : '']"
+    class="el-select le-select"
+    :class="[selectSize ? 'el-select--' + selectSize : '', !isPopover ? 'le-select--view' : '']"
     @click.stop="toggleMenu"
     v-clickoutside="handleClose"
     :style="wrapStyle">
@@ -123,7 +123,7 @@
           v-show='computedOptions.length'
           :class="['el-select-dropdown__item checkAll', isAll ? 'selected' : indeterminateClass]"
           @click="checkAllHandler">
-          {{ t('adb.selectAll') }}
+          {{ t('le.selectAll') }}
         </div>
         <el-scrollbar
           tag="ul"
@@ -157,10 +157,10 @@
 import Emitter from 'element-ui/src/mixins/emitter'
 import Focus from 'element-ui/src/mixins/focus'
 // import Locale from 'element-ui/src/mixins/locale'
-import Locale from 'adber-ui/src/mixins/locale'
+import Locale from 'lance-element-vue2/src/mixins/locale'
 // import ElInput from 'element-ui/packages/input'
 import ElSelectDropDown from 'element-ui/packages/select/src/select-dropdown'
-import NoData from 'adber-ui/packages/NoData'
+import NoData from 'lance-element-vue2/packages/NoData'
 // import ElOption from 'element-ui/packages/select/src/option.vue'
 // import ElTag from 'element-ui/packages/tag'
 // import ElScrollbar from 'element-ui/packages/scrollbar'
@@ -175,7 +175,7 @@ import { isKorean } from 'element-ui/src/utils/shared'
 export default {
   mixins: [Emitter, Locale, Focus('reference'), NavigationMixin],
 
-  name: 'AdSelect',
+  name: 'LeSelect',
 
   componentName: 'ElSelect',
 
@@ -259,9 +259,9 @@ export default {
         : 'small'
     },
     propPlaceholder() {
-      return typeof this.placeholder !== 'undefined' ? this.placeholder : this.t('adb.el.input.search')
+      return typeof this.placeholder !== 'undefined' ? this.placeholder : this.t('le.el.input.search')
     },
-    // ad-select 新增
+    // le-select 新增
     curComponent() {
       return this.isPopover ? 'ElSelectDropDown' : 'div'
     },
@@ -367,7 +367,7 @@ export default {
       type: Boolean,
       default: false
     },
-    // ad-select 新增
+    // le-select 新增
     isPopover: {
       type: Boolean,
       default: false
@@ -947,7 +947,7 @@ export default {
         return getValueByPath(item.value, this.valueKey)
       }
     },
-    // ad-select 新增
+    // le-select 新增
     // 全选与反选
     checkAllHandler() {
       // cachedOptions

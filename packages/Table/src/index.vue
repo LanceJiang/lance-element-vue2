@@ -1,9 +1,9 @@
 <script lang="jsx">
-import NoData from 'adber-ui/packages/NoData'
-import Icon from 'adber-ui/packages/Icon'
-import { t } from 'adber-ui/src/locale'
+import NoData from 'lance-element-vue2/packages/NoData'
+import Icon from 'lance-element-vue2/packages/Icon'
+import { t } from 'lance-element-vue2/src/locale'
 /*, debounce */
-import { getDeepValue } from 'adber-ui/src/utils'
+import { getDeepValue } from 'lance-element-vue2/src/utils'
 
 import TableColumnsPopover from './TableColumnsPopover'
 
@@ -151,7 +151,7 @@ const render = function (h) {
     'current-change': this.handleIndexChange
   }
   return (
-    <div class="ad-table-warp">
+    <div class="le-table-warp">
       <div class="tableBody">
         {computedOptions.showTools && (
           <div class="toolBarWrap">
@@ -159,9 +159,9 @@ const render = function (h) {
             <div class="toolRight">
               {this.$slots.toolRight}
               {/* 刷新 */}
-              <el-tooltip placement="top" content={t('adb.refresh')}>
+              <el-tooltip placement="top" content={t('le.refresh')}>
                 <el-button type="default" class="icon-button refresh" onClick={this.refreshHandler}>
-                  <Icon iconClass="ad-refresh" />
+                  <Icon iconClass="le-refresh" />
                 </el-button>
               </el-tooltip>
               {/* columns过滤 */}
@@ -180,7 +180,7 @@ const render = function (h) {
         <div class="tableParentEl">
           <el-table
             ref="ELTable"
-            class="ad-table"
+            class="le-table"
             tooltip-effect="dark"
             border
             size={computedOptions.size}
@@ -200,7 +200,7 @@ const render = function (h) {
                 resizable,
                 showOverflowTooltip,
                 slots,
-                adb_slots,
+                le_slots,
                 ...opts
               } = column
               const label_ = t_label ? t(t_label) : label
@@ -209,7 +209,7 @@ const render = function (h) {
                   props={opts}
                   key={column.prop}
                   label={label_}
-                  scopedSlots={adb_slots}
+                  scopedSlots={le_slots}
                   align={align ?? computedOptions.align}
                   resizable={resizable ?? computedOptions.resizable}
                   showOverflowTooltip={showOverflowTooltip ?? computedOptions.showOverflowTooltip}
@@ -237,7 +237,7 @@ const render = function (h) {
   )
 }
 export default {
-  name: 'AdTable',
+  name: 'LeTable',
   components: {
     NoData,
     Icon,
@@ -280,11 +280,11 @@ export default {
     },
     realColumns() {
       return this.columns.map((column) => {
-        const { renderHeader, ...adb_slots } = columnSlots(column, this)
+        const { renderHeader, ...le_slots } = columnSlots(column, this)
         return {
           renderHeader,
           ...column,
-          adb_slots
+          le_slots
         }
       })
     },

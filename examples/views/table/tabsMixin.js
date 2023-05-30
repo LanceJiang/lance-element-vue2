@@ -72,7 +72,7 @@ export const query_savedSearchDelete = (ids) => {
 const tabs_defaultAllTab = {
   // 非api存储的数据 id以 local_XXX 作为本地存储判断依据
   id: 'local_all',
-  tabName: 'adb.tabs.all', // 多语言转换
+  tabName: 'le.tabs.all', // 多语言转换
   // 多语言切换
   i18n: true,
   // name: 'All',
@@ -209,13 +209,13 @@ export default {
         (item) => item?.tabName?.toLocaleLowerCase() === tabName?.toLocaleLowerCase?.()
       )
       if (!tabName || !tabName.trim()) {
-        return this.$t('adb.validate.validateEmptyTips', {
-          name: this.$t('adb.tabs.tab')
+        return this.$t('le.validate.validateEmptyTips', {
+          name: this.$t('le.tabs.tab')
         })
       }
       if (findItem) {
-        return this.$t('adb.validate.validateAlreadyExists', {
-          name: this.$t('adb.tabs.tab')
+        return this.$t('le.validate.validateAlreadyExists', {
+          name: this.$t('le.tabs.tab')
         })
       }
     },
@@ -349,7 +349,7 @@ export default {
       this.tabs_loading = true
       query_savedSearchTabIndexUpdate(ids)
         .then((tabs) => {
-          this.$message.success(this.$t('adb.message.editSuccess'))
+          this.$message.success(this.$t('le.message.editSuccess'))
         })
         .catch((e) => {
           this.$message.error(e?.response?.errors?.[0].message || 'Error')
@@ -396,7 +396,7 @@ export default {
         this.tabs_loading = true
         return queryFn(query)
           .then((tab) => {
-            this.$message.success(this.$t(`adb.message.${isCreate ? 'addSuccess' : 'editSuccess'}`))
+            this.$message.success(this.$t(`le.message.${isCreate ? 'addSuccess' : 'editSuccess'}`))
             // 编辑columns因为存在新创建的问题 通过tabName 来确定
             const idx = this.tabs_list.findIndex(
               (v) => v.tabName === tab.tabName

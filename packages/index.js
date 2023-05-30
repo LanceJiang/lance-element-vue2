@@ -48,7 +48,7 @@ import {
 
 // import Test from './test'
 import Table from './Table'
-import AdVxeTable from './VxeTable'
+import LeVxeTable from './VxeTable'
 import DraggableNest from './DraggableNest'
 import FormConfig from './FormConfig'
 import FormConfigDialog from './FormConfigDialog'
@@ -77,7 +77,7 @@ const version = packageJson.version
 const components = [
   // Test,
   Table,
-  AdVxeTable,
+  LeVxeTable,
   DraggableNest,
   FormConfig,
   FormConfigDialog,
@@ -96,23 +96,23 @@ const components = [
   // BarCode
 ]
 
-// 加载adber-svg icon
+// 加载lance-element-vue-svg icon
 ;(function () {
   const d = document
-  const existIconVersion = [...d.querySelectorAll('.ad-icon_svg')].map(v => v.getAttribute('version')).includes(version)
+  const existIconVersion = [...d.querySelectorAll('.le-icon_svg')].map(v => v.getAttribute('version')).includes(version)
   if (!existIconVersion) {
     /** update 最新 iconfont(.css && .js) */
-    const origin_prefix = '//at.alicdn.com/t/c/font_3588867_ul98fz5p8zf'
+    const origin_prefix = '//at.alicdn.com/t/c/font_4091949_mp9i9zzmibj'
     const link = d.createElement('link')
     link.rel = 'stylesheet'
     link.type = 'text/css'
-    link.className = 'ad-icon_iconfont'
+    link.className = 'le-icon_iconfont'
     link.setAttribute('version', version)
     link.setAttribute('origin', location.origin)
     link.href = `${origin_prefix}.css`
     d.getElementsByTagName('head')[0].appendChild(link)
     const s = d.createElement('script')
-    s.className = 'ad-icon_svg'
+    s.className = 'le-icon_svg'
     s.src = `${origin_prefix}.js`
     s.setAttribute('version', version)
     s.setAttribute('origin', location.origin)
@@ -121,7 +121,7 @@ const components = [
 })()
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 const install = function (Vue, opts = {}) {
-  // console.error(install, 'AdberUi install opts', opts)
+  // console.error(install, 'LeerUi install opts', opts)
   locale.use(opts.locale)
   locale.i18n(opts.i18n)
   // 遍历注册全局组件

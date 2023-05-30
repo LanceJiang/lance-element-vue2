@@ -1,15 +1,15 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
-import Popover from 'adber-ui/packages/Popover'
-import CustomRender from 'adber-ui/packages/CustomRender'
-import InputNumber from 'adber-ui/packages/InputNumber'
-import InputNumberRange from 'adber-ui/packages/InputNumberRange'
-import Icon from 'adber-ui/packages/Icon'
-import AdSelect from 'adber-ui/packages/Select'
+import { t } from 'lance-element-vue2/src/locale'
+import Popover from 'lance-element-vue2/packages/Popover'
+import CustomRender from 'lance-element-vue2/packages/CustomRender'
+import InputNumber from 'lance-element-vue2/packages/InputNumber'
+import InputNumberRange from 'lance-element-vue2/packages/InputNumberRange'
+import Icon from 'lance-element-vue2/packages/Icon'
+import LeSelect from 'lance-element-vue2/packages/Select'
 import SearchFilterDrawer from './SearchFilterDrawer'
 import SelectedItemsSortDialog from './SelectedItemsSortDialog'
-import { renderSelectOption } from 'adber-ui/src/utils/slotsUtils'
-import { queryTypeOf } from 'adber-ui/src/utils'
+import { renderSelectOption } from 'lance-element-vue2/src/utils/slotsUtils'
+import { queryTypeOf } from 'lance-element-vue2/src/utils'
 const isVNode = el => el?.constructor?.name === 'VNode'
 const render = function(h) {
   // const _this = this
@@ -52,20 +52,20 @@ const render = function(h) {
       })
     }
     switch (itemType) {
-      case 'adSelect' :
+      case 'leSelect' :
         // v-model={(isMore ? more_searchParams : searchParams)[prop]}
         let filterable = item.filterable
         if (filterable === undefined && (item.options || []).length >= 5) {
           filterable = true
         }
-        return <AdSelect
+        return <LeSelect
           v-model={searchObj[prop]}
           props={item}
           filterable={filterable}
           on={{
-            'update:selected_label': this.adSelectTagsUpdate.bind(null, item, isMore)
+            'update:selected_label': this.leSelectTagsUpdate.bind(null, item, isMore)
             // (label) => {
-            //   adSelectTags[prop] = label
+            //   leSelectTags[prop] = label
             //   this.$forceUpdate()
             // }
           }}
@@ -75,7 +75,7 @@ const render = function(h) {
           width={itemWidth || defaultWidth}
         >
           {render_selectOptions()}
-        </AdSelect>
+        </LeSelect>
 
       // <!-- 自定义render -->
       case 'render' :
@@ -135,12 +135,12 @@ const render = function(h) {
         // 区间类型
         if (/range$/.test(item.type || '')) {
           dateOpts = Object.assign(dateOpts, {
-            startPlaceholder: t(item.startPlaceholder || 'adb.filter.startDate'),
-            endPlaceholder: t(item.endPlaceholder || 'adb.filter.endDate'),
+            startPlaceholder: t(item.startPlaceholder || 'le.filter.startDate'),
+            endPlaceholder: t(item.endPlaceholder || 'le.filter.endDate'),
             unlinkPanels: item.unlinkPanels ?? true // 双面板联动
           })
         } else {
-          dateOpts.placeholder = _placeholder || t('adb.filter.selectDate')
+          dateOpts.placeholder = _placeholder || t('le.filter.selectDate')
         }
         return <el-date-picker
           v-model={searchObj[prop]}
@@ -193,7 +193,7 @@ const render = function(h) {
           maxlength={formOthers.maxlength}
           onChange={formatterChange}
           disabled={disabled}
-          placeholder={_placeholder || t('adb.el.input.placeholder')}
+          placeholder={_placeholder || t('le.el.input.placeholder')}
           clearable={item.clearable !== false}
           style={_itemStyle}
         >
@@ -231,7 +231,7 @@ const render = function(h) {
             title="clear filter"
             onClick={this.clearMoreHandler.bind(null, item)}
           >
-            <Icon icon-class="ad-clear"/>
+            <Icon icon-class="le-clear"/>
           </el-button>
         </div>
       </el-collapse-item>
@@ -240,22 +240,22 @@ const render = function(h) {
     return [
       <el-button
         slot="reference"
-        class={`ad-popover-box__btn ${isShow ? 'active' : ''}`}>
+        class={`le-popover-box__btn ${isShow ? 'active' : ''}`}>
         <span>
-          <span class="ad-popover-box__btn__label">{label}</span>
-          <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix"/>
+          <span class="le-popover-box__btn__label">{label}</span>
+          <i class="el-icon-arrow-down le-popover-box__btn__suffix" slot="suffix"/>
         </span>
       </el-button>,
-      <div class="ad-popover--select_content">
+      <div class="le-popover--select_content">
         {itemRender(item, searchParams, false)}
       </div>,
-      <div class="ad-popover--select_footer">
-        <el-button title={t('adb.btn.reset')} size='small' onClick={this.clearItemHandler.bind(null, item)}>
-          <ad-icon icon-class="ad-clear"/>
+      <div class="le-popover--select_footer">
+        <el-button title={t('le.btn.reset')} size='small' onClick={this.clearItemHandler.bind(null, item)}>
+          <le-icon icon-class="le-clear"/>
         </el-button>
 
-        <el-button title={t('adb.btn.confirm')} size='small' type="primary" onClick={this.searchHandler.bind(null, prop)}>
-          <ad-icon icon-class="ad-confirm"/>
+        <el-button title={t('le.btn.confirm')} size='small' type="primary" onClick={this.searchHandler.bind(null, prop)}>
+          <le-icon icon-class="le-confirm"/>
         </el-button>
       </div>
     ]
@@ -264,24 +264,24 @@ const render = function(h) {
   const moreFormsFlag = moreForms.filter(v => v.visible !== false).length
 
   // const slot_prepend = this.$slots.prepend
-  return <div class="ad-search-group-wrap">
-    <div class="ad-search-group-main">
+  return <div class="le-search-group-wrap">
+    <div class="le-search-group-main">
       {this.$slots.prepend}
       <el-button-group class='local_button-group'>
         {
           defaultForms.filter(item => item.visible !== false).map((item, idx) => {
-            return <Popover ref={`popover_${item.prop}`} key={item.prop + idx} popperClass="ad-popover--select" placement="bottom">
+            return <Popover ref={`popover_${item.prop}`} key={item.prop + idx} popperClass="le-popover--select" placement="bottom">
               {itemWrapRender(item, false)}
             </Popover>
           })
         }
         {/* 更多筛选条件 */}
         {
-          moreFormsFlag ? <span class="ad-popover-box">
+          moreFormsFlag ? <span class="le-popover-box">
             <span class="el-popover__reference-wrapper">
-              <el-tooltip placement="top" content={t('adb.filter.filterLabel')}>
+              <el-tooltip placement="top" content={t('le.filter.filterLabel')}>
                 <el-button onClick={this.showMore}>
-                  <ad-icon icon-class="ad-filter"/>
+                  <le-icon icon-class="le-filter"/>
                 </el-button>
               </el-tooltip>
             </span>
@@ -289,13 +289,13 @@ const render = function(h) {
         }
       </el-button-group>
       {this.loading ? <div
-        class='ad-search-group__loading'
+        class='le-search-group__loading'
         v-loading={true}
         element-loading-spinner='el-icon-loading'
       /> : '' }
     </div>
     {/* 更多标签 start */ }
-    <div v-show={tagList.length > 0 || this.$slots.extreaTags} class="ad-search-group-tags">
+    <div v-show={tagList.length > 0 || this.$slots.extreaTags} class="le-search-group-tags">
       <div class="tags-wrap">
         {this.$slots.extreaTags}
         {
@@ -337,36 +337,36 @@ const render = function(h) {
         {
           tabCreateSubmit && [
             <Popover
-              popperClass="ad-tabs_popover"
+              popperClass="le-tabs_popover"
               v-model={this.tabCreate_visible}
             >
               <el-tooltip
-                content={t('adb.filter.saveFilter')}
+                content={t('le.filter.saveFilter')}
                 placement="top"
                 slot="reference"
               ><el-button
                   type="text"
                   class="btn btn-save"
                 >
-                  <Icon icon-class="ad-save"/>
+                  <Icon icon-class="le-save"/>
                 </el-button>
               </el-tooltip>
               <div
                 v-loading={this.loading}
                 element-loading-spinner='el-icon-loading'
-                class='el-form el-form--label-top ad-form-config ad-form-config--small ad-tabs_popover_formConfig'
+                class='el-form el-form--label-top le-form-config le-form-config--small le-tabs_popover_formConfig'
               >
                 <el-input v-model={this.tabCreate_tabName} size='small' style='margin-bottom: 16px;' />
                 <div class='footer'>
                   <el-button class='cancel-button' onClick={this.tabCancel}>
-                    {t('adb.btn.cancel')}
+                    {t('le.btn.cancel')}
                   </el-button>
                   <div class='right-actions'>
                     <el-button
                       class='submit-button'
                       type='primary'
                       onClick={this.tabCreate}>
-                      {t('adb.btn.save')}
+                      {t('le.btn.save')}
                     </el-button>
                   </div>
                 </div>
@@ -378,10 +378,10 @@ const render = function(h) {
 
         {/* 清除 */}
         <el-tooltip
-          content={t('adb.filter.clearAll')}
+          content={t('le.filter.clearAll')}
           placement="top"
         ><el-button type="text" class="btn btn-clear" onClick={this.clearAllTagsHandler}>
-            <Icon icon-class="ad-clear" />
+            <Icon icon-class="le-clear" />
           </el-button></el-tooltip>
       </div>
     </div>
@@ -395,7 +395,7 @@ const render = function(h) {
     >
       {/* header */}
       <template slot="header">
-        {t('adb.filter.filterLabel')}
+        {t('le.filter.filterLabel')}
         {
           selectedSettingSubmit && <i
             class="el-icon-setting action ml-8"
@@ -406,15 +406,15 @@ const render = function(h) {
       {/* main */}
       <div class="filters-tool">
         <span class="filters-tool__btn" onClick={this.clearMoreHandler.bind(null, 'all')}>
-          <Icon class="mr-8" icon-class="ad-clear" />
-          { t('adb.filter.clearAllFilters') }
+          <Icon class="mr-8" icon-class="le-clear" />
+          { t('le.filter.clearAllFilters') }
         </span>
         <span
           class={`filters-tool__btn ${drawerIsExpand ? 'active' : ''}`}
           onClick={() => { this.drawerIsExpand = !drawerIsExpand }}
         >
-          { t(`adb.filter.${drawerIsExpand ? 'collapseAll' : 'expandAll'}`) }
-          <Icon class="icon-rotate ml-8" icon-class="ad-arrow_down" />
+          { t(`le.filter.${drawerIsExpand ? 'collapseAll' : 'expandAll'}`) }
+          <Icon class="icon-rotate ml-8" icon-class="le-arrow_down" />
         </span>
       </div>
       <div class="filters-contents">
@@ -429,7 +429,7 @@ const render = function(h) {
       {/* footer */}
       <div slot="footer" class="footer">
         <el-button type="primary" onClick={this.moreSearch}>
-          {t('adb.btn.confirm')}
+          {t('le.btn.confirm')}
         </el-button>
       </div>
     </SearchFilterDrawer>
@@ -448,8 +448,8 @@ const render = function(h) {
 }
 
 export default {
-  name: 'AdSearchGroup',
-  componentName: 'AdSearchGroup',
+  name: 'LeSearchGroup',
+  componentName: 'LeSearchGroup',
   components: {
     Popover,
     CustomRender,
@@ -458,7 +458,7 @@ export default {
     Icon,
     SearchFilterDrawer,
     SelectedItemsSortDialog,
-    AdSelect
+    LeSelect
     // InputTextArea
   },
   render,
@@ -499,7 +499,7 @@ export default {
       //        注意:操作checkedOptions 不能直接修改里面的数据
       //        dialog.submitLoading = false
       //        // dialog.visibleChange(false)
-      //        this.$message.success(t('adb.message.editSuccess'))
+      //        this.$message.success(t('le.message.editSuccess'))
       //        // group.selectedSettingVisible = false
       //        group.selectedSettingVisibleChange(false)
       //      }, 500) */
@@ -520,8 +520,8 @@ export default {
     const _this = this
     /* const validaNamePass = (rule, value, callBack) => {
       if (!value || !value.trim()) {
-        return callBack(new Error(t('adb.validate.validateEmptyTips', {
-          name: t('adb.tabs.tab')
+        return callBack(new Error(t('le.validate.validateEmptyTips', {
+          name: t('le.tabs.tab')
         })))
       }
       callBack()
@@ -531,7 +531,7 @@ export default {
       moreForms: [],
       more_searchParams: {},
       tagList: [],
-      adSelectTags: {}, // adSelect 存储
+      leSelectTags: {}, // leSelect 存储
       drawerVisible: false,
       drawerExpandCollapse: [],
       selectedSettingVisible: false,
@@ -544,7 +544,7 @@ export default {
       tabCreate_visible: false,
       tabCreate_tabName: ''
 
-      // AdSelectListeners: {
+      // LeSelectListeners: {
       //   'update:selected_label': label => {}
       // }
     }
@@ -584,7 +584,7 @@ export default {
         // 对forms 根据 isMore 判断 进行分类
         const defaultForms = []
         const moreForms = []
-        const adSelectTags = {}
+        const leSelectTags = {}
         this.forms.map(form => {
           if (form.isMore) {
             moreForms.push(form)
@@ -592,8 +592,8 @@ export default {
           } else {
             defaultForms.push(form)
           }
-          if (form.itemType === 'adSelect') {
-            adSelectTags[form.prop] = undefined
+          if (form.itemType === 'leSelect') {
+            leSelectTags[form.prop] = undefined
           }
         })
         this.defaultForms = defaultForms
@@ -601,8 +601,8 @@ export default {
         this.moreFormKeys = moreForms.reduce((keys, form) => {
           return keys.concat(this.queryItemTypeKey(form))
         }, [])
-        // 初始化 adSelectTags相关数据 key
-        this.adSelectTags = adSelectTags
+        // 初始化 leSelectTags相关数据 key
+        this.leSelectTags = leSelectTags
         // 避免updateTagList初始化 刷新两次的问题
         if (this.canUpdateTagList) {
           this.$nextTick(this.updateTagList)
@@ -623,9 +623,9 @@ export default {
   created() {
     window.searchGroup = this
     // this.more_searchParamsReset()
-    // 监听 父级调用AdSearchGroup 的 内部方法 触发
-    this.$on('AdSearchGroupAction', (handlerArr = [], params) => {
-      // console.log(handlerArr, 'AdSearchGroupAction handlerArr params', params)
+    // 监听 父级调用LeSearchGroup 的 内部方法 触发
+    this.$on('LeSearchGroupAction', (handlerArr = [], params) => {
+      // console.log(handlerArr, 'LeSearchGroupAction handlerArr params', params)
       /* setTimeout(() => {
         const fn = getDeepValue(this, handlerArr)
         if (typeof fn === 'function') {
@@ -664,7 +664,7 @@ export default {
           var propStart = item.propStart || `${prop}Start`
           var propEnd = item.propEnd || `${prop}End`
           return [propStart, propEnd]
-        case 'adSelect':
+        case 'leSelect':
         case 'select':
         case 'radio':
         case 'datePicker':
@@ -710,8 +710,8 @@ export default {
           /** render类型 需要结合 tagRender(h,{searchParams, transLabel, deleteFn}){return {showValue, tag}}处理 */
           localValue = form.local_labelValue
           break
-        case 'adSelect':
-          localValue = this.adSelectTags[prop]
+        case 'leSelect':
+          localValue = this.leSelectTags[prop]
           if (typeof localValue !== 'undefined') {
             if (Array.isArray(localValue) && !localValue.length) {
               localValue = undefined
@@ -721,7 +721,7 @@ export default {
             } */
             return localValue
           }
-        // 若 adSelectTags[prop] 找不到 再通过options 再查一次
+        // 若 leSelectTags[prop] 找不到 再通过options 再查一次
         // break
         // eslint-disable-next-line no-fallthrough
         case 'select':
@@ -843,9 +843,9 @@ export default {
           var propEnd = form.propEnd || `${prop}End`
           extraParams = { [propStart]: undefined, [propEnd]: undefined }
           break
-        case 'adSelect':
+        case 'leSelect':
           // 清空上次缓存记录
-          this.adSelectTags[prop] = undefined
+          this.leSelectTags[prop] = undefined
         // eslint-disable-next-line no-fallthrough
         default:
           extraParams = { [prop]: undefined }
@@ -937,8 +937,8 @@ export default {
       // this.drawerVisible = true
       this.drawerVisibleChange(true)
     },
-    adSelectTagsUpdate(item, isMore, label) {
-      this.adSelectTags[item.prop] = label
+    leSelectTagsUpdate(item, isMore, label) {
+      this.leSelectTags[item.prop] = label
       this.$forceUpdate()
       // this.updateTagList()
     },
@@ -957,10 +957,10 @@ export default {
   }
 }
 /**
- AdSearchGroup的 组件配置
+ LeSearchGroup的 组件配置
  // 表单配置
  forms > form.itemType:(包含类型)
- // adSelect(支持多选/单选 支持本地搜索组件)
+ // leSelect(支持多选/单选 支持本地搜索组件)
  // render(自定义渲染)
  // select(el select类型)
  // radio(el radio (radio-button) 类型)
@@ -986,12 +986,12 @@ export default {
  //    },
 
  // otherProps  ↓↓↓
- { // adSelect (支持多选/单选 支持本地搜索组件)
+ { // leSelect (支持多选/单选 支持本地搜索组件)
             label: '账号', // t_label
             prop: 'user_account',
-            itemType: 'adSelect',
+            itemType: 'leSelect',
             multiple: true, // 是否多选 判断(默认false)
-            options: [], // 下拉配置 {[labelKey]: label, [valueKey]: value, disabled: Bool, visible: Bool(于 adSelect 控制是否隐藏) }
+            options: [], // 下拉配置 {[labelKey]: label, [valueKey]: value, disabled: Bool, visible: Bool(于 leSelect 控制是否隐藏) }
             valueKey: 'user_account', // options 提交的key
             labelKey: 'user_account', // options 展示的key
             // i18n: Boolean 多语言装换
@@ -1061,7 +1061,7 @@ export default {
  ]
  */
 /*
-<AdSearchGroup
+<LeSearchGroup
     :searchParams.sync="searchParams" // 方式1
     v-model="searchParams" // 方式2
     tagsVisible 是否展示 多选标签 展示

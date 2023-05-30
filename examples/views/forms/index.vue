@@ -1,9 +1,9 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
     Forms
-    <div class="common_title">ad-form-config</div>
+    <div class="common_title">le-form-config</div>
     <div class="content">
-      <AdFormConfig
+      <LeFormConfig
         ref="local_form"
         class="local_formConfig"
         :forms="forms"
@@ -16,10 +16,10 @@
         <template #adSelect_label>
           <span style='background: #0f0;display: flex'>label custom: template<span style='margin-left: auto; background: #00f; color: #fff'>{{'custom: template'}}</span></span>
         </template>
-      </AdFormConfig>
+      </LeFormConfig>
     </div>
 
-    <div class="common_title">ad-form-config 表单 嵌入 dialog</div>
+    <div class="common_title">le-form-config 表单 嵌入 dialog</div>
     <div class="content">
       <el-button @click="dialogVisible = true">打开 弹窗</el-button>
       <el-dialog
@@ -27,11 +27,11 @@
         :visible="dialogVisible"
         @update:visible="changeVisible"
         :closeOnClickModal="false"
-        class="local_dialog ad-dialog-wrap"
-        customClass="ad-dialog ad-form-config-dialog"
+        class="local_dialog le-dialog-wrap"
+        customClass="le-dialog le-form-config-dialog"
         @close="changeVisible(false)"
       >
-        <AdFormConfig
+        <LeFormConfig
           v-if="dialogVisible"
           ref="configForm"
           :forms="forms"
@@ -43,15 +43,15 @@
           <template #adSelectSlot="{option, label}">
             <div style="background: #00f;">{{label}} + {{ option.value_1 }}</div>
           </template>
-        </AdFormConfig>
+        </LeFormConfig>
       </el-dialog>
     </div>
-    <div class="common_title">ad-form-config-dialog 表单弹窗</div>
+    <div class="common_title">le-form-config-dialog 表单弹窗</div>
     <div class="content">
       <el-button @click="dialogVisible2 = true">打开 弹窗</el-button>
-      <AdFormConfigDialog
+      <LeFormConfigDialog
         v-if="dialogVisible2"
-        title="ad-form-config-dialog 表单弹窗"
+        title="le-form-config-dialog 表单弹窗"
         :visible.sync="dialogVisible2"
         :formOptions="{
           forms,
@@ -63,7 +63,7 @@
         <template #adSelectSlot="{option, label}">
           <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
         </template>
-      </AdFormConfigDialog>
+      </LeFormConfigDialog>
     </div>
   </div>
 </template>
@@ -120,7 +120,7 @@ export default {
           rules: [
             {
               required: true,
-              message: i18n.t('adb.validate.validateEmptyTips', {
+              message: i18n.t('le.validate.validateEmptyTips', {
                 name: i18n.t(`${prefix}test2`)
               }),
               trigger: 'blur'
@@ -152,7 +152,7 @@ export default {
           rules: [
             {
               required: true,
-              message: i18n.t('adb.validate.validateEmptyTips', {
+              message: i18n.t('le.validate.validateEmptyTips', {
                 name: i18n.t(`${prefix}test1`)
               }),
               trigger: ['change', 'blur']
@@ -176,7 +176,7 @@ export default {
           rules: [
             {
               required: true,
-              message: i18n.t('adb.validate.validateEmptyTips', {
+              message: i18n.t('le.validate.validateEmptyTips', {
                 name: i18n.t(`${prefix}test2`)
               }),
               trigger: ['change', 'blur']
@@ -202,7 +202,7 @@ export default {
           rules: [
             {
               required: true,
-              message: i18n.t('adb.validate.validateEmptyTips', {
+              message: i18n.t('le.validate.validateEmptyTips', {
                 name: i18n.t(`${prefix}test3`)
               }),
               trigger: 'blur'
@@ -253,7 +253,7 @@ export default {
           rules: [
             {
               required: true,
-              message: i18n.t('adb.validate.validateEmptyTips', {
+              message: i18n.t('le.validate.validateEmptyTips', {
                 name: i18n.t(`${prefix}test4`)
               }),
               trigger: 'blur'

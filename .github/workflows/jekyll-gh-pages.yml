@@ -46,7 +46,7 @@ jobs:
           source: ./
           destination: ./dist
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/uplole-pages-artifact@v1
 
   # Deployment job
   deploy:

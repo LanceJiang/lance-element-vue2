@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'AdButton',
+  name: 'LeButton',
   props: {
     icon: {
       type: String,

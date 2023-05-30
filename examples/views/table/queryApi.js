@@ -64,7 +64,7 @@ export const getTableConfig = (input) => {
               children?: Option[] // 同上配置 */
               columns: [{
                 prop: 'action',
-                t_label: 'adb.table.action',
+                t_label: 'le.table.action',
                 fixed: 'right' // boolean string
               }, {
                 prop: 'priceValue',

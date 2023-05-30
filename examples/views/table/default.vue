@@ -1,6 +1,6 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
-    <AdTabs
+    <LeTabs
       v-model="tabs_list"
       :activeTabId.sync="tabs_activeId"
       :loading='tabs_loading'
@@ -10,7 +10,7 @@
       @delete="tabs_tabDelete"
     />
 
-    <AdTable
+    <LeTable
       class="local_table tabs_content-wrap"
       :searchParams.sync="searchParams"
       :list="localList"
@@ -23,8 +23,8 @@
       @update:checkedOptions="tabs_updateCheckedColumns"
     >
       <template #toolLeft>
-<!--        <AdSearchGroup/>-->
-        <ad-search-group
+<!--        <LeSearchGroup/>-->
+        <le-search-group
           class="local_search-group-wrap"
           :forms="tabs_filterForms"
           v-model="tabs_filterParams"
@@ -34,7 +34,7 @@
           :deleteTag="deleteTag">
           <template #prepend>
             <el-input
-              class="ad-input-search"
+              class="le-input-search"
               v-model="tabs_filterParams.pattern"
               size="medium"
               :placeholder="$t('outboundOrder.filter.pattern.placeholder')"
@@ -47,11 +47,11 @@
           <template #adSelectSlot="{option, label}">
             <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
           </template>
-        </ad-search-group>
+        </le-search-group>
       </template>
       <template #top>
         <!-- 按钮集合 -->
-        <div class="ad-button-wrap">
+        <div class="le-button-wrap">
           <template v-if="true">
             <el-tooltip
               placement="top"
@@ -96,18 +96,18 @@
       <!-- 操作 -->
       <template #action="{ row }">
         <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">
-          <el-button class="ad-icon-button">
-            <AdIcon icon-class="ad-view"></AdIcon>
+          <el-button class="le-icon-button">
+            <LeIcon icon-class="le-view"></LeIcon>
           </el-button>
         </el-tooltip>
-        <el-button class="ad-icon-button">
-          <AdIcon icon-class="ad-hide_column"></AdIcon>
+        <el-button class="le-icon-button">
+          <LeIcon icon-class="le-hide_column"></LeIcon>
         </el-button>
-        <el-button class="ad-icon-button" disabled>
-          <AdIcon icon-class="ad-hide_column"></AdIcon>
+        <el-button class="le-icon-button" disabled>
+          <LeIcon icon-class="le-hide_column"></LeIcon>
         </el-button>
       </template>
-    </AdTable>
+    </LeTable>
   </div>
 </template>
 
@@ -153,7 +153,7 @@ export default {
   }
   // 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整1 eg:
   /*&::v-deep {
-    .ad-column-wrap {
+    .le-column-wrap {
       display: none;
     }
   }*/
@@ -163,7 +163,7 @@ export default {
   /*.tags-wrap {
     margin-right: 48px;
   }
-  .ad-search-group-tags .tags-action {
+  .le-search-group-tags .tags-action {
     right: -48px;
   }*/
 }

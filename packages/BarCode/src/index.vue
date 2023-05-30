@@ -23,11 +23,11 @@ const props = {
   // barCode id
   id: {
     type: String,
-    default: `adb-bar-code_${new Date()}${Math.random()}`
+    default: `le-bar-code_${new Date()}${Math.random()}`
   }
 }
 export default {
-  name: 'AdBarCode',
+  name: 'LeBarCode',
   props,
   computed: {
     optOpts() {

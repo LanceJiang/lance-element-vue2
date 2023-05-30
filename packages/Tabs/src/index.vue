@@ -1,9 +1,9 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
-// import Locale from 'adber-ui/src/mixins/locale'
-import Popover from 'adber-ui/packages/Popover'
-import DraggableNest from 'adber-ui/packages/DraggableNest'
-import FormConfig from 'adber-ui/packages/FormConfig'
+import { t } from 'lance-element-vue2/src/locale'
+// import Locale from 'lance-element-vue2/src/mixins/locale'
+import Popover from 'lance-element-vue2/packages/Popover'
+import DraggableNest from 'lance-element-vue2/packages/DraggableNest'
+import FormConfig from 'lance-element-vue2/packages/FormConfig'
 
 const render = function (h) {
   const { switchTab, onMove } = this
@@ -15,31 +15,31 @@ const render = function (h) {
       editIcon = (
         <Popover
           first-load={false}
-          popperClass="ad-tabs_popover"
+          popperClass="le-tabs_popover"
           placement="bottom"
           v-model={this.setVisible}
         >
-          <ad-icon
+          <le-icon
             class="edit-icon"
             slot="reference"
-            icon-class="ad-edit"
+            icon-class="le-edit"
           />
           <div
             v-loading={this.loading}
             element-loading-spinner='el-icon-loading'
-            class='el-form el-form--label-top ad-form-config ad-form-config--small ad-tabs_popover_formConfig'
+            class='el-form el-form--label-top le-form-config le-form-config--small le-tabs_popover_formConfig'
           >
             <el-input v-model={this.local_tabName} size='small' style='margin-bottom: 16px;'/>
             <div class='footer'>
               <el-button class='cancel-button' onClick={this.tabDelete.bind(null, tab, index)}>
-                {t('adb.btn.deleteView')}
+                {t('le.btn.deleteView')}
               </el-button>
               <div class='right-actions'>
                 <el-button
                   class='submit-button'
                   type='primary'
                   onClick={this.tabEdit}>
-                  {t('adb.btn.save')}
+                  {t('le.btn.save')}
                 </el-button>
               </div>
             </div>
@@ -55,13 +55,13 @@ const render = function (h) {
       >
         <span class="label_txt tab-item__name">{tab.i18n ? t(tab.tabName) : tab.tabName}</span>
         {editIcon}
-        {!tab.disabled ? <AdIcon onClick={this.dragElClick} class='dragEl' iconClass='ad-drag' /> : ''}
+        {!tab.disabled ? <LeIcon onClick={this.dragElClick} class='dragEl' iconClass='le-drag' /> : ''}
       </div>
     )
   }
 
   return (
-    <div class="ad-tabs-wrap">
+    <div class="le-tabs-wrap">
       {this.loading ? <div
         class='tabLoading'
         v-loading={true}
@@ -101,8 +101,8 @@ const props = {
   }
 }
 export default {
-  name: 'AdTabs',
-  componentName: 'AdTabs',
+  name: 'LeTabs',
+  componentName: 'LeTabs',
   components: {
     Popover,
     DraggableNest,

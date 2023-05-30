@@ -8,7 +8,7 @@
   }
   // label 类型
   &-label {
-    color: $ad-color_4;
+    color: $le-color_4;
   }
   // 金额渲染样式
   &_price {
@@ -16,7 +16,7 @@
     //justify-content: flex-end;
     .price_label {
       display: inline-block;
-      color: $ad-color_4;
+      color: $le-color_4;
       margin-left: 4px;
     }
   }

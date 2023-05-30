@@ -38,7 +38,7 @@
       padding-left: 8px;
       padding-right: 6px;
       background-color: #eff2f6;
-      color: $ad-color_2;
+      color: $le-color_2;
       margin-bottom: 4px;
       margin-right: 5px;
       max-width: 320px;
@@ -49,16 +49,16 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         flex: 1;
-        //color: $ad-color_1;
+        //color: $le-color_1;
       }
       &__total {
-        color: $ad-color_4;
+        color: $le-color_4;
       }
     }
     .icon-delete {
       cursor: pointer;
       margin-left: 6px;
-      color: $ad-color_3;
+      color: $le-color_3;
       &::before {
         font-family: "element-icons" !important;
         content: "\e6db";
@@ -82,12 +82,12 @@
       margin-left: auto;
       .line {
         padding: 0 4px;
-        color: $ad-border-color_2;
+        color: $le-border-color_2;
       }
       .btn {
         width: 36px;
         height: 24px;
-        color: $ad-color_2;
+        color: $le-color_2;
         border-radius: 8px;
         display: flex;
         justify-content: center;
@@ -97,8 +97,8 @@
           opacity: 0.3;
         }
         &:hover {
-          color: $ad-color-primary;
-          background: $ad-bg-color_1;
+          color: $le-color-primary;
+          background: $le-bg-color_1;
         }
         &-save {
         }
@@ -196,12 +196,12 @@
       display: flex;
       align-items: center;
       font-weight: 400;
-      color: $ad-color_1;
+      color: $le-color_1;
     }
 
     .action {
       cursor: pointer;
-      color: $ad-color_4;
+      color: $le-color_4;
     }
   }
   &__main {
@@ -218,17 +218,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid $ad-border-color_3;
+      border-bottom: 1px solid $le-border-color_3;
       background-color: white;
 
       .filters-tool__btn {
         cursor: pointer;
-        color: $ad-color_3;
+        color: $le-color_3;
         &:hover {
-          color: $ad-color-primary;
+          color: $le-color-primary;
         }
         .icon-rotate {
-          color: $ad-color_5;
+          color: $le-color_5;
           transition: .18s ease;
         }
         &.active {
@@ -280,7 +280,7 @@
       .el-collapse-item {
         //margin-left: 24px;
         margin: 0 24px;
-        border-bottom: 1px solid $ad-border-color_3;
+        border-bottom: 1px solid $le-border-color_3;
         &:last-child {
           border-bottom: 0;
         }
@@ -288,7 +288,7 @@
           //padding-right: 24px;
           border-bottom: none !important;
           .el-collapse-item__arrow {
-            color: $ad-color_5;
+            color: $le-color_5;
             margin-right: 0;
           }
           //&:hover {
@@ -328,9 +328,9 @@
     //}
     // 清空
     .filters-clear {
-      color: $ad-color_3;
+      color: $le-color_3;
       &:hover {
-        color: $ad-color-primary;
+        color: $le-color-primary;
       }
     }
   }
@@ -344,7 +344,7 @@
     justify-content: flex-end;
     height: 56px;
     padding: 0 24px;
-    border-top: 1px solid $ad-border-color_3;
+    border-top: 1px solid $le-border-color_3;
     background-color: #fff;
   }
 }
@@ -355,7 +355,7 @@
     word-break: break-word;
     font-size: 14px;
     line-height: 17px;
-    color: $ad-color_1;
+    color: $le-color_1;
     margin-bottom: 16px;
   }
   .el-dialog__body {
@@ -379,10 +379,10 @@
         padding: 0 16px;
         line-height: 40px;
         background: #fafafa;
-        border-bottom: 1px solid $ad-border-color_3;
+        border-bottom: 1px solid $le-border-color_3;
         .txt {
           margin-left: auto;
-          color: $ad-color_5;
+          color: $le-color_5;
         }
       }
     }

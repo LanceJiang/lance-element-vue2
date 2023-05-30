@@ -1,7 +1,7 @@
-import { AdberUIComponent } from './component'
+import { LanceElementComponent } from './component'
 //
 /** Icon Component */
-export declare class AdIcon extends AdberUIComponent {
+export declare class LeIcon extends LanceElementComponent {
   /** iconClass */
   iconClass: string
 }

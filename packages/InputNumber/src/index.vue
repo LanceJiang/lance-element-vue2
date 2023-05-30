@@ -1,7 +1,7 @@
 <script type="text/jsx">
-import { t } from 'adber-ui/src/locale'
+import { t } from 'lance-element-vue2/src/locale'
 export default {
-  name: 'AdInputNumber',
+  name: 'LeInputNumber',
   model: {
     prop: 'value',
     event: 'change'
@@ -18,11 +18,11 @@ export default {
     const $slots = this.$slots
     const onEvents = this.$listeners
 
-    const _prefix = prefix ? <span class='ad-addon ad-input-number__prefix'>{prefix}</span> : ''
-    const _suffix = suffix ? <span class='ad-addon ad-input-number__suffix'>{suffix}</span> : ''
-    return <div class={`ad-input-number ad-input-number--${inputNumberSize} el-input el-input-group
-     ${(_prefix || $slots.prefix) ? 'ad-input-number--prefix' : ''}
-     ${(_suffix || $slots.suffix) ? 'ad-input-number--suffix' : ''}
+    const _prefix = prefix ? <span class='le-addon le-input-number__prefix'>{prefix}</span> : ''
+    const _suffix = suffix ? <span class='le-addon le-input-number__suffix'>{suffix}</span> : ''
+    return <div class={`le-input-number le-input-number--${inputNumberSize} el-input el-input-group
+     ${(_prefix || $slots.prefix) ? 'le-input-number--prefix' : ''}
+     ${(_suffix || $slots.suffix) ? 'le-input-number--suffix' : ''}
      `}>
       {$slots.prefix || _prefix}
       <el-input-number
@@ -30,7 +30,7 @@ export default {
         props={{ ...props }}
         size={inputNumberSize}
         controlsPosition={controlsPosition || 'right'}
-        placeholder={placeholder || t('adb.el.input.placeholder')}
+        placeholder={placeholder || t('le.el.input.placeholder')}
         // value={this.localValue}
         value={value}
         on={onEvents}/>

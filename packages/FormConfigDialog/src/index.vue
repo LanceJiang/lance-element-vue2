@@ -1,5 +1,5 @@
 <script>
-import FormConfig from 'adber-ui/packages/FormConfig'
+import FormConfig from 'lance-element-vue2/packages/FormConfig'
 const render = function(h) {
   const { title, visible, width, changeVisible, formOptions, formData } = this
   const on = {
@@ -12,7 +12,7 @@ const render = function(h) {
     props={this.$attrs}
     closeOnClickModal={false}
     width={width}
-    customClass="ad-dialog ad-form-config-dialog"
+    customClass="le-dialog le-form-config-dialog"
     on={on}
   >
     {
@@ -29,7 +29,7 @@ const render = function(h) {
 }
 
 export default {
-  name: 'AdFormConfigDialog',
+  name: 'LeFormConfigDialog',
   components: {
     FormConfig
   },

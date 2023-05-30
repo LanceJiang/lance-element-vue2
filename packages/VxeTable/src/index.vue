@@ -2,19 +2,19 @@
  申明： 本组件通过 vxe-table 插件 兼容目前项目 修整
  相关配置参考： https://xuliangzhan_admin.gitee.io/vxe-table/v3/#/table/api
  注意：
- 1. columns: AdVxeTable 为了更方便兼容 AdTable(基于el-table 的封装组件) 将会默认对 没有设置 title(t_label > label -> title) 和 field(prop -> field) 做转译
- 2. options: AdVxeTable 配置对象: tableOptions(vxeTable的配置) 和 options(除vxeTable配置以外的配置) 两个配置  AdTable只有一个options
+ 1. columns: LeVxeTable 为了更方便兼容 LeTable(基于el-table 的封装组件) 将会默认对 没有设置 title(t_label > label -> title) 和 field(prop -> field) 做转译
+ 2. options: LeVxeTable 配置对象: tableOptions(vxeTable的配置) 和 options(除vxeTable配置以外的配置) 两个配置  LeTable只有一个options
  3. slots: slot fn 不同
-    AdVxeTable:  default: (scope, h) => [<div>1</div> , <div>2</div>]
-    AdTable:  default: (h, scope) => <div>1</div>
+    LeVxeTable:  default: (scope, h) => [<div>1</div> , <div>2</div>]
+    LeTable:  default: (h, scope) => <div>1</div>
  -->
 <script lang='jsx'>
-import NoData from 'adber-ui/packages/NoData'
-import Icon from 'adber-ui/packages/Icon'
-import TableColumnsPopover from 'adber-ui/packages/Table/src/TableColumnsPopover'
+import NoData from 'lance-element-vue2/packages/NoData'
+import Icon from 'lance-element-vue2/packages/Icon'
+import TableColumnsPopover from 'lance-element-vue2/packages/Table/src/TableColumnsPopover'
 // import _ from 'lodash/lodash.min'
-import { xeUtils, getDeepValue } from 'adber-ui/src/utils'
-import { t } from 'adber-ui/src/locale'
+import { xeUtils, getDeepValue } from 'lance-element-vue2/src/utils'
+import { t } from 'lance-element-vue2/src/locale'
 export const tableProps = {
   list: {
     type: Array,
@@ -179,7 +179,7 @@ const render = function(h) {
   }
 
   const scopedSlots_toolLeft = this.$scopedSlots.toolLeft
-  return <div class='ad-vxe-table-warp'>
+  return <div class='le-vxe-table-warp'>
     {/* <div v-show={computedOptions.loading} v-loading={computedOptions.loading} class='tableLoading'></div> */}
     <div class='tableBody'>
       <vxe-toolbar class='toolBarWrap' ref='vxeToolBar'>
@@ -189,9 +189,9 @@ const render = function(h) {
         <div class='toolRight' slot='tools'>
           {this.$slots.toolRight}
           {/* 刷新 */}
-          <el-tooltip placement="top" content={t('adb.refresh')}>
+          <el-tooltip placement="top" content={t('le.refresh')}>
             <el-button type="default" class="icon-button refresh" onClick={this.refreshHandler}>
-              <Icon iconClass="ad-refresh" />
+              <Icon iconClass="le-refresh" />
             </el-button>
           </el-tooltip>
           {/* columns过滤 */}
@@ -230,7 +230,7 @@ const render = function(h) {
     <div class='tableFooterWrap'>
       <div class='footerLeft'>
         {this.$slots.footerLeft ||
-          <div v-show={curPageSelectLength} class='selectedWrap'><span>{curPageSelectLength}</span>{t('adb.table.hasChecked')}</div>}
+          <div v-show={curPageSelectLength} class='selectedWrap'><span>{curPageSelectLength}</span>{t('le.table.hasChecked')}</div>}
       </div>
       {/* --分页-- */}
       {
@@ -251,8 +251,8 @@ const render = function(h) {
 }
 
 export default {
-  name: 'AdVxeTable',
-  componentName: 'AdVxeTable',
+  name: 'LeVxeTable',
+  componentName: 'LeVxeTable',
   components: {
     TableColumnsPopover,
     NoData,
@@ -412,8 +412,8 @@ export default {
       this.$vxeTable.connect(this.$refs.vxeToolBar)
     }) */
 
-    // 监听 父级调用 AdVxeTable 的 内部方法 触发
-    this.$on('AdVxeTableAction', (handlerArr = [], params) => {
+    // 监听 父级调用 LeVxeTable 的 内部方法 触发
+    this.$on('LeVxeTableAction', (handlerArr = [], params) => {
       // console.log(handlerArr, 'XTableAction handlerArr params', params)
       this.$nextTick(() => {
         const fn = getDeepValue(this, handlerArr)
@@ -683,7 +683,7 @@ export default {
   }
 }
 /**
- AdVxeTable的 组件配置
+ LeVxeTable的 组件配置
  // 需要展示的列配置
  columns = [
  {

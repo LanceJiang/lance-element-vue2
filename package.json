@@ -1,12 +1,12 @@
 {
-  "name": "adber-ui",
-  "version": "1.0.6",
+  "name": "lance-element-vue2",
+  "version": "0.0.1",
   "description": "vue-cli3构建基于elementUI二次封装库 集成 vxe-table",
-  "main": "lib/adber-ui.umd.min.js",
+  "main": "lib/lance-element-vue2.umd.min.js",
   "keywords": [
     "element-ui",
     "vxe-table",
-    "adber-ui",
+    "lance-element-vue2",
     "vue",
     "components"
   ],
@@ -21,15 +21,15 @@
   "author": "LanceJiang",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/LanceJiang/adber-ui/issues"
+    "url": "https://github.com/LanceJiang/lance-element-vue2/issues"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
     "start": "npm run serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lib:packages": "vue-cli-service build --target lib --name adber-ui --dest lib packages/index.js",
-    "lib:packages-report": "vue-cli-service build --target lib --name adber-ui --dest lib packages/index.js --report",
+    "lib:packages": "vue-cli-service build --target lib --name lance-element-vue2 --dest lib packages/index.js",
+    "lib:packages-report": "vue-cli-service build --target lib --name lance-element-vue2 --dest lib packages/index.js --report",
     "lib:utils": "cross-env BABEL_ENV=utils babel src --out-dir lib --ignore src/index.js",
     "lib": "npm run lib:packages && npm run lib:utils",
     "lib2publish": "npm run lib && npm publish"
@@ -92,6 +92,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LanceJiang/adber-ui"
+    "url": "git+https://github.com/LanceJiang/lance-element-vue2"
   }
 }

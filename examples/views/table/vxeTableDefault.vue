@@ -1,6 +1,6 @@
 <template>
   <div class="flex-column-page-wrap pageWrap">
-    <AdVxeTable
+    <LeVxeTable
       class="local_table"
       :class='`cellHeightWrap_${cellHeightWrap}`'
       :searchParams.sync="searchParams"
@@ -14,8 +14,8 @@
       @sortChange='testSortChange'
     >
       <template #toolLeft>
-<!--        <AdSearchGroup/>-->
-        <ad-search-group
+<!--        <LeSearchGroup/>-->
+        <le-search-group
           :forms="tabs_filterForms"
           v-model="tabs_filterParams"
           :selectedSettingSubmit="tabs_selectedSettingSubmit"
@@ -23,7 +23,7 @@
           :deleteTag="deleteTag">
           <template #prepend>
             <el-input
-              class="ad-input-search"
+              class="le-input-search"
               v-model="tabs_filterParams.pattern"
               size="medium"
               :placeholder="$t('outboundOrder.filter.pattern.placeholder')"
@@ -36,12 +36,12 @@
           <template #adSelectSlot="{option, label}">
             <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
           </template>
-        </ad-search-group>
+        </le-search-group>
       </template>
 <!--      <template #top>-->
       <template #top>
         <!-- 按钮集合 -->
-        <div class="ad-button-wrap">
+        <div class="le-button-wrap">
           <template v-if="true">
             <el-tooltip
               placement="top"
@@ -84,18 +84,18 @@
       <!-- 操作 -->
       <template #action="{ row }">
         <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">
-          <el-button class="ad-icon-button">
-            <AdIcon icon-class="ad-view"></AdIcon>
+          <el-button class="le-icon-button">
+            <LeIcon icon-class="le-view"></LeIcon>
           </el-button>
         </el-tooltip>
-        <el-button class="ad-icon-button">
-          <AdIcon icon-class="ad-hide_column"></AdIcon>
+        <el-button class="le-icon-button">
+          <LeIcon icon-class="le-hide_column"></LeIcon>
         </el-button>
-        <el-button class="ad-icon-button" disabled>
-          <AdIcon icon-class="ad-hide_column"></AdIcon>
+        <el-button class="le-icon-button" disabled>
+          <LeIcon icon-class="le-hide_column"></LeIcon>
         </el-button>
       </template>
-    </AdVxeTable>
+    </LeVxeTable>
   </div>
 </template>
 
