@@ -1,6 +1,6 @@
 import type { ElTable, ElTableColumn } from 'element-ui/lib/components/table'
 
-import { AdberUIComponent } from './component'
+import { AdminUIComponent } from './component'
 
 export type columnProps = {
   slots?: {
@@ -104,7 +104,7 @@ export interface treeNode {
 */
 
 /** Table Component */
-export declare class AdTable extends AdberUIComponent {
+export declare class AdTable extends AdminUIComponent {
 /*  /!** Table data *!/
   data: object[]
 

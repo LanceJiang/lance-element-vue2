@@ -30,9 +30,9 @@ module.exports = {
       ],
       'plugins': [
         ['module-resolver', {
-          'root': ['adber-ui'],
+          'root': ['admin-ui'],
           'alias': {
-            'adber-ui/src': 'adber-ui/lib'
+            '@lancegroup/admin-ui/src': '@lancegroup/admin-ui/lib'
           }
         }]
       ]

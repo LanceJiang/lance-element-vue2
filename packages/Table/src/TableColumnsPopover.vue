@@ -56,10 +56,10 @@
   </el-popover>
 </template>
 <script>
-import Icon from 'adber-ui/packages/Icon'
-import NoData from 'adber-ui/packages/NoData'
-import DraggableNest from 'adber-ui/packages/DraggableNest'
-import Locale from 'adber-ui/src/mixins/locale'
+import Icon from '@lancegroup/admin-ui/packages/Icon'
+import NoData from '@lancegroup/admin-ui/packages/NoData'
+import DraggableNest from '@lancegroup/admin-ui/packages/DraggableNest'
+import Locale from '@lancegroup/admin-ui/src/mixins/locale'
 
 // const API = {}
 export default {

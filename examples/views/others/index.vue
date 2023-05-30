@@ -32,9 +32,9 @@
 </template>
 
 <script>
-// import PdfPreview from 'adber-ui/packages/PdfPreview'
-import { PdfPreview, BarCode } from 'adber-ui/packages/extra_load'
-// import test from 'adber-ui/packages/extra_load'
+// import PdfPreview from '@lancegroup/admin-ui/packages/PdfPreview'
+import { PdfPreview, BarCode } from '@lancegroup/admin-ui/packages/extra_load'
+// import test from '@lancegroup/admin-ui/packages/extra_load'
 // console.error(test)
 export default {
   name: 'others',

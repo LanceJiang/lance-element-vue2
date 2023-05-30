@@ -1,20 +1,23 @@
 <template>
   <div id="app" class="page-wrapper">
-    <div class="page-select">
-      选择页面：
-      <el-select :value="routeName" placeholder="请选择页面" @change="switchRoute">
-        <el-option-group
-          v-for="group in $router.options.routes"
-          :key="group.name"
-          :label="group.name">
-          <el-option
-            v-for="item in group.children"
-            :key="group.name+item.name"
-            :label="item.name"
-            :value="item.name">
-          </el-option>
-        </el-option-group>
-      </el-select>
+    <div class='page-header'>
+      <img class='info' src='~@/assets/images/logo.png' @click='jump'/>
+      <div class="select">
+        选择页面：
+        <el-select :value="routeName" placeholder="请选择页面" @change="switchRoute">
+          <el-option-group
+            v-for="group in $router.options.routes"
+            :key="group.name"
+            :label="group.name">
+            <el-option
+              v-for="item in group.children"
+              :key="group.name+item.name"
+              :label="item.name"
+              :value="item.name">
+            </el-option>
+          </el-option-group>
+        </el-select>
+      </div>
     </div>
     <router-view/>
   </div>
@@ -54,6 +57,9 @@ export default {
     switchRoute(routeName) {
       // this.routeName = routeName
       this.$router.push({ name: routeName })
+    },
+    jump() {
+      window.open('https://github.com/LanceJiang/admin-ui', '_blank')
     }
   }
 }
@@ -94,9 +100,20 @@ html,body {
     background: $ad-color-primary;
   }
 }
-.page-select {
-  text-align: center;
-  padding: 6px 0;
+.page-header {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
   background: #f14e02;
+  .info {
+    width: 34px;
+    cursor: pointer;
+    //height: 34px;
+  }
+  .select {
+    flex: 1;
+    text-align: center;
+    padding: 6px 0;
+  }
 }
 </style>

@@ -1,3 +1,3 @@
-import * as AdberUI from './adber-ui'
-export * from './adber-ui'
-export default AdberUI
+import * as AdminUI from './admin-ui'
+export * from './admin-ui'
+export default AdminUI

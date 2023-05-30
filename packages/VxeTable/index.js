@@ -1,4 +1,4 @@
-// import { prefix } from 'adber-ui/packages/config'
+// import { prefix } from '@lancegroup/admin-ui/packages/config'
 import Component from './src/index'
 Component.install = Vue => {
   // Vue.component(`${prefix}${Component.name}`, Component)

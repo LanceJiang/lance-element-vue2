@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { AdberUIComponent, AdberUIComponentSize, AdberUIHorizontalAlignment } from './component'
+import { AdminUIComponent, AdminUIComponentSize, AdminUIHorizontalAlignment } from './component'
 // 相关ts声明 后续再做 todo...
 import { AdIcon } from './icon'
 import { AdTable } from './table'
@@ -14,19 +14,19 @@ export interface InstallationOptions {
   // size: string;
 }
 
-/** The version of adber-ui */
+/** The version of admin-ui */
 export const version: string
 
 export function install(vue: typeof Vue, options: InstallationOptions): void
 
-/** AdberUI component common definition */
-export type Component = AdberUIComponent
+/** AdminUI component common definition */
+export type Component = AdminUIComponent
 
 /** Component size definition for button, input, etc */
-export type ComponentSize = AdberUIComponentSize
+export type ComponentSize = AdminUIComponentSize
 
 /** Horizontal alignment */
-export type HorizontalAlignment = AdberUIHorizontalAlignment
+export type HorizontalAlignment = AdminUIHorizontalAlignment
 
 /** Icon Component */
 export class Icon extends AdIcon {}

@@ -5,14 +5,14 @@ import store from './store'
 import i18n from './locales'
 
 // 导入组件库
-import AdberUI from './../packages'
+// import AdminUI from './../packages'
 
 // 正式
-// import AdberUI from 'adber-ui/lib/adber-ui.umd'
-// import AdberUI from 'adber-ui'
+// import AdminUI from '@lancegroup/admin-ui/lib/admin-ui.umd'
+import AdminUI from '@lancegroup/admin-ui_'
 
 // 默认 elemen-ui 样式
-import 'adber-ui/style/index.scss'
+import '@lancegroup/admin-ui/style/index.scss'
 // import '@/assets/css/project_normal.scss' // 自定义相关项目配置 模拟
 
 import ElementUI from 'element-ui/lib/element-ui.common.js'
@@ -23,7 +23,7 @@ Vue.use(ElementUI, {
   size: 'medium'
 })
 // 注册组件库
-Vue.use(AdberUI, {
+Vue.use(AdminUI, {
   // 方式1
   // locale: i18n.locale,
   i18n: (key, value) => i18n.t(key, value)

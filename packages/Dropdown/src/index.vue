@@ -1,6 +1,6 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
-import NoData from 'adber-ui/packages/NoData'
+import { t } from '@lancegroup/admin-ui/src/locale'
+import NoData from '@lancegroup/admin-ui/packages/NoData'
 
 const render = function(h) {
   const { visible, selectOption, modelValue, value, comp_Options } = this

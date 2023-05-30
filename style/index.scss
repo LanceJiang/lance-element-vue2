@@ -4,15 +4,15 @@
 // 涉及element-ui的全局样式主题设置
 @import './element-variables.scss';
 // 涉及element-ui的全局样式类改造&&新增修饰
-@import './adber-element-ui.scss';
-// 涉及adber-ui的全局组件样式
-@import './adber-ui.scss';
+@import './admin-element-ui.scss';
+// 涉及admin-ui的全局组件样式
+@import './admin-ui.scss';
 
 body {
   font-family: $ad-family;
   font-size: 14px;
 }
-// adber 公用的iconfont class 类 为: ad-iconfont
+// admin 公用的iconfont class 类 为: ad-iconfont
 .ad-iconfont {
   //font-size: 16px;
   font-size: inherit;

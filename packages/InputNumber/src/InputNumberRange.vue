@@ -1,5 +1,5 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
+import { t } from '@lancegroup/admin-ui/src/locale'
 import InputNumber from './index'
 export default {
   name: 'AdInputNumberRange',

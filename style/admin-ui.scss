@@ -1,27 +1,27 @@
-/* adber-ui 涉及adber-ui的全局组件样式 */
+/* admin-ui 涉及admin-ui的全局组件样式 */
 @import "variables.scss";
 
-/* --------adber-ui 组件内部样式 Start-------- */
-@import "adber/table.scss";
-@import "adber/vxe-table.scss";
-@import "adber/draggableNest.scss";
-@import "adber/formConfig.scss";
-@import "adber/icon.scss";
-@import "adber/inputNumber.scss";
-@import "adber/noData.scss";
-@import "adber/popover.scss";
-@import "adber/searchGroup.scss";
-@import "adber/select.scss";
-@import "adber/dropdown.scss";
-@import "adber/tabs.scss";
+/* --------admin-ui 组件内部样式 Start-------- */
+@import "admin/table.scss";
+@import "admin/vxe-table.scss";
+@import "admin/draggableNest.scss";
+@import "admin/formConfig.scss";
+@import "admin/icon.scss";
+@import "admin/inputNumber.scss";
+@import "admin/noData.scss";
+@import "admin/popover.scss";
+@import "admin/searchGroup.scss";
+@import "admin/select.scss";
+@import "admin/dropdown.scss";
+@import "admin/tabs.scss";
 
-/* --------adber-ui 组件内部样式 End-------- */
+/* --------admin-ui 组件内部样式 End-------- */
 
 // table Cell 内置默认渲染相关公用样式
 @import "cellSlots.scss";
 
 
-/* --------引用 adber-ui 根据ui/产品 用于项目的默认样式 Start-------- */
+/* --------引用 admin-ui 根据ui/产品 用于项目的默认样式 Start-------- */
 
 // 纯icon button 样式
 .#{$prefix}icon-button {
@@ -123,4 +123,4 @@
 }
 
 .#{$prefix}test {}
-/* --------引用 adber-ui 根据ui/产品 用于项目的默认样式 End-------- */
+/* --------引用 admin-ui 根据ui/产品 用于项目的默认样式 End-------- */

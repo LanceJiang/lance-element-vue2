@@ -70,7 +70,7 @@ export default {
       default: 0
     },
     /**
-     * adber: 新增配置
+     * admin: 新增配置
      */
     // (在需content内容需要加载接口的情况下 可能需要禁止，再打开的时候才需要触发)
     firstLoad: {

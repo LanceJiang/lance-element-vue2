@@ -1,5 +1,5 @@
-import { formatNumber } from 'adber-ui/src/utils/index'
-import { UnitTranslate, weightUnitCodes } from 'adber-ui/src/utils/unit-translate'
+import { formatNumber } from '@lancegroup/admin-ui/src/utils/index'
+import { UnitTranslate, weightUnitCodes } from '@lancegroup/admin-ui/src/utils/unit-translate'
 // /* formatDateString, */ /* , formatRate */ console.error(formatDateString, formatRate, 'formatDateString, formatRate')
 
 /**
@@ -8,7 +8,7 @@ import { UnitTranslate, weightUnitCodes } from 'adber-ui/src/utils/unit-translat
  * 默认公用渲染cell render 申明： 现针对slots 已做slotFn传参兼容 建议使用 column,row 其他的参数名称不一样 无特殊情况 一个slot渲染即可
  * 命名方式： {prefix: 'vxe_' || ''}cellSlot_{todo}
  *
- * 由于vxe-table 和 el(ad)-table(adber 自定义slot)的渲染申明有差异 在使用不同的 table类型需要做以区别
+ * 由于vxe-table 和 el(ad)-table(admin 自定义slot)的渲染申明有差异 在使用不同的 table类型需要做以区别
  * yourSlot  Table(ad-table) 只用 row, column 两个参数 可兼容 vxe-table 方式
  * vxe_yourSlot VxeTable(ad-vxe-table)专用
  */

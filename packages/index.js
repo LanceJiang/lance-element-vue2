@@ -96,13 +96,13 @@ const components = [
   // BarCode
 ]
 
-// 加载adber-svg icon
+// 加载admin-svg icon
 ;(function () {
   const d = document
   const existIconVersion = [...d.querySelectorAll('.ad-icon_svg')].map(v => v.getAttribute('version')).includes(version)
   if (!existIconVersion) {
     /** update 最新 iconfont(.css && .js) */
-    const origin_prefix = '//at.alicdn.com/t/c/font_3588867_ul98fz5p8zf'
+    const origin_prefix = '//at.alicdn.com/t/c/font_4091949_vvz6zn4y5l'
     const link = d.createElement('link')
     link.rel = 'stylesheet'
     link.type = 'text/css'
@@ -121,7 +121,7 @@ const components = [
 })()
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 const install = function (Vue, opts = {}) {
-  // console.error(install, 'AdberUi install opts', opts)
+  // console.error(install, 'AdminUi install opts', opts)
   locale.use(opts.locale)
   locale.i18n(opts.i18n)
   // 遍历注册全局组件

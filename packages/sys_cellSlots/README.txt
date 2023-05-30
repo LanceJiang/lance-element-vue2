@@ -2,6 +2,6 @@
 // 2. 使用该配置在项目中运用 需要 添加 babel additional
 //    eg: chainWebpack:     config.module
                        .rule('jsx')
-                       .include.add(/node_modules\/@adber\/adber-ui\/packages\/sys_cellSlots/).end()
+                       .include.add(/node_modules\/@admin\/@lancegroup\/admin-ui\/packages\/sys_cellSlots/).end()
                        .use('babel')
                        .loader('babel-loader')

@@ -1,10 +1,10 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
-import InputNumber from 'adber-ui/packages/InputNumber'
-import InputNumberRange from 'adber-ui/packages/InputNumberRange'
-import CustomRender from 'adber-ui/packages/CustomRender'
-import AdSelect from 'adber-ui/packages/Select'
-import { renderSelectOption } from 'adber-ui/src/utils/slotsUtils'
+import { t } from '@lancegroup/admin-ui/src/locale'
+import InputNumber from '@lancegroup/admin-ui/packages/InputNumber'
+import InputNumberRange from '@lancegroup/admin-ui/packages/InputNumberRange'
+import CustomRender from '@lancegroup/admin-ui/packages/CustomRender'
+import AdSelect from '@lancegroup/admin-ui/packages/Select'
+import { renderSelectOption } from '@lancegroup/admin-ui/src/utils/slotsUtils'
 
 export default {
   name: 'AdFormConfig',
@@ -120,7 +120,7 @@ export default {
         })
       }
       switch (itemType) {
-        /* 自定义 adber 自定义Select */
+        /* 自定义 admin 自定义Select */
         case 'adSelect' :
           return <AdSelect
             class={itemClass}

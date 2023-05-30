@@ -1,9 +1,9 @@
 <script lang="jsx">
-import { t } from 'adber-ui/src/locale'
-// import Locale from 'adber-ui/src/mixins/locale'
-import Popover from 'adber-ui/packages/Popover'
-import DraggableNest from 'adber-ui/packages/DraggableNest'
-import FormConfig from 'adber-ui/packages/FormConfig'
+import { t } from '@lancegroup/admin-ui/src/locale'
+// import Locale from '@lancegroup/admin-ui/src/mixins/locale'
+import Popover from '@lancegroup/admin-ui/packages/Popover'
+import DraggableNest from '@lancegroup/admin-ui/packages/DraggableNest'
+import FormConfig from '@lancegroup/admin-ui/packages/FormConfig'
 
 const render = function (h) {
   const { switchTab, onMove } = this
