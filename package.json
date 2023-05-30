@@ -1,6 +1,6 @@
 {
   "name": "lance-element-vue2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "vue-cli3构建基于elementUI二次封装库 集成 vxe-table",
   "main": "lib/lance-element-vue2.umd.min.js",
   "keywords": [
