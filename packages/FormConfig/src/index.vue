@@ -121,7 +121,7 @@ export default {
       }
       switch (itemType) {
         /* 自定义 leer 自定义Select */
-        case 'adSelect' :
+        case 'leSelect' :
           return <LeSelect
             class={itemClass}
             v-model={params[prop]}

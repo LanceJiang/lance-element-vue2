@@ -10,10 +10,10 @@
         :formConfig="formConfig"
         @submit="formSubmit"
       >
-        <template #adSelectSlot="{option, label}">
+        <template #leSelectSlot="{option, label}">
           <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
         </template>
-        <template #adSelect_label>
+        <template #leSelect_label>
           <span style='background: #0f0;display: flex'>label custom: template<span style='margin-left: auto; background: #00f; color: #fff'>{{'custom: template'}}</span></span>
         </template>
       </LeFormConfig>
@@ -40,7 +40,7 @@
           @submit="formSubmit"
           @cancel="changeVisible"
         >
-          <template #adSelectSlot="{option, label}">
+          <template #leSelectSlot="{option, label}">
             <div style="background: #00f;">{{label}} + {{ option.value_1 }}</div>
           </template>
         </LeFormConfig>
@@ -60,7 +60,7 @@
         :formData="formData"
         @submit="formSubmit"
       >
-        <template #adSelectSlot="{option, label}">
+        <template #leSelectSlot="{option, label}">
           <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
         </template>
       </LeFormConfigDialog>
@@ -85,9 +85,9 @@ export default {
       forms: [
         // select
         {
-          prop: 'adSelect', // 提交的 params 的字段
-          // label: 'adSelect', // label 标签
-          itemType: 'adSelect', // form-item 类型
+          prop: 'leSelect', // 提交的 params 的字段
+          // label: 'leSelect', // label 标签
+          itemType: 'leSelect', // form-item 类型
           labelKey: 'label_1',
           valueKey: 'value_1',
           // isPopover: false,
@@ -98,12 +98,12 @@ export default {
             }
           }),
           // template 支持
-          // slotLabel: 'adSelect_label',
+          // slotLabel: 'leSelect_label',
           // render 支持
           slotLabel(h) {
             return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ 'custom: fn' }</span></span>
           },
-          slotOption: 'adSelectSlot',
+          slotOption: 'leSelectSlot',
           popperAppendToBody: true
           // change: _this.serviceChange
         },
@@ -148,7 +148,7 @@ export default {
             label: `test1_LABEL_${i}`,
             value: `test1_${i}`
           })),
-          slotOption: 'adSelectSlot',
+          slotOption: 'leSelectSlot',
           rules: [
             {
               required: true,

@@ -33,7 +33,7 @@
               <i slot="suffix" class="el-input__icon el-icon-search" @click="updateParams"/>
             </el-input>
           </template>
-          <template #adSelectSlot="{option, label}">
+          <template #leSelectSlot="{option, label}">
             <div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
           </template>
         </le-search-group>

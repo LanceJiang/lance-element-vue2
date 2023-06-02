@@ -37,6 +37,7 @@
   "dependencies": {
     "decimal.js": "^10.2.1",
     "jsbarcode": "^3.11.5",
+    "lance-element-vue2": "0.0.2",
     "pdfjs-dist": "2.2.228",
     "vuedraggable": "^2.24.3",
     "vxe-table": "3.2.20",

@@ -497,7 +497,7 @@ export default {
           const propStart = item.propStart || `${prop}Start`
           const propEnd = item.propEnd || `${prop}End`
           return [propStart, propEnd]
-        case 'adSelect':
+        case 'leSelect':
         case 'select':
         case 'radio':
         case 'datePicker':

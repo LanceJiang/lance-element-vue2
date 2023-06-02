@@ -293,7 +293,7 @@ export default {
       const _columns = []
       // 序号
       showIndex && _columns.push({
-        prop: 'adTable_index',
+        prop: 'leTable_index',
         type: 'index',
         label: 'No.',
         showOverflowTooltip: true,
@@ -304,7 +304,7 @@ export default {
       })
       // 多选
       multipleSelect && _columns.push({
-        prop: 'adTable_selection',
+        prop: 'leTable_selection',
         type: 'selection',
         showOverflowTooltip: false,
         resizable: false,
@@ -314,7 +314,7 @@ export default {
       })
       const realColumns = this.realColumns.filter(Boolean)
       // 空白格填充
-      let fillSpaceColumns = [{ minWidth: 0, prop: 'adTable_fillSpace' }]
+      let fillSpaceColumns = [{ minWidth: 0, prop: 'leTable_fillSpace' }]
       if (realColumns.some(v => !v.fixed)) {
         fillSpaceColumns = []
       }
